@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouteContext } from "@tanstack/react-router";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
@@ -28,6 +29,14 @@ export function PublicLayout({
     typeof window !== "undefined" ? window.location.pathname : "/";
   const isHome = pathname === "/" || pathname === "";
 
+  // 主题隔离：只在公共页激活 aero7 作用域，离开时移除，避免污染 admin/设置页。
+  useEffect(() => {
+    document.documentElement.classList.add("aero7-theme");
+    return () => {
+      document.documentElement.classList.remove("aero7-theme");
+    };
+  }, []);
+
   // 壁纸来源（按优先级）：
   //   1. 用户后台为 aero7 主题单独设置的 homeBg
   //   2. 用户后台 default 主题设置的 homeImage/globalImage
@@ -51,7 +60,7 @@ export function PublicLayout({
       DEFAULT_AERO_HOME_BG;
 
   return (
-    <div className="aero7-theme relative flex h-screen flex-col overflow-hidden">
+    <div className="relative flex h-screen flex-col overflow-hidden">
       {/* 桌面壁纸：跟随用户后台设置；无设置时透明，靠 body 渐变兜底 */}
       {bgUrl && (
         <div
