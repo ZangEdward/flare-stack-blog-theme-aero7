@@ -117,7 +117,11 @@ export function DraggableWindow({
         w: elRect.width,
         h: elRect.height,
       };
-      const curSize = { w: elRect.width, h: elRect.height };
+      // 关键：只在首次拖动（pos/size 都还没值）时用 elRect 当前实际渲染
+      // 尺寸初始化 size；之后保持不变。如果每次拖动都用 elRect.width
+      // 覆盖 size，窗口若被 grid cell 拉伸（如 main 列 1fr ≈ 1100px），
+      // size.w 就会被锁死为该值，下次拖动窗口宽度也跟着变。
+      const curSize = size ?? { w: elRect.width, h: elRect.height };
 
       setPos(curPos);
       setSize(curSize);
@@ -134,7 +138,7 @@ export function DraggableWindow({
         size: curSize,
       };
     },
-    [dragHandleSelector, pos],
+    [dragHandleSelector, pos, size],
   );
 
   const onPointerMove = useCallback(
