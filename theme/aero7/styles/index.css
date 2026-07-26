@@ -853,8 +853,11 @@ html.aero7-theme .searchbox [aria-label="search"] {
  *   3) 给 post-card 的 置顶/热门 徽标一点配色（不影响 7.css 原生外观）。 */
 
 /* 还原被全局 button{min-width:auto} 覆盖掉的标题栏控制按钮尺寸
-   （这里只设下限 min-width: 29px，让 7.css 默认的 button[aria-label=Close]
-   min-width:48px 仍然胜出 — 见下方 close 按钮专门规则）。 */
+   注意：**不要** 强制 width: 29px / height: 19px，那会把 7.css 默认的
+   Close 按钮 min-width: 48px 压成 29px，让 X 图标视觉变形；同时也会
+   移除 last-child 的 border-bottom-right-radius 圆角（基于宽度计算）。
+   这里只设下限 min-width 与 min-height（与 7.css 默认 29px 一致即可），
+   让 7.css 默认的 Close 按钮 min-width:48px 自然生效。 */
 html.aero7-theme .title-bar-controls button {
   min-width: 29px;
   min-height: 19px;
@@ -866,6 +869,15 @@ html.aero7-theme .title-bar-controls button {
    0,1,4 (含 attribute selector) > 0,1,3，重新让 Close 拿到 48px。 */
 html.aero7-theme .title-bar-controls button[aria-label="Close"] {
   min-width: 48px;
+}
+
+/* 7.css 默认 .title-bar-controls button:last-child 圆角 border-bottom-right，
+   在 aero7 环境下若被全局覆盖丢失，这里重新声明（用与 7.css 一致的 5px）。 */
+html.aero7-theme .title-bar-controls button:last-child {
+  border-bottom-right-radius: 5px;
+}
+html.aero7-theme .title-bar-controls button:first-child {
+  border-bottom-left-radius: 5px;
 }
 
 /* 标题栏文字：去掉链接下划线；博客标题需可读，故略放大加粗并保持黑字+白光、长标题省略 */
@@ -1178,6 +1190,14 @@ html.aero7-theme .aero-sidebar-window {
   height: auto !important;
   display: flex;
   flex-direction: column;
+}
+
+/* Sidebar Tags 窗口的 .window-body 应 grow 撑满剩余高度，
+   避免下方出现一段灰色留白（之前 .window-body 有 margin: var(--w7-w-space)，
+   与外层 .window 高度不一致形成"灰色条"）。 */
+html.aero7-theme .aero-sidebar-window > .window-body {
+  flex: 1;
+  margin-bottom: 0;
 }
 
 /* 主区（右列）：自适应的网格列 */
