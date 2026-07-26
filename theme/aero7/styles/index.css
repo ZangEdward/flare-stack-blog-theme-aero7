@@ -1290,6 +1290,11 @@ html.aero7-theme .aero-desktop {
   min-height: 0;
   overflow: auto;
   position: relative;
+  /* 关键：让 .aero-desktop 自身成为 stacking context。
+     这样 z-index:-1 的 ::before 壁纸会在「本元素背景之上、窗口内容之下」绘制，
+     既不会被 .aero-desktop 不透明的 --fuwari-page-bg 渐变盖住，
+     又能被 .window.glass 的 backdrop-filter 正常采样。 */
+  isolation: isolate;
   background: var(--fuwari-page-bg);
   width: 100%;
 }
