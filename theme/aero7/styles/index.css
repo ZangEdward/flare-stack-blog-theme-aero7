@@ -179,7 +179,7 @@
       0 4px 16px rgba(10, 30, 55, 0.25);
   }
 
-  /* Aero 模块标题条：仿 hexo-theme-aero 的蓝色窗口标题栏 */
+  /* Aero 模块标题条：仿 hexo-theme-aero 的蓝色窗口标题栏，半透明 + 毛玻璃 */
   .fuwari-card-base[data-title]::before {
     content: attr(data-title);
     display: flex;
@@ -192,11 +192,13 @@
     box-sizing: border-box;
     background: linear-gradient(
       to bottom,
-      #6daedd 0%,
-      #4a93c7 45%,
-      #357ab0 46%,
-      #3c7fb1 100%
+      rgba(109, 174, 221, 0.72) 0%,
+      rgba(74, 147, 199, 0.7) 45%,
+      rgba(53, 122, 176, 0.7) 46%,
+      rgba(60, 127, 177, 0.72) 100%
     );
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
     color: #ffffff;
     font:
       bold 13px/1 "Segoe UI",
@@ -211,10 +213,10 @@
   .dark .fuwari-card-base[data-title]::before {
     background: linear-gradient(
       to bottom,
-      #4f8bbf 0%,
-      #356c9c 45%,
-      #285a85 46%,
-      #2f6493 100%
+      rgba(79, 139, 191, 0.7) 0%,
+      rgba(53, 108, 156, 0.7) 45%,
+      rgba(40, 90, 133, 0.7) 46%,
+      rgba(47, 100, 147, 0.72) 100%
     );
     border-bottom-color: rgba(10, 30, 55, 0.55);
   }
