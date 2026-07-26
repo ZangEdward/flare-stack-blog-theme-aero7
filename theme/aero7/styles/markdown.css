@@ -4,6 +4,21 @@
   /* 防止长 URL / 代码单词撑破容器，确保在窄屏下自动换行 */
   overflow-wrap: break-word;
   word-wrap: break-word;
+  /* 关键：让网格/弹性子项能收缩，避免内容把窗口撑宽 */
+  min-width: 0;
+
+  /* 窄屏：超宽代码块/表格改为「内部横向滚动」，而非撑破窗口导致整页溢出 */
+  pre,
+  .expressive-code {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+  }
 
   --tw-prose-body: rgb(10 18 26 / 0.95);
   --tw-prose-headings: rgb(10 18 26 / 0.95);

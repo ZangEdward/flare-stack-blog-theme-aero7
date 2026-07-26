@@ -1467,13 +1467,27 @@ html.aero7-theme .aero-sidebar-window .window-body {
 
 /* 主区（右列）：自适应的网格列。
    使用 auto-fit（不是 auto-fill）：当子元素不足时，空轨道会被折叠，
-   单个窗口（如文章页）能占满整个主区；多元素时仍按 320px 列自动换行。 */
+   单个窗口（如文章页）能占满整个主区；多元素时仍按 320px 列自动换行。
+   ⚠️ minmax 的 min 用 min(100%, 320px)：当主列本身 < 320px（超窄屏）时，
+   轨道 min 退化为 100%，避免「320px 最小轨道 > 容器」导致的横向溢出。 */
 html.aero7-theme .aero-desktop-main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 1rem;
   align-items: start;
   min-width: 0;
+}
+
+/* 单子页面（文章详情、归档、搜索等）：自动占满整列，
+   避免文章被卡在 320px 网格轨道里、不随浏览器宽度自适应。
+   - :has(:only-child) 覆盖所有「只有一个直接子元素」的页面（现代浏览器）；
+   - .aero-full-column 作为显式兜底，兼容不支持 :has 的环境。 */
+html.aero7-theme .aero-desktop-main:has(> :only-child),
+html.aero7-theme .aero-desktop-main > .aero-full-column {
+  grid-template-columns: 1fr;
+}
+html.aero7-theme .aero-desktop-main > .aero-full-column {
+  grid-column: 1 / -1;
 }
 
 /* 网格子项（grid 流式布局下的窗口） */

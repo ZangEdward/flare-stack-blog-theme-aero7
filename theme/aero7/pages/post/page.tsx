@@ -26,7 +26,7 @@ export function PostPage({ post }: PostPageProps) {
   const wordCount = post.readTimeInMinutes * 300;
 
   return (
-    <div className="relative flex flex-col gap-4 mb-4 w-full min-w-0">
+    <div className="relative flex flex-col gap-4 mb-4 w-full min-w-0 aero-full-column">
       {/* Table Of Contents (Desktop Floating Right) */}
       <div
         className="hidden 2xl:block absolute top-0 h-full pl-4"
