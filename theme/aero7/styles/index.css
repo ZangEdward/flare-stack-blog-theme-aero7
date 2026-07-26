@@ -1442,7 +1442,10 @@ html.aero7-theme .aero-desktop {
 html.aero7-theme .aero-desktop-scroll {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: auto;
+  /* 纵向滚动保留；横向禁止出现滚动条——文章网格已用 minmax(0,1fr) 收敛，
+     这里再兜底，确保任何残余 min-content 都不会让文章框横向超出屏幕。 */
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
 }
 
@@ -1474,12 +1477,21 @@ html.aero7-theme .aero-desktop.has-wallpaper::before {
    看不到 .aero-desktop 的 wallpaper，整窗失去毛玻璃效果。 */
 html.aero7-theme .aero-desktop-content {
   display: grid;
-  grid-template-columns: minmax(240px, 280px) 1fr;
+  /* ⚠️ 主列必须用 minmax(0, 1fr)，而不是 1fr。
+     1fr 等价于 minmax(auto, 1fr)，其下限 auto = 主列内容的 min-content。
+     而主列里是 repeat(auto-fit, minmax(min(100%,320px),1fr)) 的文章网格，
+     多张卡片时其 min-content = 列数×320px（例如 6 张→3 列→960px），
+     这个很大的 min-content 会「向上传递」把 1fr 轨道顶宽，导致整块桌面
+     超出视口 → 横向溢出 / 文章框超出屏幕。
+     minmax(0, 1fr) 把轨道下限设为 0，主列就能被压缩到剩余宽度，
+     内层 auto-fit 网格按确定宽度重排（自动换行），不再溢出。 */
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
   gap: 1rem;
   padding: 1rem;
   min-height: 100%;
   box-sizing: border-box;
   width: 100%;
+  min-width: 0;
 }
 
 /* 侧栏（左列）
@@ -1811,11 +1823,12 @@ html.aero7-theme.dark .aero-back-button:hover {
 /* =========== Responsive：小屏降级 =========== */
 @media (max-width: 880px) {
   html.aero7-theme .aero-desktop-content {
-    grid-template-columns: 1fr;
+    /* 单列但下限为 0，避免内部文章网格的 min-content 把整列顶宽溢出 */
+    grid-template-columns: minmax(0, 1fr);
   }
   /* 桌面区在窄屏退化为单列流式布局 */
   html.aero7-theme .aero-desktop-main {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   html.aero7-theme .aero-desktop-window-floating {
     /* 窄屏拖动后不切 absolute，保持 grid 流 */
