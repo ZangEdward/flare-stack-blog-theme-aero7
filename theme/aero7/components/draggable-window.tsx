@@ -10,6 +10,9 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 
+/** 全局置顶 z-index：每次点击窗口时递增，确保当前窗口盖在所有已浮动窗口之上。 */
+let globalTopZ = 100;
+
 interface Position {
   x: number;
   y: number;
@@ -68,6 +71,7 @@ export function DraggableWindow({
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [stackZ, setStackZ] = useState<number | null>(null);
   const startRef = useRef<{
     x: number;
     y: number;
@@ -81,19 +85,25 @@ export function DraggableWindow({
       if (e.button !== 0) return;
       const target = e.target as HTMLElement;
 
+      // resize 手柄由自己的 handler 处理，这里忽略
+      if (target.closest("[data-resize-handle]")) return;
+
+      // 点击窗口任意位置都激活并置顶：保证重叠时当前窗口在最上面
+      setIsActive(true);
+      globalTopZ += 1;
+      setStackZ(globalTopZ);
+
       // 仅在指定 drag-handle 区域内才允许开始拖拽
       const handle = target.closest(dragHandleSelector);
       if (!handle || !nodeRef.current?.contains(handle as Node)) return;
 
-      // 链接 / 按钮 / resize 手柄上不开始拖拽
+      // 链接 / 按钮 / controls 上不开始拖拽
       if (
         target.closest("button") ||
         target.closest("a") ||
-        target.closest("[data-resize-handle]")
+        target.closest(".title-bar-controls")
       )
         return;
-      // 整个 .title-bar-controls 区域也不开始拖拽
-      if (target.closest(".title-bar-controls")) return;
 
       const el = nodeRef.current;
       const parent = el?.offsetParent as HTMLElement | null;
@@ -111,7 +121,6 @@ export function DraggableWindow({
 
       setPos(curPos);
       setSize(curSize);
-      setIsActive(true);
       setIsDragging(true);
       try {
         (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
@@ -212,7 +221,7 @@ export function DraggableWindow({
         width: size?.w ?? pos.w,
         height: size?.h ?? pos.h,
         touchAction: "none",
-        zIndex: isActive ? 60 : 20,
+        zIndex: stackZ ?? (isActive ? 60 : 20),
         userSelect: "none",
       }
     : {
