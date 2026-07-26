@@ -91,20 +91,20 @@ export function PublicLayout({
 
       {/* Main content（z-30 浮在背景层之上） */}
       <div
-        className="relative z-30 mx-auto px-3 md:px-4 pb-8 grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-6"
+        className="relative z-30 mx-auto px-3 md:px-4 pb-8 grid grid-cols-1 md:grid-cols-[12rem_1fr] lg:grid-cols-[16rem_1fr] gap-6"
         style={{ maxWidth: "var(--fuwari-page-width)" }}
       >
-        {/* Sidebar Column */}
-        <Sidebar className="order-2 lg:order-1" />
+        {/* Sidebar Column (left on md+, below main on mobile) */}
+        <Sidebar className="order-2 md:order-1" />
 
-        {/* Main Content Column */}
-        <main className="order-1 lg:order-2 flex flex-col gap-4 min-w-0">
+        {/* Main Content Column (right on md+, top on mobile) */}
+        <main className="order-1 md:order-2 flex flex-col gap-4 min-w-0">
           {children}
         </main>
 
         {/* Footer Column (Desktop: below main, Mobile: below sidebar) */}
         <div
-          className="order-3 lg:col-start-2 fuwari-onload-animation mt-auto"
+          className="order-3 md:col-start-2 fuwari-onload-animation mt-auto"
           style={{ animationDelay: "250ms" }}
         >
           <Footer navOptions={navOptions} />
