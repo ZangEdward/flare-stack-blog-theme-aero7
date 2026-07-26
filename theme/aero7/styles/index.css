@@ -1656,18 +1656,18 @@ html.aero7-theme .aero-taskbar-orb-wrap {
   align-items: center;
 }
 
-/* bottom tooltip：上方三角指针，指针在左上角（贴近头像） */
+/* 任务栏在底部：tooltip 向上弹出，避免 body 出屏、只露出指针三角形 */
 html.aero7-theme .aero-taskbar-orb-wrap:hover > [role="tooltip"].aero-tooltip,
 html.aero7-theme .aero-taskbar-orb-wrap:focus-within > [role="tooltip"].aero-tooltip,
 html.aero7-theme .aero-taskbar-orb-wrap:hover > .aero-tooltip,
 html.aero7-theme .aero-taskbar-orb-wrap:focus-within > .aero-tooltip {
   display: block;
-  top: calc(100% + 6px);
+  bottom: calc(100% + 6px);
+  top: auto;
   left: 8px;
 }
 
-/* 三角指针（继承 7.css [role=tooltip]:before 的 svg 形状，
-   这里改成 inline SVG data URL 让指针在 tooltip 顶部) */
+/* 三角指针移到 tooltip 底部，垂直翻转后指向头像 */
 html.aero7-theme .aero-taskbar-orb-wrap > [role="tooltip"].aero-tooltip:before,
 html.aero7-theme .aero-taskbar-orb-wrap > .aero-tooltip:before {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.5 1.5v18h18l-18-18Z' fill='%23fff' stroke='%23fff'/%3E%3Cpath d='M1 19.5H.5v-18l18 18H18' stroke='%23939393'/%3E%3C/svg%3E");
@@ -1675,11 +1675,13 @@ html.aero7-theme .aero-taskbar-orb-wrap > .aero-tooltip:before {
   content: "";
   display: block;
   position: absolute;
-  top: -18px;
+  top: auto;
+  bottom: -18px;
   left: 0;
   width: 18px;
   height: 18px;
   pointer-events: none;
+  transform: scaleY(-1);
 }
 
 /* Tooltip 暗色模式 */
