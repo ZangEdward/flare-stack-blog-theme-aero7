@@ -1296,14 +1296,13 @@ html.aero7-theme .aero-desktop {
 
 /* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
    窗口的 backdrop-filter 才能稳定模糊到壁纸，而不是透明层后面的白色。
-   叠加 body 渐变作为兜底色：即使壁纸因比例问题在某方向留白（cover 不一定
-   完全填满），也能露出浅蓝色渐变而不是默认白色。
-   background-attachment: fixed 让壁纸固定在视口，桌面区滚动时壁纸不动，
-   不会因为内容区滚动而在底部露出"白方块"（fallback 渐变）。 */
+   ⚠️ 千万不能加 background-attachment:fixed，否则 Chrome 会把壁纸渲染到
+   不同的合成层，子元素的 backdrop-filter 无法采样到，毛玻璃彻底失效。
+   底部叠加渐变让壁纸自然融入背景，避免壁纸图本身的白边露出来。 */
 html.aero7-theme .aero-desktop.has-wallpaper {
   background:
-    var(--aero-wallpaper) center / cover no-repeat fixed,
-    var(--fuwari-page-bg);
+    linear-gradient(to bottom, transparent 55%, var(--fuwari-page-bg) 95%),
+    var(--aero-wallpaper) center / cover no-repeat;
 }
 
 /* 桌面容器：左列侧栏 + 右列主区
