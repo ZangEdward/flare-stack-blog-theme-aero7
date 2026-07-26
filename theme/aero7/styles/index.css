@@ -618,6 +618,7 @@ html.aero7-theme body {
    这里复用 7.css 的滚动条装饰（白色轨道、Aero 蓝细边 thumb、上下三角箭头
    按钮），让 aero7 主题内的每个滚动容器都呈 7.css Win7 风格。 */
 html.aero7-theme .aero-desktop,
+html.aero7-theme .aero-desktop-scroll,
 html.aero7-theme .window-body {
   --w7-el-bg: #f0f0f0;
   --w7-el-bg-s-1: #ebebeb;
@@ -634,28 +635,28 @@ html.aero7-theme .window-body {
 
 /* ===== 全局 + aero-desktop + window-body 的 Win7 风格滚动条 ===== */
 html.aero7-theme::-webkit-scrollbar,
-html.aero7-theme .aero-desktop::-webkit-scrollbar,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar,
 html.aero7-theme .window-body::-webkit-scrollbar {
   width: 16px;
   height: 17px;
 }
 html.aero7-theme::-webkit-scrollbar:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar:horizontal {
   height: 17px;
 }
 html.aero7-theme::-webkit-scrollbar-corner,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-corner,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-corner,
 html.aero7-theme .window-body::-webkit-scrollbar-corner {
   background: var(--w7-el-bg, #f0f0f0);
 }
 html.aero7-theme::-webkit-scrollbar-track:vertical,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-track:vertical,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-track:vertical,
 html.aero7-theme .window-body::-webkit-scrollbar-track:vertical {
   background: var(--w7-sb-y, linear-gradient(to right, #e5e5e5, #f0f0f0 20%));
 }
 html.aero7-theme::-webkit-scrollbar-track:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-track:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-track:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-track:horizontal {
   background: var(--w7-sb-x, linear-gradient(to bottom, #e5e5e5, #f0f0f0 20%));
 }
@@ -665,7 +666,7 @@ html.aero7-theme .window-body::-webkit-scrollbar-track:horizontal {
  * 7.css 默认选择器是 .has-scrollbar，但我们的滚动容器没加这个类，
  * 这里直接把同一组规则复制到 html / .aero-desktop / .window-body。 */
 html.aero7-theme::-webkit-scrollbar-thumb,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb {
   background-color: var(--w7-el-bg, #f2f2f2);
   border: 1px solid var(--w7-el-bd, #8e8f8f);
@@ -673,53 +674,53 @@ html.aero7-theme .window-body::-webkit-scrollbar-thumb {
   box-shadow: var(--w7-el-sd, inset 0 0 0 1px #fffc);
 }
 html.aero7-theme::-webkit-scrollbar-thumb:vertical,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:vertical,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:vertical,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:vertical {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-el-bg, #f2f2f2) 45%, var(--w7-el-bg-s-1, #ebebeb) 45%, var(--w7-el-bg-s-2, #cfcfcf));
 }
 html.aero7-theme::-webkit-scrollbar-thumb:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:horizontal {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-el-bg, #f2f2f2) 45%, var(--w7-el-bg-s-1, #ebebeb) 45%, var(--w7-el-bg-s-2, #cfcfcf));
 }
 html.aero7-theme::-webkit-scrollbar-thumb:hover:vertical,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:hover:vertical,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:hover:vertical,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:hover:vertical {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
   border-color: var(--w7-el-bd-h, #3c7fb1);
 }
 html.aero7-theme::-webkit-scrollbar-thumb:hover:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:hover:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:hover:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:hover:horizontal {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
   border-color: var(--w7-el-bd-h, #3c7fb1);
 }
 html.aero7-theme::-webkit-scrollbar-thumb:active:vertical,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:active:vertical,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:active:vertical,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:active:vertical {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
   border-color: var(--w7-el-bd-a, #6d91ab);
 }
 html.aero7-theme::-webkit-scrollbar-thumb:active:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:active:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-thumb:active:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb:active:horizontal {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
   border-color: var(--w7-el-bd-a, #6d91ab);
 }
 html.aero7-theme::-webkit-scrollbar-button,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button,
 html.aero7-theme .window-body::-webkit-scrollbar-button {
   border: 1px solid transparent;
   background-color: transparent;
   display: block;
 }
 html.aero7-theme::-webkit-scrollbar-button:vertical,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:vertical,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:vertical,
 html.aero7-theme .window-body::-webkit-scrollbar-button:vertical {
   height: 17px;
 }
 html.aero7-theme::-webkit-scrollbar-button:horizontal,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:horizontal,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal {
   width: 16px;
 }
@@ -729,10 +730,10 @@ html.aero7-theme::-webkit-scrollbar-button:vertical:end:decrement,
 html.aero7-theme::-webkit-scrollbar-button:vertical:start:increment,
 html.aero7-theme::-webkit-scrollbar-button:horizontal:start:increment,
 html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:vertical:end:decrement,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:vertical:start:increment,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:horizontal:start:increment,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:horizontal:end:decrement,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:vertical:end:decrement,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:vertical:start:increment,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:horizontal:start:increment,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:horizontal:end:decrement,
 html.aero7-theme .window-body::-webkit-scrollbar-button:vertical:end:decrement,
 html.aero7-theme .window-body::-webkit-scrollbar-button:vertical:start:increment,
 html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:start:increment,
@@ -742,28 +743,28 @@ html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:end:decrement
 
 /* Aero/7.css 上下三角箭头按钮（用 CSS 渐变三角形 SVG） */
 html.aero7-theme::-webkit-scrollbar-button:vertical:start,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:vertical:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:vertical:start,
 html.aero7-theme .window-body::-webkit-scrollbar-button:vertical:start {
   background: var(--w7-sb-y, linear-gradient(to right, #e5e5e5, #f0f0f0 20%))
     url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 7L5 0L10 7Z' fill='%23333'/%3E%3C/svg%3E")
     no-repeat center / 10px 9px;
 }
 html.aero7-theme::-webkit-scrollbar-button:vertical:end,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:vertical:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:vertical:end,
 html.aero7-theme .window-body::-webkit-scrollbar-button:vertical:end {
   background: var(--w7-sb-y, linear-gradient(to right, #e5e5e5, #f0f0f0 20%))
     url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L10 0L5 9Z' fill='%23333'/%3E%3C/svg%3E")
     no-repeat center / 10px 9px;
 }
 html.aero7-theme::-webkit-scrollbar-button:horizontal:start,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:horizontal:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:horizontal:start,
 html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:start {
   background: var(--w7-sb-x, linear-gradient(to bottom, #e5e5e5, #f0f0f0 20%))
     url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 0L0 5L7 10Z' fill='%23333'/%3E%3C/svg%3E")
     no-repeat center / 9px 10px;
 }
 html.aero7-theme::-webkit-scrollbar-button:horizontal:end,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-button:horizontal:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:horizontal:end,
 html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:end {
   background: var(--w7-sb-x, linear-gradient(to bottom, #e5e5e5, #f0f0f0 20%))
     url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L7 5L0 10Z' fill='%23333'/%3E%3C/svg%3E")
@@ -1298,7 +1299,12 @@ html.aero7-theme .aero-tag-pill-count {
 html.aero7-theme .aero-desktop {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: auto;
+  /* ⚠️ 滚动交给内层 .aero-desktop-scroll。
+     若 .aero-desktop 自己 overflow:auto，其原生滚动条绘制在「元素背景层」，
+     会被 z-index:-1 的壁纸 ::before 盖住 → 右侧滚动条不可见。 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   position: relative;
   /* 关键：让 .aero-desktop 自身成为 stacking context。
      这样 z-index:-1 的 ::before 壁纸会在「本元素背景之上、窗口内容之下」绘制，
@@ -1306,6 +1312,16 @@ html.aero7-theme .aero-desktop {
      又能被 .window.glass 的 backdrop-filter 正常采样。 */
   isolation: isolate;
   background: var(--fuwari-page-bg);
+  width: 100%;
+}
+
+/* 内层滚动容器：normal-flow 子元素，自身及滚动条绘制在负 z-index 壁纸之上。
+   ⚠️ 不要加 position/z-index/transform 等创建 stacking context 的属性，
+   否则 .window.glass 的 backdrop-filter 会被隔断、采样不到壁纸。 */
+html.aero7-theme .aero-desktop-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
   width: 100%;
 }
 

@@ -87,11 +87,17 @@ export function PublicLayout({
             : undefined
         }
       >
-        <div className="aero-desktop-content">
-          <aside className="aero-desktop-sidebar">
-            <Sidebar />
-          </aside>
-          <main className="aero-desktop-main">{children}</main>
+        {/* 内层滚动容器：滚动条画在这里（normal-flow 子元素，
+            绘制在 z-index:-1 的壁纸 ::before 之上），不会被壁纸盖住。
+            若让 .aero-desktop 自己滚动，其原生滚动条会画在元素背景层、
+            位于负 z-index 壁纸之下而不可见。 */}
+        <div className="aero-desktop-scroll">
+          <div className="aero-desktop-content">
+            <aside className="aero-desktop-sidebar">
+              <Sidebar />
+            </aside>
+            <main className="aero-desktop-main">{children}</main>
+          </div>
         </div>
       </div>
 
