@@ -1128,6 +1128,17 @@ html.aero7-theme .aero-taskbar-tray {
   height: calc(var(--aero-taskbar-height) - 12px);
 }
 
+/* 7.css 搜索框：默认 inline-block 导致宽度只随内容决定，
+   在搜索窗口里应占满整个 window-body，随窗口一起缩放。 */
+html.aero7-theme .searchbox {
+  display: block;
+  width: 100%;
+}
+html.aero7-theme .searchbox [type="search"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* =========== 桌面区域 =========== */
 
 html.aero7-theme .aero-desktop {
