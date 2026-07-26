@@ -1,6 +1,5 @@
-import { Link, useLocation, useNavigate, useRouteContext } from "@tanstack/react-router";
+import { Link, useRouteContext } from "@tanstack/react-router";
 import {
-  ArrowLeft,
   FileText,
   Home,
   Link2,
@@ -66,9 +65,6 @@ export function Navbar({
   isLoading,
 }: NavbarProps) {
   const { siteConfig } = useRouteContext({ from: "__root__" });
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isPostPage = location.pathname.startsWith("/post/");
 
   return (
     <div className="aero-taskbar">
@@ -99,19 +95,6 @@ export function Navbar({
           {siteConfig.description}
         </span>
       </div>
-
-      {/* 中间：文章页时显示返回按钮，否则显示任务栏按钮 */}
-      {isPostPage ? (
-        <button
-          type="button"
-          onClick={() => navigate({ to: "/" })}
-          className="aero-back-button"
-          aria-label="Back to home"
-        >
-          <ArrowLeft size={16} strokeWidth={2} />
-          <span>Back to Home</span>
-        </button>
-      ) : null}
 
       {/* 中间：任务栏按钮（像 Win7 任务栏上的任务图标） */}
       <nav className="aero-taskbar-buttons">
