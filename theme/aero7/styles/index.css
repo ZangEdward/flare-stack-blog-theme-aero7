@@ -1299,15 +1299,17 @@ html.aero7-theme .aero-desktop {
   width: 100%;
 }
 
-/* 壁纸层：在 .aero-desktop 内用 ::before 伪元素 absolute 绝对定位，
-   不脱离滚动容器（与 .aero-desktop 同 stacking context）。
-   - 用 absolute 而非 fixed：fixed 会创建独立合成层，导致 backdrop-filter 无法采样。
-   - z-index: -1 在父容器 stacking context 内最低（父容器是 .aero-desktop，position: relative
-     不创建 stacking context 当 z-index: auto，所以 ::before 在 root 级最低）。
-   - backdrop-filter 在 .window.glass / .fuwari-card-base 上都能稳定采样到本层图片。 */
+/* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。
+   - 用 position: fixed; inset: 0 —— 壁纸「钉」在视口，永远铺满整页，
+     不随页面滚动而移动，也不会因内容高于视口而在底部「漏出」渐变背景。
+   - 注意：不要用 background-attachment: fixed（那才会创建独立合成层、
+     破坏 .window.glass 的 backdrop-filter 采样）。position:fixed 的伪元素
+     本身是普通绘制层，仍留在 .aero-desktop 的 stacking context 内（isolation:isolate），
+     玻璃窗口能正常采样到它。
+   - z-index: -1 让壁纸位于桌面内容之下、.aero-desktop 自身背景之上。 */
 html.aero7-theme .aero-desktop::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -1;
   background-size: cover;
