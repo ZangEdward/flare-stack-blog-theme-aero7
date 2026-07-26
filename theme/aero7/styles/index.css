@@ -1684,13 +1684,11 @@ html.aero7-theme .aero-taskbar-orb-wrap > .aero-tooltip:before {
 }
 
 /* =========== 语言切换：7.css 原生 menu 风格（input[type=radio] + label）============
- * 与 https://khang-nd.github.io/7.css/#menu 一致：直角、Aero 蓝文字、
- * 选中态显示左侧蓝色圆点（input[type=radio] + label 由 7.css 自动渲染）。
- * 触发：点击 7.css 中的 trigger 按钮（taskbar 图标按钮）显示，
- *       再次点击 / 点击外部关闭。
- *
- * 当前实现：菜单常驻（只读主题），鼠标 hover/focus 在 .aero-language-wrap
- * 上即显示（hover-to-show 与点 languages icon 与 click outside 行为兼容）。
+ * 与 https://khang-nd.github.io/7.css/#menu 一致：白底直角、Aero 蓝选中圆点，
+ * 单选外观由 7.css 自动渲染。
+ * 触发：点击任务栏语言图标按钮展开（.is-open），再次点击 / 点击外部 / Esc 关闭；
+ *       键盘 focus 时也会展开（:focus-within）。
+ * 位置：任务栏位于视口底部，菜单向上弹出（bottom:100%），避免被任务栏遮挡或出屏。
  */
 html.aero7-theme .aero-language-wrap {
   position: relative;
@@ -1701,18 +1699,17 @@ html.aero7-theme .aero-language-wrap .aero-language-trigger {
   cursor: pointer;
 }
 
-/* 7.css 原生 menu 已通过 [role=menu] 自动渲染直角 + Aero 蓝文字；
-   我们仅控制显示时机与位置。 */
+/* 7.css 原生 menu 已通过 [role=menu] 自动渲染白底直角 + 左侧蓝色圆点；
+   我们仅控制显示时机与位置（向上弹出）。 */
 html.aero7-theme [role="menu"].aero-language-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 4px);
+  bottom: calc(100% + 6px);
   right: 0;
   z-index: 9999;
   cursor: default;
 }
 
-html.aero7-theme .aero-language-wrap:hover > [role="menu"].aero-language-menu,
 html.aero7-theme .aero-language-wrap:focus-within > [role="menu"].aero-language-menu,
 html.aero7-theme .aero-language-wrap.is-open > [role="menu"].aero-language-menu {
   display: block;
