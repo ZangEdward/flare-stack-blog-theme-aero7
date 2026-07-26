@@ -18,6 +18,29 @@
     width: max-content;
     max-width: 100%;
     overflow-x: auto;
+    background: transparent;
+    border-collapse: collapse;
+  }
+
+  /* 覆盖 Tailwind Typography 默认表格背景，避免深色模式白底浅色字 */
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--fuwari-meta-divider);
+    background: var(--fuwari-card-bg);
+    color: var(--tw-prose-body);
+    vertical-align: baseline;
+  }
+
+  thead th {
+    background: var(--fuwari-btn-regular-bg);
+    color: var(--fuwari-btn-content);
+    font-weight: 600;
+    vertical-align: bottom;
+  }
+
+  tbody tr:nth-child(even) td {
+    background: var(--fuwari-card-bg);
   }
 
   --tw-prose-body: rgb(10 18 26 / 0.95);
@@ -219,4 +242,19 @@ html.aero7-theme.dark .fuwari-custom-md a:not(.no-styling) {
 html.aero7-theme.dark .fuwari-custom-md a:not(.no-styling):hover,
 html.aero7-theme.dark .fuwari-custom-md a:not(.no-styling):active {
   color: #bfe6ff;
+}
+
+/* 深色模式表格兜底：避免 Tailwind Typography 默认浅色背景导致浅色字看不清 */
+html.aero7-theme.dark .fuwari-custom-md table {
+  background: transparent;
+}
+html.aero7-theme.dark .fuwari-custom-md th,
+html.aero7-theme.dark .fuwari-custom-md td {
+  background: rgba(8, 10, 14, 0.55);
+  color: #eaf6ff;
+  border-color: rgba(223, 240, 255, 0.25);
+}
+html.aero7-theme.dark .fuwari-custom-md thead th {
+  background: rgba(255, 255, 255, 0.12);
+  color: #dff0ff;
 }
