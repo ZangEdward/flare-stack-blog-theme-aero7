@@ -1,4 +1,4 @@
-import { useRouteContext } from "@tanstack/react-router";
+import { useRouteContext, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
@@ -20,18 +20,40 @@ export function PublicLayout({
   // 让 7.css 的 Win7 滚动条样式作用于整个文档。
   // 同时给 <html> 打上 aero7-theme 标记，使 aero7 的全局样式（滚动条/选区）
   // 仅作用于公共博客页，不污染后台/设置界面（后台用 default 主题）。
+  // 注意：滚动条容器在不同浏览器可能是 <html> 也可能是 <body>，
+  // 7.css 的 .has-scrollbar 选择器只作用于带该类的元素，因此两者都加上，
+  // 否则会回退到 Tailwind 默认的细滚动条（看起来不是 Win7 风格）。
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
     root.classList.add("has-scrollbar");
     root.classList.add("aero7-theme");
+    body.classList.add("has-scrollbar");
     return () => {
       root.classList.remove("has-scrollbar");
       root.classList.remove("aero7-theme");
+      body.classList.remove("has-scrollbar");
     };
   }, []);
 
-  // aero7 使用自己的 homeBg；未设置则兜底到主题默认壁纸
-  const aero7Bg = siteConfig.theme.aero7?.homeBg || "/images/aero-wallpaper.jpg";
+  // 背景图读取顺序（与默认主题 BackgroundLayer 一致，可由博客后台更换）：
+  //   - 首页用 theme.default.background.homeImage
+  //   - 其它页用 theme.default.background.globalImage（缺省回退 homeImage）
+  //   - aero7 自己的 theme.aero7.homeBg 若有值优先；都没有则兜底主题默认壁纸
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+  const isHome = pathname === "/" || pathname === "";
+  const aero7HomeBg = siteConfig.theme.aero7?.homeBg;
+  const defaultBg = siteConfig.theme.default?.background;
+  const aero7Bg = isHome
+    ? aero7HomeBg ||
+      defaultBg?.homeImage ||
+      "/images/aero-wallpaper.jpg"
+    : aero7HomeBg ||
+      defaultBg?.globalImage ||
+      defaultBg?.homeImage ||
+      "/images/aero-wallpaper.jpg";
 
   return (
     <div className="aero7-theme relative min-h-screen">
