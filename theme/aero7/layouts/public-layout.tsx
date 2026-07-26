@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouteContext } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
 import { Sidebar } from "../components/sidebar";
@@ -61,15 +62,6 @@ export function PublicLayout({
 
   return (
     <div className="relative flex h-screen flex-col overflow-hidden">
-      {/* 桌面壁纸：跟随用户后台设置；无设置时透明，靠 body 渐变兜底 */}
-      {bgUrl && (
-        <div
-          aria-hidden="true"
-          className="aero-desktop-wallpaper"
-          style={{ backgroundImage: `url("${bgUrl}")` }}
-        />
-      )}
-
       <MobileMenu
         navOptions={navOptions}
         isOpen={false}
@@ -86,8 +78,15 @@ export function PublicLayout({
         isLoading={isSessionLoading}
       />
 
-      {/* 桌面区 */}
-      <div className="aero-desktop">
+      {/* 桌面区：壁纸放在桌面内部第一层，确保在内容下方 */}
+      <div className={cn("aero-desktop", bgUrl && "has-wallpaper")}>
+        {bgUrl && (
+          <div
+            aria-hidden="true"
+            className="aero-desktop-wallpaper"
+            style={{ backgroundImage: `url("${bgUrl}")` }}
+          />
+        )}
         <div className="aero-desktop-content">
           <aside className="aero-desktop-sidebar">
             <Sidebar />

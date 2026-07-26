@@ -1149,7 +1149,12 @@ html.aero7-theme .aero-desktop {
   width: 100%;
 }
 
-/* 桌面壁纸（叠加在 --fuwari-page-bg 之上，由 public-layout 直接以 style 注入 url） */
+/* 有壁纸时让桌面背景透明，避免盖住壁纸 */
+html.aero7-theme .aero-desktop.has-wallpaper {
+  background: transparent;
+}
+
+/* 桌面壁纸：放在 .aero-desktop 内部第一层，作为内容背景 */
 html.aero7-theme .aero-desktop-wallpaper {
   position: absolute;
   inset: 0;
