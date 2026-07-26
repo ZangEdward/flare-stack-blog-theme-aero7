@@ -21,6 +21,11 @@ interface PostCardProps {
   isLoadingViews?: boolean;
 }
 
+/**
+ * 文章卡片：自身渲染完整的 7.css `.window.glass` 玻璃窗
+ * （标题栏 + window-body + resize 手柄由 DraggableWindow 注入）。
+ * 这里只关心 7.css 标题栏与正文区内容。
+ */
 export function PostCard({
   post,
   pinned,
@@ -32,11 +37,11 @@ export function PostCard({
 
   return (
     <div
-      className={`flex flex-col h-full relative ${
+      className={`window glass active flex flex-col h-full w-full relative ${
         pinned ? "ring-2 ring-(--fuwari-primary)/30" : ""
       }`}
-    >
-      {/* 7.css 原生 Win7 标题栏：标题在左（可点击），右侧为置顶/热门徽标 + 窗口控制按钮 */}
+  >
+      {/* 7.css 原生 Win7 标题栏：标题可点击进入文章，徽标 + 控制按钮 */}
       <div className="title-bar">
         {pinned && (
           <Pin
@@ -60,11 +65,10 @@ export function PostCard({
         >
           {post.title}
         </Link>
-
         <div className="title-bar-controls">
-          <button type="button" aria-label="Minimize" />
-          <button type="button" aria-label="Maximize" />
-          <button type="button" aria-label="Close" />
+          <button type="button" aria-label="Minimize" tabIndex={-1} />
+          <button type="button" aria-label="Maximize" tabIndex={-1} />
+          <button type="button" aria-label="Close" tabIndex={-1} />
         </div>
       </div>
 
@@ -76,7 +80,7 @@ export function PostCard({
             {post.summary ?? ""}
           </div>
 
-          {/* 底部：元信息左，阅读详情右 */}
+          {/* 底部：元信息 + 阅读详情 */}
           <div className="flex items-end justify-between gap-4 mt-auto">
             <div className="text-xs fuwari-text-50 flex flex-wrap items-center gap-x-3 gap-y-1.5">
               <span className="inline-flex items-center gap-1">

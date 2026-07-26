@@ -836,103 +836,154 @@ html.aero7-theme .title-bar .aero-tb-badge-hot {
   color: #eaf6ff;
 }
 
-/* ===== Win7 任务栏与桌面窗口 =====
- * 顶部做成 Win7 任务栏风格：圆形头像 + 站点名 + 签名横线 + 任务栏按钮图标。
- * 下方是桌面区域，放置可拖动/可缩放的浮动窗口。
- */
+/* ===== Win7 桌面布局：任务栏 + 桌面窗口网格 =====
+ *
+ * 设计目标：
+ * - 顶部一条 Win7 Aero 玻璃任务栏（粘性），内含圆形 Win7 Orb
+ *   （站点头像/名/签名）+ 任务按钮 + 系统托盘；
+ * - 下方是桌面区域，左列固定为标签窗口，右列为文章卡片网格
+ *   （自动列：随屏宽自适应 1~N 列），完全不重叠；
+ * - 每个窗口都是可拖动 / 可缩放的 7.css 玻璃窗，按住标题栏拖动。
+ *
+ * 注意：所有规则都限定在 html.aero7-theme，遵循"只改
+ * themes/aero7/**"的铁律，不影响共享原文件。
+ * ----------------------------------------------------- */
 
 :root {
   --aero-taskbar-height: 44px;
 }
 
+/* 让 aero7 主题内：<html> 与 <body> 都不出现滚动条，
+ * 由桌面区自行管理滚动条（Win7 桌面体验）。 */
+html.aero7-theme,
+html.aero7-theme body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* =========== 顶部 Win7 任务栏 =========== */
+
 html.aero7-theme .aero-taskbar {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0;
   height: var(--aero-taskbar-height);
-  padding: 0 0.75rem;
+  padding: 0 0.5rem;
+  flex-shrink: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.28) 0%,
-    rgba(255, 255, 255, 0.14) 4%,
-    rgba(30, 95, 150, 0.48) 10%,
-    rgba(22, 75, 125, 0.58) 100%
+    rgba(154, 207, 235, 0.95) 0%,
+    rgba(105, 175, 224, 0.95) 6%,
+    rgba(74, 137, 199, 0.95) 50%,
+    rgba(60, 117, 175, 0.95) 90%,
+    rgba(48, 95, 152, 0.95) 100%
   );
-  -webkit-backdrop-filter: blur(10px) saturate(150%);
-  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
   border-top: 1px solid rgba(255, 255, 255, 0.5);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 20, 40, 0.35);
   box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 20, 40, 0.18),
+    0 -1px 4px rgba(0, 20, 40, 0.25);
   color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 1px rgba(0, 20, 40, 0.45);
+  z-index: 50;
+  user-select: none;
 }
 
+/* 圆球：Win7 "Start" Orb 风格（站点 logo/头像 + 站点名 + 签名） */
 html.aero7-theme .aero-taskbar-orb {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.25rem 0.6rem;
+  gap: 0.5rem;
+  padding: 0 0.5rem 0 0.25rem;
+  height: calc(var(--aero-taskbar-height) - 8px);
   border-radius: 999px;
-  transition: background-color 0.15s;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.08) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  flex-shrink: 0;
+  transition:
+    background-color 0.15s,
+    transform 0.1s;
   text-decoration: none;
   color: inherit;
-  flex-shrink: 0;
 }
-
 html.aero7-theme .aero-taskbar-orb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.12) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+html.aero7-theme .aero-taskbar-orb:active {
+  transform: scale(0.96);
 }
 
 html.aero7-theme .aero-taskbar-avatar {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(20, 50, 90, 0.6),
+    0 1px 4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
 }
 
 html.aero7-theme .aero-taskbar-brand {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
-  max-width: 16rem;
-  overflow: hidden;
+  gap: 1px;
+  min-width: 0;
+  max-width: 14rem;
+  line-height: 1;
 }
 
 html.aero7-theme .aero-taskbar-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.01em;
 }
 
-/* 签名横线：放在站点标题下方，像 Win7 任务栏上的标题条 */
+/* 签名横线：Win7 任务栏时间下方那条细横线，这里用作 tagline */
 html.aero7-theme .aero-taskbar-tagline {
-  font-size: 11px;
-  opacity: 0.88;
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.9;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   padding-bottom: 1px;
   max-width: 14rem;
 }
 
+/* 任务按钮区（Aero Glass toolbar） */
 html.aero7-theme .aero-taskbar-buttons {
   display: flex;
   align-items: center;
   gap: 0.35rem;
   flex: 1;
   min-width: 0;
-  justify-content: center;
-  overflow: hidden;
-  mask-image: linear-gradient(to right, transparent 0, black 0.5rem, black calc(100% - 0.5rem), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0, black 0.5rem, black calc(100% - 0.5rem), transparent 100%);
+  padding: 0 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+html.aero7-theme .aero-taskbar-buttons::-webkit-scrollbar {
+  display: none;
 }
 
 html.aero7-theme .aero-taskbar-btn {
@@ -940,195 +991,407 @@ html.aero7-theme .aero-taskbar-btn {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  height: calc(var(--aero-taskbar-height) - 8px);
-  padding: 0 0.75rem;
+  height: calc(var(--aero-taskbar-height) - 12px);
+  padding: 0 0.7rem;
   border-radius: 4px;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.08)
+    rgba(255, 255, 255, 0.42),
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.05) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-bottom-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom-color: rgba(20, 50, 90, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 2px rgba(0, 30, 60, 0.25);
   color: #ffffff;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transition: all 0.12s;
-  user-select: none;
+  text-shadow: 0 1px 1px rgba(0, 30, 60, 0.5);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 
 html.aero7-theme .aero-taskbar-btn:hover {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.34),
-    rgba(255, 255, 255, 0.16)
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.15) 100%
   );
-  border-color: rgba(255, 255, 255, 0.38);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 0 6px rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 0 6px rgba(120, 200, 255, 0.45),
+    0 1px 3px rgba(0, 30, 60, 0.3);
 }
 
 html.aero7-theme .aero-taskbar-btn-active,
-html.aero7-theme .aero-taskbar-btn-active:hover {
+html.aero7-theme .aero-taskbar-btn[aria-current="page"] {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.14),
-    rgba(255, 255, 255, 0.05)
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.1) 100%
   );
-  border-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(20, 50, 90, 0.45);
   box-shadow:
-    inset 0 2px 5px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    inset 0 2px 5px rgba(0, 30, 60, 0.45),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
   color: #eaf6ff;
 }
 
+/* 仅图标按钮（任务栏系统托盘图标） */
 html.aero7-theme .aero-taskbar-btn-icon-only {
-  width: 34px;
+  width: calc(var(--aero-taskbar-height) - 12px);
+  height: calc(var(--aero-taskbar-height) - 12px);
   padding: 0;
-  justify-content: center;
 }
 
 html.aero7-theme .aero-taskbar-btn-label {
   display: inline;
-  max-width: 8rem;
+  max-width: 7rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* 系统托盘：右侧 */
 html.aero7-theme .aero-taskbar-tray {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
   flex-shrink: 0;
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  margin-left: 0.5rem;
+  height: calc(var(--aero-taskbar-height) - 12px);
 }
 
-/* 桌面区域：任务栏下方剩余高度，可滚动 */
+/* =========== 桌面区域 =========== */
+
 html.aero7-theme .aero-desktop {
-  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
+  position: relative;
+  background: var(--fuwari-page-bg);
+}
+
+/* 桌面壁纸（叠加在 --fuwari-page-bg 之上，由 public-layout 直接以 style 注入 url） */
+html.aero7-theme .aero-desktop-wallpaper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: 0;
+}
+
+/* 桌面容器：左列侧栏 + 右列主区 */
+html.aero7-theme .aero-desktop-content {
+  display: grid;
+  grid-template-columns: minmax(240px, 280px) 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+/* 侧栏（左列） */
+html.aero7-theme .aero-desktop-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  position: relative;
+  z-index: 5;
+}
+
+/* 主区（右列）：自适应的网格列 */
+html.aero7-theme .aero-desktop-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  align-items: start;
+  min-width: 0;
+}
+
+/* 网格子项（grid 流式布局下的窗口） */
+html.aero7-theme .aero-desktop-window {
+  position: relative; /* 默认 relative，参与 grid 流 */
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html.aero7-theme .aero-desktop-window-floating {
+  /* 用户拖动后切到 absolute 浮动，不被 grid 流约束 */
+  position: absolute;
+}
+
+html.aero7-theme .aero-desktop-window-active {
+  /* 用户点击的窗口提到最前 */
+  box-shadow:
+    0 0 0 1px rgba(60, 127, 177, 0.6),
+    0 12px 32px rgba(0, 30, 60, 0.45);
+}
+
+html.aero7-theme .aero-grid-item {
+  /* 同一行中的卡片由 align-items:start 控制高度自适应 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 右下角 resize 手柄（7.css 标准三向斜线） */
+html.aero7-theme .aero-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: se-resize;
+  z-index: 30;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 45%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.85) 100%
+    );
+  border-bottom-right-radius: 4px;
+  opacity: 0.85;
+  transition: opacity 0.12s;
+}
+html.aero7-theme .aero-resize-handle:hover {
+  opacity: 1;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(180, 220, 255, 0.85) 45%,
+      rgba(255, 255, 255, 1) 100%
+    );
+}
+
+html.aero7-theme .aero-resize-handle::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(20, 50, 90, 0.65);
+  border-bottom: 2px solid rgba(20, 50, 90, 0.65);
+  border-bottom-right-radius: 2px;
+}
+
+/* =========== Aero Menu / Dropdown（7.css 风格）============
+ * 用 7.css 原生 .menu 容器（无圆角）+ Aero 玻璃高光。
+ * 适用于语言切换、用户菜单等下拉。
+ */
+html.aero7-theme .aero-menu {
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 250, 255, 0.96) 0%,
+    rgba(220, 235, 245, 0.96) 100%
+  );
+  border: 1px solid rgba(20, 50, 90, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 4px 14px rgba(0, 30, 60, 0.35);
+  color: #143a5e;
+  padding: 4px 0;
+  min-width: 120px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  border-radius: 0;
+  overflow: visible;
+}
+
+html.aero7-theme .aero-menu-item {
+  display: block;
+  width: 100%;
+  padding: 6px 18px;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+html.aero7-theme .aero-menu-item:hover,
+html.aero7-theme .aero-menu-item:focus {
+  background: linear-gradient(
+    to bottom,
+    rgba(154, 207, 235, 0.85) 0%,
+    rgba(105, 175, 224, 0.85) 6%,
+    rgba(74, 137, 199, 0.85) 95%,
+    rgba(60, 117, 175, 0.9) 100%
+  );
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(0, 30, 60, 0.4);
+  outline: none;
+}
+html.aero7-theme .aero-menu-item-active {
+  background: rgba(120, 180, 230, 0.18);
+  color: #0a4f8a;
+  font-weight: 700;
+}
+
+.dark html.aero7-theme .aero-menu {
+  background: linear-gradient(
+    to bottom,
+    rgba(34, 50, 70, 0.96) 0%,
+    rgba(18, 36, 56, 0.96) 100%
+  );
+  border-color: rgba(120, 180, 230, 0.4);
+  color: #eaf6ff;
+  box-shadow:
+    inset 0 1px 0 rgba(120, 180, 230, 0.25),
+    0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.dark html.aero7-theme .aero-menu-item:hover,
+.dark html.aero7-theme .aero-menu-item:focus {
+  background: linear-gradient(
+    to bottom,
+    rgba(105, 175, 224, 0.85) 0%,
+    rgba(74, 137, 199, 0.85) 100%
+  );
+  color: #ffffff;
+}
+.dark html.aero7-theme .aero-menu-item-active {
+  background: rgba(120, 180, 230, 0.28);
+  color: #bfe6ff;
+}
+
+html.aero7-theme .aero-language-dropdown {
+  border-radius: 0;
+}
+
+/* =========== 7.css 原生控件大小修正 =========== */
+
+/* 三按钮最小宽度（7.css 默认 29px / 19px；这里只确保不被全局覆盖） */
+html.aero7-theme .title-bar-controls button {
+  min-width: 29px;
+  min-height: 19px;
+  width: 29px;
+  height: 19px;
+}
+
+/* =========== Win7 玻璃：全部 .window.glass 整窗磨砂 =========== */
+html.aero7-theme .window.glass {
+  background: rgba(228, 240, 250, 0.36);
+  -webkit-backdrop-filter: blur(14px) saturate(155%);
+  backdrop-filter: blur(14px) saturate(155%);
+  border-radius: 7px;
+}
+.dark html.aero7-theme .window.glass {
+  background: rgba(18, 38, 60, 0.42);
+}
+html.aero7-theme .window.glass .window-body {
+  background: transparent;
+}
+html.aero7-theme .window.glass::before {
+  opacity: 0.5;
+}
+
+/* =========== 文章页打开为窗口效果 =========== */
+html.aero7-theme .aero-modal-overlay {
+  position: fixed;
+  inset: 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+html.aero7-theme .aero-modal-window {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
 }
 
-html.aero7-theme .aero-desktop-surface {
-  position: relative;
-  min-height: 100%;
-  padding: 0.5rem;
-}
-
-/* 浮动窗口：绝对定位，可拖拽标题栏、可缩放 */
-html.aero7-theme .aero-desktop-window {
-  position: absolute;
-  touch-action: none;
-  z-index: 10;
-  user-select: none;
-  max-width: 100vw;
-}
-
-html.aero7-theme .aero-desktop-window-active {
-  z-index: 50;
-}
-
-html.aero7-theme .aero-desktop-window .window-body {
-  overflow: auto;
-}
-
-/* resize 手柄 */
-html.aero7-theme .aero-resize-handle {
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  width: 16px;
-  height: 16px;
-  cursor: se-resize;
+/* 文章内容页返回按钮（在 Navbar 里） */
+html.aero7-theme .aero-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: calc(var(--aero-taskbar-height) - 12px);
+  padding: 0 0.9rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
   background: linear-gradient(
-    135deg,
-    transparent 50%,
-    rgba(255, 255, 255, 0.75) 50%
+    to bottom,
+    rgba(255, 255, 255, 0.42),
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.05) 100%
   );
-  border-bottom-right-radius: 3px;
-  z-index: 5;
-  opacity: 0.8;
-  transition: opacity 0.15s;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom-color: rgba(20, 50, 90, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 2px rgba(0, 30, 60, 0.25);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0, 30, 60, 0.5);
+  cursor: pointer;
+}
+html.aero7-theme .aero-back-button:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
 }
 
-html.aero7-theme .aero-resize-handle:hover {
-  opacity: 1;
-}
-
-/* 桌面 footer */
-html.aero7-theme .aero-desktop-footer {
-  position: relative;
-  padding: 0.75rem;
-}
-
-/* 小屏降级：浮动窗口恢复为正常流式布局，不可拖拽/缩放 */
-@media (max-width: 767px) {
-  :root {
-    --aero-taskbar-height: 42px;
+/* =========== Responsive：小屏降级 =========== */
+@media (max-width: 880px) {
+  html.aero7-theme .aero-desktop-content {
+    grid-template-columns: 1fr;
   }
-
-  html.aero7-theme .aero-desktop {
-    overflow: visible;
+  /* 桌面区在窄屏退化为单列流式布局 */
+  html.aero7-theme .aero-desktop-main {
+    grid-template-columns: 1fr;
   }
-
-  html.aero7-theme .aero-desktop-surface {
-    min-height: auto;
-    padding: 0.75rem;
-  }
-
-  html.aero7-theme .aero-desktop-window {
+  html.aero7-theme .aero-desktop-window-floating {
+    /* 窄屏拖动后不切 absolute，保持 grid 流 */
     position: relative !important;
     left: auto !important;
     top: auto !important;
     width: auto !important;
     height: auto !important;
-    margin-bottom: 1rem;
-    z-index: auto;
-    touch-action: auto;
   }
-
   html.aero7-theme .aero-resize-handle {
     display: none;
   }
-
-  html.aero7-theme .aero-taskbar-buttons {
-    justify-content: flex-start;
-  }
-
-  html.aero7-theme .aero-taskbar-btn-label {
-    display: none;
-  }
-
   html.aero7-theme .aero-taskbar-tagline {
     display: none;
   }
-
-  html.aero7-theme .aero-taskbar-avatar {
-    width: 30px;
-    height: 30px;
+  html.aero7-theme .aero-taskbar-title {
+    max-width: 6rem;
   }
 }
 
-html.aero7-theme .window.glass {
-  background: rgba(228, 240, 250, 0.34);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-}
-.dark html.aero7-theme .window.glass {
-  background: rgba(18, 38, 60, 0.42);
-}
-/* 正文区透明，露出 .window.glass 的磨砂壁纸 */
-html.aero7-theme .window.glass .window-body {
-  background: transparent;
-}
-/* 蓝色 Aero 框适当透一点，配合磨砂更像玻璃而非实色块 */
-html.aero7-theme .window.glass::before {
-  opacity: 0.45;
+@media (max-width: 480px) {
+  html.aero7-theme .aero-taskbar-btn-label {
+    display: none;
+  }
+  html.aero7-theme .aero-taskbar-buttons {
+    justify-content: flex-start;
+  }
 }

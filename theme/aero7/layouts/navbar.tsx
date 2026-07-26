@@ -1,5 +1,6 @@
-import { Link, useRouteContext } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate, useRouteContext } from "@tanstack/react-router";
 import {
+  ArrowLeft,
   FileText,
   Home,
   Link2,
@@ -12,7 +13,6 @@ import {
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { NavOption, UserInfo } from "@/features/theme/contract/layouts";
-import { m } from "@/paraglide/messages";
 import { LanguageSwitcher } from "./language-switcher";
 
 interface NavbarProps {
@@ -66,6 +66,9 @@ export function Navbar({
   isLoading,
 }: NavbarProps) {
   const { siteConfig } = useRouteContext({ from: "__root__" });
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isPostPage = location.pathname.startsWith("/post/");
 
   return (
     <div className="aero-taskbar">
@@ -86,6 +89,19 @@ export function Navbar({
         </div>
       </Link>
 
+      {/* 中间：文章页时显示返回按钮，否则显示任务栏按钮 */}
+      {isPostPage ? (
+        <button
+          type="button"
+          onClick={() => navigate({ to: "/" })}
+          className="aero-back-button"
+          aria-label="Back to home"
+        >
+          <ArrowLeft size={16} strokeWidth={2} />
+          <span>Back to Home</span>
+        </button>
+      ) : null}
+
       {/* 中间：任务栏按钮（像 Win7 任务栏上的任务图标） */}
       <nav className="aero-taskbar-buttons">
         {navOptions.map((option) => {
@@ -95,9 +111,11 @@ export function Navbar({
               key={option.id}
               to={option.to}
               className="aero-taskbar-btn"
-              activeProps={{ className: "aero-taskbar-btn aero-taskbar-btn-active" }}
+              activeProps={{
+                className: "aero-taskbar-btn aero-taskbar-btn-active",
+              }}
             >
-              <Icon size={18} strokeWidth={1.5} className="aero-taskbar-btn-icon" />
+              <Icon size={16} strokeWidth={1.5} className="aero-taskbar-btn-icon" />
               <span className="aero-taskbar-btn-label">{option.label}</span>
             </Link>
           );
@@ -109,13 +127,13 @@ export function Navbar({
         <Link
           to="/search"
           className="aero-taskbar-btn aero-taskbar-btn-icon-only"
-          aria-label={m.nav_search()}
+          aria-label="Search"
         >
-          <Search size={18} strokeWidth={1.5} />
+          <Search size={16} strokeWidth={1.5} />
         </Link>
 
-        <ThemeToggle className="aero-taskbar-btn aero-taskbar-btn-icon-only p-0! [&_svg]:w-4.5! [&_svg]:h-4.5! [&_div]:w-auto! [&_div]:h-auto!" />
-        <LanguageSwitcher className="aero-taskbar-btn aero-taskbar-btn-icon-only p-0!" />
+        <ThemeToggle className="aero-taskbar-btn aero-taskbar-btn-icon-only [&_svg]:w-4 [&_svg]:h-4" />
+        <LanguageSwitcher className="aero-taskbar-btn aero-taskbar-btn-icon-only" />
 
         <div className="hidden md:flex items-center">
           {isLoading ? (
@@ -124,24 +142,25 @@ export function Navbar({
             <Link
               to="/profile"
               className="aero-taskbar-btn aero-taskbar-btn-icon-only"
+              aria-label="Profile"
             >
               {user.image ? (
                 <img
                   src={user.image}
                   alt={user.name}
-                  className="w-7 h-7 rounded-full object-cover"
+                  className="w-6 h-6 rounded-full object-cover"
                 />
               ) : (
-                <UserIcon size={18} strokeWidth={1.5} />
+                <UserIcon size={16} strokeWidth={1.5} />
               )}
             </Link>
           ) : (
             <Link
               to="/login"
               className="aero-taskbar-btn aero-taskbar-btn-icon-only"
-              aria-label={m.nav_login()}
+              aria-label="Login"
             >
-              <UserIcon size={18} strokeWidth={1.5} />
+              <UserIcon size={16} strokeWidth={1.5} />
             </Link>
           )}
         </div>
@@ -149,10 +168,10 @@ export function Navbar({
         <button
           className="aero-taskbar-btn aero-taskbar-btn-icon-only md:hidden"
           onClick={onMenuClick}
-          aria-label={m.common_open_menu()}
+          aria-label="Open menu"
           type="button"
         >
-          <Menu size={18} strokeWidth={1.5} />
+          <Menu size={16} strokeWidth={1.5} />
         </button>
       </div>
     </div>
