@@ -79,7 +79,7 @@ export function PublicLayout({
 
       {/* Top row: Navbar - sticky（始终可见，仿窗口标题栏） */}
       <div className="sticky top-0 z-50 pointer-events-none">
-        <div className="pointer-events-auto max-w-(--fuwari-page-width) mx-auto px-3 md:px-4">
+        <div className="pointer-events-auto max-w-(--fuwari-page-width) mx-auto px-0 md:px-4">
           <Navbar
             navOptions={navOptions}
             onMenuClick={() => setIsMenuOpen(true)}
@@ -91,20 +91,20 @@ export function PublicLayout({
 
       {/* Main content（z-30 浮在背景层之上） */}
       <div
-        className="relative z-30 mx-auto px-3 md:px-4 pb-8 grid grid-cols-1 md:grid-cols-[12rem_1fr] lg:grid-cols-[16rem_1fr] gap-6"
+        className="relative z-30 mx-auto px-0 md:px-4 pb-8 grid grid-cols-1 lg:grid-cols-[17.5rem_1fr] gap-4"
         style={{ maxWidth: "var(--fuwari-page-width)" }}
       >
         {/* Sidebar Column (left on md+, below main on mobile) */}
-        <Sidebar className="order-2 md:order-1" />
+        <Sidebar className="order-2 lg:order-1" />
 
         {/* Main Content Column (right on md+, top on mobile) */}
-        <main className="order-1 md:order-2 flex flex-col gap-4 min-w-0">
+        <main className="order-1 lg:order-2 flex flex-col gap-4 min-w-0">
           {children}
         </main>
 
         {/* Footer Column (Desktop: below main, Mobile: below sidebar) */}
         <div
-          className="order-3 md:col-start-2 fuwari-onload-animation mt-auto"
+          className="order-3 lg:col-start-2 fuwari-onload-animation mt-auto"
           style={{ animationDelay: "250ms" }}
         >
           <Footer navOptions={navOptions} />
