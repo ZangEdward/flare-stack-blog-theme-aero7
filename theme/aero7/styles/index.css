@@ -103,7 +103,8 @@
     --aero-primary-hover: #5fb0ec;
     --aero-primary-active: #79c2f5;
     --aero-highlight: #bfe6ff;
-    --aero-glass: #1d2e3e;
+    /* 暗色玻璃基色：黑色系（所有 glass 效果 = 黑色半透明磨砂） */
+    --aero-glass: #14181e;
 
     --fuwari-primary: var(--aero-primary);
     --fuwari-primary-hover: var(--aero-primary-hover);
@@ -115,8 +116,9 @@
       #143a5e 65%,
       #1f5278 100%
     );
-    --fuwari-card-bg: rgba(20, 40, 60, 0.32);
-    --fuwari-card-bg-solid: rgba(20, 40, 60, 0.92);
+    /* 玻璃面板：黑色半透明磨砂（原为深蓝 rgba(20,40,60)） */
+    --fuwari-card-bg: rgba(8, 10, 14, 0.42);
+    --fuwari-card-bg-solid: rgba(12, 14, 18, 0.92);
     --fuwari-btn-content: #dff0ff;
     --fuwari-btn-regular-bg: rgba(255, 255, 255, 0.18);
     --fuwari-btn-regular-bg-hover: rgba(255, 255, 255, 0.3);
@@ -211,15 +213,25 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.35),
       inset 0 -1px 0 rgba(0, 0, 0, 0.08);
   }
+  /* 暗色：玻璃面板整体黑色磨砂（白描边减弱、蓝内发光换黑） */
+  .dark .fuwari-card-base {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow:
+      inset 0 0 22px rgba(0, 0, 0, 0.4),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 0 0 1px rgba(0, 0, 0, 0.55),
+      0 6px 22px rgba(0, 0, 0, 0.5);
+  }
   .dark .fuwari-card-base[data-title]::before {
+    /* 模块标题条：黑色半透明玻璃渐变（原为蓝色系） */
     background: linear-gradient(
       to bottom,
-      rgba(79, 139, 191, 0.48) 0%,
-      rgba(53, 108, 156, 0.48) 45%,
-      rgba(40, 90, 133, 0.48) 46%,
-      rgba(47, 100, 147, 0.5) 100%
+      rgba(70, 74, 82, 0.55) 0%,
+      rgba(34, 37, 43, 0.55) 45%,
+      rgba(16, 18, 23, 0.6) 46%,
+      rgba(24, 27, 33, 0.55) 100%
     );
-    border-bottom-color: rgba(10, 30, 55, 0.55);
+    border-bottom-color: rgba(0, 0, 0, 0.6);
   }
 
   /* Aero 玻璃按钮（常规） */
@@ -608,8 +620,8 @@ html.aero7-theme body {
   scrollbar-width: thin;
   scrollbar-color: #c8d4dc #f0f0f0;
 }
-.dark html.aero7-theme,
-.dark html.aero7-theme body {
+html.aero7-theme.dark,
+html.aero7-theme.dark body {
   scrollbar-color: #4a5f97 #1a2635;
 }
 
@@ -950,7 +962,7 @@ html.aero7-theme .title-bar .aero-tb-badge {
 html.aero7-theme .title-bar .aero-tb-badge-hot {
   color: #c8631e;
 }
-.dark html.aero7-theme .title-bar .aero-tb-badge {
+html.aero7-theme.dark .title-bar .aero-tb-badge {
   color: #eaf6ff;
 }
 
@@ -1009,6 +1021,24 @@ html.aero7-theme .aero-taskbar {
   text-shadow: 0 1px 1px rgba(0, 20, 40, 0.45);
   z-index: 50;
   user-select: none;
+}
+
+/* 暗色模式：任务栏同样改为黑色半透明磨砂玻璃（backdrop-filter 保留） */
+html.aero7-theme.dark .aero-taskbar {
+  background: linear-gradient(
+    to bottom,
+    rgba(70, 74, 80, 0.62) 0%,
+    rgba(38, 40, 46, 0.62) 6%,
+    rgba(18, 20, 26, 0.66) 50%,
+    rgba(10, 12, 16, 0.7) 90%,
+    rgba(5, 6, 10, 0.74) 100%
+  );
+  border-top-color: rgba(255, 255, 255, 0.28);
+  border-bottom-color: rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 -1px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* 圆球：Win7 "Start" Orb 风格（站点 logo/头像 + 站点名） */
@@ -1487,7 +1517,7 @@ html.aero7-theme .aero-menu-item-active {
   font-weight: 700;
 }
 
-.dark html.aero7-theme .aero-menu {
+html.aero7-theme.dark .aero-menu {
   background: linear-gradient(
     to bottom,
     rgba(34, 50, 70, 0.96) 0%,
@@ -1499,8 +1529,8 @@ html.aero7-theme .aero-menu-item-active {
     inset 0 1px 0 rgba(120, 180, 230, 0.25),
     0 4px 14px rgba(0, 0, 0, 0.5);
 }
-.dark html.aero7-theme .aero-menu-item:hover,
-.dark html.aero7-theme .aero-menu-item:focus {
+html.aero7-theme.dark .aero-menu-item:hover,
+html.aero7-theme.dark .aero-menu-item:focus {
   background: linear-gradient(
     to bottom,
     rgba(105, 175, 224, 0.85) 0%,
@@ -1508,7 +1538,7 @@ html.aero7-theme .aero-menu-item-active {
   );
   color: #ffffff;
 }
-.dark html.aero7-theme .aero-menu-item-active {
+html.aero7-theme.dark .aero-menu-item-active {
   background: rgba(120, 180, 230, 0.28);
   color: #bfe6ff;
 }
@@ -1544,6 +1574,54 @@ html.aero7-theme .window.glass .window-body {
    Aero 主题下让它更强地透出 wallpaper：opacity 从 0.5 降到 0.35。 */
 html.aero7-theme .window.glass::before {
   opacity: 0.35;
+}
+
+/* =========== 暗色模式：所有 glass 一律「黑色半透明磨砂」 ===========
+   学习 7.css 的 glass frame color 机制：--w7-w-bg 决定 .window::before 的
+   background-color（即玻璃框着色，官方示例 style="--w7-w-bg:#805ba5"，
+   见 https://khang-nd.github.io/7.css/#glass-frame-color）。
+   暗色下：
+   1. --w7-w-bg 改黑 → 玻璃框整体变黑；
+   2. 覆盖 ::before 的白色高光渐变为黑色半透明 + 轻微白色高光；
+   3. 标题栏的浅色 Aero 条纹（--w7-w-glass）换成黑色玻璃渐变；
+   4. backdrop-filter 磨砂保持不变（黑色半透明 + blur = 黑色磨砂玻璃）。 */
+html.aero7-theme.dark .window.glass {
+  --w7-w-bg: #0a0f16;
+  background: rgba(0, 0, 0, 0.3);
+}
+html.aero7-theme.dark .window.glass::before {
+  /* 7.css 原样式是白色横向高光带 + --w7-w-grad 白渐变；
+     暗色下换成黑色半透明底 + 收敛的白色高光带，保留 Aero 玻璃层次 */
+  background:
+    linear-gradient(
+      transparent 20%,
+      rgba(255, 255, 255, 0.1) 40%,
+      transparent 41%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0) 45%
+    );
+  background-color: rgba(0, 0, 0, 0.52);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  opacity: 1;
+}
+/* 标题栏：7.css glass 标题栏用 --w7-w-glass 浅色对角条纹
+   （background-attachment:fixed），暗色下换成黑色玻璃渐变 */
+html.aero7-theme.dark .window.glass > .title-bar {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(0, 0, 0, 0.22) 41%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+/* 窗体正文保持透明（透出黑玻璃），默认文字改浅色 */
+html.aero7-theme.dark .window.glass .window-body {
+  background: transparent;
+  color: #e8eef5;
 }
 
 /* =========== 文章页打开为窗口效果 =========== */
@@ -1701,8 +1779,8 @@ html.aero7-theme .aero-taskbar-orb-wrap > .aero-tooltip:before {
 }
 
 /* Tooltip 暗色模式 */
-.dark html.aero7-theme [role="tooltip"].aero-tooltip,
-.dark html.aero7-theme .aero-tooltip {
+html.aero7-theme.dark [role="tooltip"].aero-tooltip,
+html.aero7-theme.dark .aero-tooltip {
   background: linear-gradient(to bottom, #2a3a4e, #1a2635);
   color: #eaf6ff;
   border-color: rgba(255, 255, 255, 0.15);
