@@ -21,38 +21,46 @@ export function SearchPage({
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 pb-12">
-      {/* Header Area */}
+      {/* Header Area — Win7 地址栏风格搜索框 */}
       <div
-        className="fuwari-card-base p-6 md:p-8 flex items-center gap-4 fuwari-onload-animation"
-        data-title="搜索"
+        className="fuwari-card-base p-3 md:p-4 fuwari-onload-animation"
         style={{ animationDelay: "100ms" }}
       >
-        <button
-          onClick={onBack}
-          className="group flex items-center justify-center w-10 h-10 rounded-xl bg-(--fuwari-btn-regular-bg) text-(--fuwari-btn-content) hover:bg-(--fuwari-btn-regular-bg-hover) transition-colors shrink-0"
-          title={m.search_back()}
-        >
-          <ArrowLeft
-            size={18}
-            className="group-hover:-translate-x-0.5 transition-transform"
-          />
-        </button>
+        <div className="aero-search-bar">
+          <div className="relative flex-1">
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => onQueryChange(e.target.value)}
+              placeholder={m.search_placeholder()}
+              className="aero-search-input"
+            />
+            {isSearching && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <Loader2 className="w-4 h-4 animate-spin text-white/90" />
+              </div>
+            )}
+          </div>
 
-        <div className="relative flex-1 flex items-center">
-          <Search className="absolute left-4 w-5 h-5 fuwari-text-30 pointer-events-none" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder={m.search_placeholder()}
-            className="w-full pl-12 pr-12 py-3 rounded-xl border border-(--fuwari-input-border) bg-(--fuwari-input-bg) focus:outline-none focus:border-(--fuwari-primary)/50 focus:bg-(--fuwari-primary)/5 transition-all fuwari-text-90 text-lg md:text-xl placeholder:text-black/30 dark:placeholder:text-white/30"
-          />
-          {isSearching && (
-            <div className="absolute right-4 w-5 h-5 fuwari-text-50 pointer-events-none flex items-center justify-center">
-              <Loader2 className="w-4 h-4 animate-spin" />
-            </div>
-          )}
+          <div className="aero-search-controls">
+            <button
+              type="button"
+              onClick={onBack}
+              className="aero-search-control"
+              title={m.search_back()}
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <div className="w-px h-5 bg-white/40 dark:bg-white/20" />
+            <button
+              type="button"
+              className="aero-search-control"
+              aria-label={m.search_placeholder()}
+            >
+              <Search size={18} />
+            </button>
+          </div>
         </div>
       </div>
 

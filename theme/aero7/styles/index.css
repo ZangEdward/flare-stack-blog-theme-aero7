@@ -603,6 +603,86 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
   display: none;
 }
 
+/* ===== 搜索页搜索框（Win7 地址栏/Explorer 搜索栏风格）===== */
+.aero-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aero-search-input {
+  width: 100%;
+  padding: 0.5rem 0.875rem;
+  padding-right: 2.25rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: linear-gradient(
+    to bottom,
+    #6daedd 0%,
+    #4a93c7 45%,
+    #357ab0 46%,
+    #3c7fb1 100%
+  );
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(10, 30, 55, 0.25);
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+.aero-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+.aero-search-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 0 0 2px rgba(170, 221, 250, 0.45);
+}
+
+.aero-search-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  padding-left: 0.75rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.45);
+}
+.dark .aero-search-controls {
+  border-left-color: rgba(223, 240, 255, 0.35);
+}
+
+.aero-search-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid rgba(20, 58, 94, 0.35);
+  background-color: var(--fuwari-btn-regular-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--fuwari-btn-content);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 2px 6px rgba(10, 30, 55, 0.2);
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.aero-search-control:hover {
+  background-color: var(--fuwari-btn-regular-bg-hover);
+}
+.aero-search-control:active {
+  background-color: var(--fuwari-btn-regular-bg-active);
+}
+
 /* ===== 首页文章卡片标题栏（Win7 窗口标题栏风格）===== */
 .aero-card-titlebar {
   display: flex;
