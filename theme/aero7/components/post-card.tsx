@@ -57,14 +57,12 @@ export function PostCard({
             aria-label={m.home_popular_posts()}
           />
         )}
-        <Link
-          to="/post/$slug"
-          params={{ slug: post.slug }}
+        <span
           className="title-bar-text flex-1 min-w-0"
           title={post.title}
         >
           {post.title}
-        </Link>
+        </span>
           <div className="title-bar-controls">
             <button type="button" aria-label="Close" tabIndex={-1} />
           </div>
