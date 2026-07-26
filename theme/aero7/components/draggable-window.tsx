@@ -19,8 +19,9 @@ interface Position {
 
 interface DraggableWindowProps {
   children: ReactNode;
-  /** 在 grid 流式布局中的初始尺寸（仅在未拖动前生效） */
-  defaultSize?: { w: number; h: number };
+  /** 在 grid 流式布局中的初始尺寸（未拖动前生效）。
+   *  缺省 h 时，容器高度由内容自然撑开（侧栏不会拉伸成空的灰色条）。 */
+  defaultSize?: { w?: number; h?: number };
   className?: string;
   title?: string;
   minW?: number;

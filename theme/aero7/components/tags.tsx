@@ -1,14 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { tagsQueryOptions } from "@/features/tags/queries";
 import { m } from "@/paraglide/messages";
 
 export function TagsSkeleton() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -17,7 +15,7 @@ export function TagsSkeleton() {
           <button type="button" aria-label="Close" />
         </div>
       </div>
-      <div className="window-body has-space flex-1 overflow-hidden">
+      <div className="window-body has-space">
         <div className="flex flex-wrap gap-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-8 w-16 rounded-lg" />
@@ -28,24 +26,19 @@ export function TagsSkeleton() {
   );
 }
 
+/**
+ * 标签云窗口：
+ * - 高度由内容自然撑开（不固定 minHeight），避免侧栏网格拉伸造成底部留白；
+ * - 不再有丑陋的"灰色展开/收起"按钮——标签少量时窗口自然紧凑，
+ *   标签多时（>20）通过页面内滚动条自然处理。
+ */
 export function Tags() {
   const { data: tags } = useSuspenseQuery(tagsQueryOptions);
-
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showToggle, setShowToggle] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      // Check if content height exceeds max height (10rem / 160px)
-      setShowToggle(containerRef.current.scrollHeight > 160);
-    }
-  }, [tags]);
 
   if (tags.length === 0) return null;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -54,13 +47,8 @@ export function Tags() {
           <button type="button" aria-label="Close" />
         </div>
       </div>
-      <div className="window-body has-space flex-1 overflow-hidden">
-        <div
-          ref={containerRef}
-          className={`flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-            isExpanded || !showToggle ? "max-h-250" : "max-h-40"
-          }`}
-        >
+      <div className="window-body has-space">
+        <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <Link
               key={tag.id}
@@ -75,25 +63,6 @@ export function Tags() {
             </Link>
           ))}
         </div>
-
-        {showToggle && (
-          <div className="pt-3 flex justify-center">
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full py-2 flex items-center justify-center gap-1 text-sm fuwari-text-50 hover:text-(--fuwari-primary) transition-colors"
-            >
-              {isExpanded ? (
-                <>
-                  {m.tags_collapse()} <ChevronUp size={16} />
-                </>
-              ) : (
-                <>
-                  {m.tags_expand()} <ChevronDown size={16} />
-                </>
-              )}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -923,10 +923,20 @@ html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:end {
  *   2) 标题栏文字（链接）去掉默认下划线、字号加大到可读、长标题省略；
  *   3) 给 post-card 的 置顶/热门 徽标一点配色（不影响 7.css 原生外观）。 */
 
-/* 还原被全局 button{min-width:auto} 覆盖掉的标题栏控制按钮尺寸 */
+/* 还原被全局 button{min-width:auto} 覆盖掉的标题栏控制按钮尺寸
+   （这里只设下限 min-width: 29px，让 7.css 默认的 button[aria-label=Close]
+   min-width:48px 仍然胜出 — 见下方 close 按钮专门规则）。 */
 html.aero7-theme .title-bar-controls button {
   min-width: 29px;
   min-height: 19px;
+}
+
+/* 7.css 默认 .title-bar-controls button[aria-label=Close] min-width:48px
+   （比 Min/Max 的 29px 更宽，让 X 视觉更平衡）。
+   aero7 的全局 button 规则会把这条压成 29px — 这里 specificity
+   0,1,4 (含 attribute selector) > 0,1,3，重新让 Close 拿到 48px。 */
+html.aero7-theme .title-bar-controls button[aria-label="Close"] {
+  min-width: 48px;
 }
 
 /* 标题栏文字：去掉链接下划线；博客标题需可读，故略放大加粗并保持黑字+白光、长标题省略 */
@@ -1228,6 +1238,17 @@ html.aero7-theme .aero-desktop-sidebar {
   min-width: 0;
   position: relative;
   z-index: 5;
+  /* 关键：让侧栏内的 grid item 按内容高度排，不被拉伸到与最高卡片同高。
+     之前侧栏的 Tags 窗口被拉伸成 360px，即使内容只有 200px，
+     下方留出一段白条，看着像"灰色条"。 */
+  align-items: start;
+}
+
+html.aero7-theme .aero-sidebar-window {
+  width: 100% !important;
+  height: auto !important;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 主区（右列）：自适应的网格列 */
@@ -1473,6 +1494,10 @@ html.aero7-theme .aero-back-button:hover {
     rgba(255, 255, 255, 0.15) 100%
   );
 }
+
+/* =========== Tags 窗口：原生风格 ===========
+ * 之前用一个简陋的"灰色"按钮做"展开/收起" — 现已彻底删除，
+ * 标签自然紧凑排列，窗口高度由内容决定（侧栏不再有底部留白）。 */
 
 /* =========== Responsive：小屏降级 =========== */
 @media (max-width: 880px) {
