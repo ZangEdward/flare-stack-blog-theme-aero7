@@ -659,24 +659,52 @@ html.aero7-theme .aero-desktop::-webkit-scrollbar-track:horizontal,
 html.aero7-theme .window-body::-webkit-scrollbar-track:horizontal {
   background: var(--w7-sb-x, linear-gradient(to bottom, #e5e5e5, #f0f0f0 20%));
 }
+/* ===== Win7 圆角立体 thumb ===== 完全照搬 7.css 的样式
+ * 关键：border-radius:var(--w7-el-bdr) 让 thumb 是圆角矩形（用户截图样式）；
+ * 双层背景 = base64 PNG 圆角阴影图像 + 渐变（前半浅/后半深），呈立体感。
+ * 7.css 默认选择器是 .has-scrollbar，但我们的滚动容器没加这个类，
+ * 这里直接把同一组规则复制到 html / .aero-desktop / .window-body。 */
 html.aero7-theme::-webkit-scrollbar-thumb,
 html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb,
 html.aero7-theme .window-body::-webkit-scrollbar-thumb {
-  background-color: #f0f0f0;
+  background-color: var(--w7-el-bg, #f2f2f2);
+  border: 1px solid var(--w7-el-bd, #8e8f8f);
+  border-radius: var(--w7-el-bdr, 6px);
   box-shadow: var(--w7-el-sd, inset 0 0 0 1px #fffc);
-  border-radius: 0;
 }
-html.aero7-theme::-webkit-scrollbar-thumb:hover,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:hover,
-html.aero7-theme .window-body::-webkit-scrollbar-thumb:hover {
-  background-color: #f0f0f0;
-  box-shadow: inset 0 0 0 1px #fffc, 0 0 0 1px var(--w7-el-bd-h, #3c7fb1);
+html.aero7-theme::-webkit-scrollbar-thumb:vertical,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:vertical,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:vertical {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-el-bg, #f2f2f2) 45%, var(--w7-el-bg-s-1, #ebebeb) 45%, var(--w7-el-bg-s-2, #cfcfcf));
 }
-html.aero7-theme::-webkit-scrollbar-thumb:active,
-html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:active,
-html.aero7-theme .window-body::-webkit-scrollbar-thumb:active {
-  background-color: #f0f0f0;
-  box-shadow: inset 0 0 0 1px #fffc, 0 0 0 1px var(--w7-el-bd-a, #6d91ab);
+html.aero7-theme::-webkit-scrollbar-thumb:horizontal,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:horizontal,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:horizontal {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-el-bg, #f2f2f2) 45%, var(--w7-el-bg-s-1, #ebebeb) 45%, var(--w7-el-bg-s-2, #cfcfcf));
+}
+html.aero7-theme::-webkit-scrollbar-thumb:hover:vertical,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:hover:vertical,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:hover:vertical {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+html.aero7-theme::-webkit-scrollbar-thumb:hover:horizontal,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:hover:horizontal,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:hover:horizontal {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+html.aero7-theme::-webkit-scrollbar-thumb:active:vertical,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:active:vertical,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:active:vertical {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAKCAIAAADpZ+PpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADrSURBVChTTc5LboJQGAXguyoCu4ERCzAGlRk7UOwGWIDh0s4M4kxb06RSq/jAB6AxJkJ4lTDrue3AnvyzP+fLId+/yfM8juP7PQmCCOf7B3e+ZD+O40RRVFW12ZQUpd3r9U3T2m4OpKoqWZYNwzBZLEqfh0N7NnvfrPcEWlEUWZb9mWF4Ph6D0ylcLbfM5HkeJrhGA2hb15/QXnv+w7RYXsDatjOdvnmrHSnLEizMNE2v11eXwRCnn98kbquBUGQJAlmq9WB2e3qg4HJdqKkaRql1HGc0WgMcDJ5dd0F24kediZJ8t/ELT69H+8py0CYSIO5AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to right, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
+}
+html.aero7-theme::-webkit-scrollbar-thumb:active:horizontal,
+html.aero7-theme .aero-desktop::-webkit-scrollbar-thumb:active:horizontal,
+html.aero7-theme .window-body::-webkit-scrollbar-thumb:active:horizontal {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADcSURBVChTNZBLqoUwEEQrURQUxZGCvy24ACfiityJi7tv8GauQoPxk5tquA2RQ9vVVYk6z9NZaxFFEe77htYazrk8z4MwDIVZ+rourOuKaZrwvi+WZcE8z1BKCbPPCjk4DAO2bRP1OI7wLiL6Mbd7J408z1GWpQwWRYGqqiQG+03TgMu0MacfUN4qANmn8UOv9MjW3sKaSm7iIdOSlziOQ5LScd93aPonSYK6riVLlmVo21aYfVqzND9pmqLrOlGT+76XbcxLZkb19/l3fEP+oF0cx8KMEASBsDEGX2/CgZCHkg+8AAAAAElFTkSuQmCC") no-repeat 50%, linear-gradient(to bottom, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
 }
 html.aero7-theme::-webkit-scrollbar-button,
 html.aero7-theme .aero-desktop::-webkit-scrollbar-button,
