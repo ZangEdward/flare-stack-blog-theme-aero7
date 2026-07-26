@@ -53,7 +53,7 @@ export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col rounded-(--fuwari-radius-large) bg-(--fuwari-card-bg) py-1 md:py-0 md:bg-transparent md:gap-6">
+      <div className="flex flex-col gap-6">
         {mergedPosts.map(({ post, pinned, popular }, i) => (
           <div
             key={post.slug}
@@ -69,7 +69,6 @@ export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
               views={viewCounts?.[post.slug]}
               isLoadingViews={isPendingViewCounts}
             />
-            <div className="border-t border-dashed mx-6 border-black/10 dark:border-white/15 last:border-t-0 md:hidden" />
           </div>
         ))}
         <div
@@ -80,7 +79,7 @@ export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
         >
           <Link
             to="/posts"
-            className="fuwari-btn-regular mx-6 rounded-lg h-10 px-6 mt-4 flex items-center justify-center mb-4 md:mb-0 md:mx-auto"
+            className="fuwari-btn-regular mx-6 md:mx-auto rounded-lg h-10 px-6 flex items-center justify-center"
           >
             {m.home_view_all_posts()}
           </Link>

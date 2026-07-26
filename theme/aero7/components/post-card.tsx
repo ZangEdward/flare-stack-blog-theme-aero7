@@ -7,6 +7,7 @@ import {
   Flame,
   Pin,
   Tag,
+  X,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { PostItem } from "@/features/posts/schema/posts.schema";
@@ -31,124 +32,88 @@ export function PostCard({
   const tagNames = (post.tags ?? []).map((t) => t.name);
 
   return (
-    <div
+    <article
       className={`fuwari-card-base flex flex-col w-full rounded-(--fuwari-radius-large) overflow-hidden relative ${
-        pinned ? "border-2 border-(--fuwari-primary)/20 shadow-sm" : ""
+        pinned ? "ring-2 ring-(--fuwari-primary)/25" : ""
       }`}
-      data-title={post.title}
     >
-      {pinned && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-(--fuwari-primary) opacity-5 rounded-bl-[100px] -z-10 pointer-events-none" />
-      )}
-
-      <div className="px-6 md:px-9 pt-4 md:pt-5 pb-5 relative w-full">
-        {/* Badge */}
-        {(pinned || popular) && (
-          <div className="flex items-center gap-1.5 font-medium text-sm mb-3">
-            {pinned ? (
-              <>
-                <Pin
-                  size={16}
-                  className="fill-current text-(--fuwari-primary)"
-                />
-                <span className="text-(--fuwari-primary)">
-                  {m.home_pinned_posts()}
-                </span>
-              </>
-            ) : (
-              <>
-                <Flame size={16} className="text-orange-500" />
-                <span className="text-orange-500">
-                  {m.home_popular_posts()}
-                </span>
-              </>
-            )}
-          </div>
-        )}
-
+      {/* Win7 风格标题栏：标题在左，右侧为置顶/热门标记 + 装饰关闭按钮 */}
+      <div className="aero-card-titlebar">
         <Link
           to="/post/$slug"
           params={{ slug: post.slug }}
-          className="transition group w-full block font-bold mb-3 text-3xl fuwari-text-90 hover:text-(--fuwari-primary) active:text-(--fuwari-primary) relative before:w-1 before:h-5 before:rounded-md before:absolute before:-left-5 before:top-1/2 before:-translate-y-1/2 before:hidden md:before:block before:bg-(--fuwari-primary)"
+          className="aero-card-title"
+          title={post.title}
         >
           {post.title}
-          {
-            <>
-              <ChevronRight className="inline-block md:hidden text-[2rem] text-(--fuwari-primary) align-middle -mt-1 ml-1" />
-              <ChevronRight className="text-(--fuwari-primary) text-[2rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0" />
-            </>
-          }
         </Link>
 
-        {/* Metadata */}
-        <div className="flex flex-wrap fuwari-text-50 items-center gap-4 gap-x-4 gap-y-2 mb-4">
-          <div className="flex items-center">
-            <div className="fuwari-meta-icon">
-              <Calendar size={20} strokeWidth={1.5} />
-            </div>
-            <time
-              dateTime={post.publishedAt?.toISOString()}
-              className="text-sm font-medium"
-            >
-              <ClientOnly fallback="-">
-                {formatDate(post.publishedAt)}
-              </ClientOnly>
-            </time>
-          </div>
-          {tagNames.length > 0 && (
-            <div className="flex items-center">
-              <div className="fuwari-meta-icon">
-                <Tag size={20} strokeWidth={1.5} />
-              </div>
-              <div className="flex flex-row flex-wrap items-center gap-x-1.5">
-                {tagNames.map((name, i) => (
-                  <span key={name} className="flex items-center">
-                    {i > 0 && (
-                      <span className="mx-1.5 text-(--fuwari-meta-divider) text-sm">
-                        /
-                      </span>
-                    )}
-                    <Link
-                      to="/posts"
-                      search={{ tagName: name }}
-                      className="fuwari-expand-animation rounded-md px-1.5 py-1 -m-1.5 text-sm font-medium hover:text-(--fuwari-primary)"
-                    >
-                      {name}
-                    </Link>
-                  </span>
-                ))}
-              </div>
-            </div>
+        <div className="aero-card-controls">
+          {pinned && (
+            <Pin
+              size={13}
+              className="fill-current opacity-90"
+              aria-label={m.home_pinned_posts()}
+            />
           )}
+          {!pinned && popular && (
+            <Flame
+              size={13}
+              className="text-orange-300"
+              aria-label={m.home_popular_posts()}
+            />
+          )}
+          <button
+            type="button"
+            className="aero-card-control"
+            aria-hidden="true"
+            tabIndex={-1}
+          >
+            <X size={12} strokeWidth={2.5} />
+          </button>
         </div>
+      </div>
 
-        {/* Description */}
-        <div
-          className={`fuwari-text-75 pr-4 wrap-break-word ${
-            pinned
-              ? "mb-4 line-clamp-3 md:line-clamp-2 text-lg leading-relaxed"
-              : "mb-3.5 line-clamp-2 md:line-clamp-1"
-          }`}
-        >
+      {/* 正文区 */}
+      <div className="p-5 md:p-6 flex flex-col gap-4">
+        {/* 摘要 */}
+        <div className="fuwari-text-75 text-lg leading-relaxed line-clamp-4 md:line-clamp-3 wrap-break-word">
           {post.summary ?? ""}
         </div>
 
-        {/* Read time, Views and Read More */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="text-sm fuwari-text-50 flex items-center gap-4 [&_svg]:shrink-0">
-            <span className="inline-flex items-center gap-1.5">
-              <Clock size={14} />
+        {/* 底部：元信息左，阅读详情右 */}
+        <div className="flex items-end justify-between gap-4 mt-auto">
+          <div className="text-xs fuwari-text-50 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            <span className="inline-flex items-center gap-1">
+              <Calendar size={12} strokeWidth={1.5} />
+              <time dateTime={post.publishedAt?.toISOString()}>
+                <ClientOnly fallback="-">
+                  {formatDate(post.publishedAt)}
+                </ClientOnly>
+              </time>
+            </span>
+
+            {tagNames.length > 0 && (
+              <span className="inline-flex items-center gap-1">
+                <Tag size={12} strokeWidth={1.5} />
+                {tagNames.join(" / ")}
+              </span>
+            )}
+
+            <span className="inline-flex items-center gap-1">
+              <Clock size={12} />
               {m.read_time({ count: post.readTimeInMinutes })}
             </span>
+
             {isLoadingViews ? (
-              <span className="inline-flex items-center gap-1.5">
-                <Eye size={15} />
-                <Skeleton className="h-3.5 w-8 rounded bg-black/10 dark:bg-white/10" />
+              <span className="inline-flex items-center gap-1">
+                <Eye size={12} />
+                <Skeleton className="h-3 w-6 rounded bg-black/10 dark:bg-white/10" />
               </span>
             ) : (
               views !== undefined && (
-                <span className="inline-flex items-center gap-1.5">
-                  <Eye size={15} />
+                <span className="inline-flex items-center gap-1">
+                  <Eye size={12} />
                   {views.toLocaleString()}
                 </span>
               )
@@ -158,13 +123,13 @@ export function PostCard({
           <Link
             to="/post/$slug"
             params={{ slug: post.slug }}
-            className="fuwari-btn-primary px-4 py-2 text-sm rounded-lg active:scale-95 shrink-0"
+            className="fuwari-btn-primary px-4 py-2 text-sm rounded-lg active:scale-95 shrink-0 inline-flex items-center"
           >
             {m.post_read_more()}
             <ChevronRight size={16} className="ml-1" />
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

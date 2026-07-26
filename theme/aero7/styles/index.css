@@ -603,6 +603,90 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
   display: none;
 }
 
+/* ===== 首页文章卡片标题栏（Win7 窗口标题栏风格）===== */
+.aero-card-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex: none;
+  height: 32px;
+  margin: -1px -1px 0 -1px;
+  padding: 0 8px 0 14px;
+  width: calc(100% + 2px);
+  box-sizing: border-box;
+  background: linear-gradient(
+    to bottom,
+    #6daedd 0%,
+    #4a93c7 45%,
+    #357ab0 46%,
+    #3c7fb1 100%
+  );
+  color: #ffffff;
+  border-bottom: 1px solid rgba(20, 58, 94, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+}
+.dark .aero-card-titlebar {
+  background: linear-gradient(
+    to bottom,
+    #4f8bbf 0%,
+    #356c9c 45%,
+    #285a85 46%,
+    #2f6493 100%
+  );
+  border-bottom-color: rgba(10, 30, 55, 0.55);
+}
+
+.aero-card-title {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #ffffff;
+  font:
+    bold 13px/1 "Segoe UI",
+    Tahoma,
+    sans-serif;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+}
+.aero-card-title:hover {
+  text-decoration: underline;
+}
+
+.aero-card-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+/* 标题栏右侧装饰按钮（仅视觉，不交互） */
+.aero-card-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  cursor: default;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(10, 30, 55, 0.25);
+  transition: background-color 0.15s;
+}
+.aero-card-control:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
 /* ===== 响应式页面宽度：宽屏自动加宽，长屏(竖屏)用满宽 =====
  * 基础值 75rem 见上方 :root（位于 @layer base）。
  * 以下媒体查询放在 layer 之外（非 layered），优先级高于 layered 的 :root，
