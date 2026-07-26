@@ -1297,14 +1297,19 @@ html.aero7-theme .aero-desktop {
 /* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
    窗口的 backdrop-filter 才能稳定模糊到壁纸，而不是透明层后面的白色。
    叠加 body 渐变作为兜底色：即使壁纸因比例问题在某方向留白（cover 不一定
-   完全填满），也能露出浅蓝色渐变而不是默认白色。 */
+   完全填满），也能露出浅蓝色渐变而不是默认白色。
+   background-attachment: fixed 让壁纸固定在视口，桌面区滚动时壁纸不动，
+   不会因为内容区滚动而在底部露出"白方块"（fallback 渐变）。 */
 html.aero7-theme .aero-desktop.has-wallpaper {
   background:
-    var(--aero-wallpaper) top / cover no-repeat,
+    var(--aero-wallpaper) center / cover no-repeat fixed,
     var(--fuwari-page-bg);
 }
 
-/* 桌面容器：左列侧栏 + 右列主区 */
+/* 桌面容器：左列侧栏 + 右列主区
+   ⚠️ 不要给本容器加 position+z-index 创建新的 stacking context，否则
+   post-card 的 backdrop-filter 会被这里的 stacking context 隔断，
+   看不到 .aero-desktop 的 wallpaper，整窗失去毛玻璃效果。 */
 html.aero7-theme .aero-desktop-content {
   display: grid;
   grid-template-columns: minmax(240px, 280px) 1fr;
@@ -1312,22 +1317,16 @@ html.aero7-theme .aero-desktop-content {
   padding: 1rem;
   min-height: 100%;
   box-sizing: border-box;
-  position: relative;
-  z-index: 1;
   width: 100%;
 }
 
-/* 侧栏（左列） */
+/* 侧栏（左列）
+   ⚠️ 同 aero-desktop-content，不要加 position+z-index 创建 stacking context。 */
 html.aero7-theme .aero-desktop-sidebar {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   min-width: 0;
-  position: relative;
-  z-index: 5;
-  /* 关键：让侧栏内的 grid item 按内容高度排，不被拉伸到与最高卡片同高。
-     之前侧栏的 Tags 窗口被拉伸成 360px，即使内容只有 200px，
-     下方留出一段白条，看着像"灰色条"。 */
   align-items: start;
 }
 
@@ -1484,22 +1483,22 @@ html.aero7-theme .title-bar-controls button {
 }
 
 /* =========== Win7 玻璃：全部 .window.glass 整窗磨砂 ===========
-   透明度更低 + 模糊强度更大，整窗"漂浮"感更强，
-   背后内容真正被模糊到看不清原图细节。 */
+   background 设为 transparent 让 backdrop-filter 直接采样到背后的
+   .aero-desktop wallpaper 层（避免被自身 0.18 半透白阻挡）。视觉上的
+   浅色玻璃底由 7.css 的 .window::before 提供，再加 opacity 让它半透。 */
 html.aero7-theme .window.glass {
-  background: rgba(228, 240, 250, 0.18);
+  background: transparent;
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
   border-radius: 7px;
 }
-.dark html.aero7-theme .window.glass {
-  background: rgba(18, 38, 60, 0.22);
-}
 html.aero7-theme .window.glass .window-body {
   background: transparent;
 }
+/* 7.css 的 .window::before 默认是白色 + 渐变背景层，给窗口提供视觉底色。
+   Aero 主题下让它更强地透出 wallpaper：opacity 从 0.5 降到 0.35。 */
 html.aero7-theme .window.glass::before {
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 /* =========== 文章页打开为窗口效果 =========== */
