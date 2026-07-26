@@ -8,7 +8,7 @@ import { m } from "@/paraglide/messages";
 
 export function TagsSkeleton() {
   return (
-    <div className="window glass">
+    <div className="window glass active">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -45,7 +45,7 @@ export function Tags() {
   if (tags.length === 0) return null;
 
   return (
-    <div className="window glass transition-all duration-300" data-title={m.tags_title()}>
+    <div className="window glass active">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">

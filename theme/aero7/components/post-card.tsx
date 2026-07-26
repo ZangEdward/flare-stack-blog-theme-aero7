@@ -32,7 +32,7 @@ export function PostCard({
 
   return (
     <article
-      className={`window glass flex flex-col w-full relative ${
+      className={`window glass active flex flex-col w-full relative ${
         pinned ? "ring-2 ring-(--fuwari-primary)/30" : ""
       }`}
     >
@@ -55,7 +55,7 @@ export function PostCard({
         <Link
           to="/post/$slug"
           params={{ slug: post.slug }}
-          className="title-bar-text"
+          className="title-bar-text flex-1 min-w-0"
           title={post.title}
         >
           {post.title}

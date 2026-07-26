@@ -9,7 +9,7 @@ export function Profile() {
   const { siteConfig } = useRouteContext({ from: "__root__" });
 
   return (
-    <div className="window glass">
+    <div className="window glass active">
       <div className="title-bar">
         <div className="title-bar-text">{siteConfig.author}</div>
         <div className="title-bar-controls">

@@ -23,7 +23,7 @@ export function SearchPage({
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 pb-12">
       {/* Header Area — 7.css 原生 .window.glass 窗口 + 标题栏 */}
       <div
-        className="window glass fuwari-onload-animation"
+        className="window glass active fuwari-onload-animation"
         style={{ animationDelay: "100ms" }}
       >
         <div className="title-bar">
