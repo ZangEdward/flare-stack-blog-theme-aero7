@@ -1,9 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useViewCounts } from "@/features/pageview/queries";
 import type { PostItem } from "@/features/posts/schema/posts.schema";
 import type { HomePageProps } from "@/features/theme/contract/pages";
-import { m } from "@/paraglide/messages";
 import { DraggableWindow } from "../../components/draggable-window";
 import { PostCard } from "../../components/post-card";
 
@@ -78,12 +76,6 @@ export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
           />
         </DraggableWindow>
       ))}
-      <Link
-        to="/posts"
-        className="fuwari-btn-regular mx-6 md:mx-auto rounded-lg h-10 px-6 flex items-center justify-center"
-      >
-        {m.home_view_all_posts()}
-      </Link>
     </div>
   );
 }
