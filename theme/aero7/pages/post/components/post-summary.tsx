@@ -17,10 +17,10 @@ export function PostSummary({ summary }: PostSummaryProps) {
         <Quote className="w-4 h-4 md:w-4.5 md:h-4.5" />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="text-[11px] md:text-xs font-bold text-(--fuwari-primary) flex items-center mb-1 md:mb-1.5 uppercase tracking-[0.2em] opacity-80">
+        <h3 className="text-[11px] md:text-xs font-bold text-(--fuwari-primary) flex items-center mb-1 md:mb-1.5 uppercase tracking-[0.2em] opacity-100">
           {m.post_summary_title()}
         </h3>
-        <p className="text-sm md:text-[15px] leading-relaxed fuwari-text-70 font-medium">
+        <p className="text-sm md:text-[15px] leading-relaxed fuwari-text-75 font-medium">
           {summary}
         </p>
       </div>
