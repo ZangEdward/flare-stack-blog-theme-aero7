@@ -2,6 +2,7 @@ import { useRouteContext } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
+import { Sidebar } from "../components/sidebar";
 import { Footer } from "./footer";
 import { MobileMenu } from "./mobile-menu";
 import { Navbar } from "./navbar";
@@ -16,11 +17,8 @@ export function PublicLayout({
   const { siteConfig } = useRouteContext({ from: "__root__" });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // aero7 使用自己的 homeBg；未设置则兜底到主题默认壁纸
-  const aero7Bg =
-    siteConfig.theme.aero7?.homeBg || "/images/aero-wallpaper.jpg";
-
-  // 给 <html> 打上 aero7-theme 标记，使 aero7 的全局样式（滚动条/选区/字体/背景）
+  // 让 7.css 的 Win7 滚动条样式作用于整个文档。
+  // 同时给 <html> 打上 aero7-theme 标记，使 aero7 的全局样式（滚动条/选区）
   // 仅作用于公共博客页，不污染后台/设置界面（后台用 default 主题）。
   useEffect(() => {
     const root = document.documentElement;
@@ -32,8 +30,11 @@ export function PublicLayout({
     };
   }, []);
 
+  // aero7 使用自己的 homeBg；未设置则兜底到主题默认壁纸
+  const aero7Bg = siteConfig.theme.aero7?.homeBg || "/images/aero-wallpaper.jpg";
+
   return (
-    <div className="aero7-theme relative min-h-screen flex flex-col">
+    <div className="aero7-theme relative min-h-screen">
       {/* 壁纸背景层：固定覆盖、居中、无过度遮罩，让壁纸正常显示 */}
       <div
         aria-hidden="true"
@@ -66,17 +67,29 @@ export function PublicLayout({
         </div>
       </div>
 
-      {/* Main content：与原版 flare-stack-blog 一致的居中窄布局 */}
-      <main className="relative z-30 flex-1 w-full max-w-(--fuwari-page-width) mx-auto px-6 md:px-0 py-8 md:py-12">
-        {children}
-      </main>
+      {/* Main content（z-30 浮在背景层之上） */}
+      <div
+        className="relative z-30 mx-auto px-0 md:px-4 pb-8 grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-6"
+        style={{ maxWidth: "var(--fuwari-page-width)" }}
+      >
+        {/* Sidebar Column */}
+        <Sidebar className="order-2 lg:order-1" />
 
-      {/* Footer */}
-      <div className="relative z-30 w-full max-w-(--fuwari-page-width) mx-auto px-6 md:px-0 pb-8">
-        <Footer navOptions={navOptions} />
+        {/* Main Content Column */}
+        <main className="order-1 lg:order-2 flex flex-col gap-4 min-w-0">
+          {children}
+        </main>
+
+        {/* Footer Column (Desktop: below main, Mobile: below sidebar) */}
+        <div
+          className="order-3 lg:col-start-2 fuwari-onload-animation mt-auto"
+          style={{ animationDelay: "250ms" }}
+        >
+          <Footer navOptions={navOptions} />
+        </div>
+
+        <BackToTop />
       </div>
-
-      <BackToTop />
     </div>
   );
 }

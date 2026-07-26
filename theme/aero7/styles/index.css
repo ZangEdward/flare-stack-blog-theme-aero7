@@ -35,9 +35,8 @@
     --fuwari-radius-large: 10px;
     --fuwari-content-delay: 150ms;
     --fuwari-hue: 215;
-    /* 与原版 flare-stack-blog 一致的居中内容宽度（max-w-3xl） */
-    --fuwari-page-width: 48rem;
-    --fuwari-toc-width: 15rem;
+    --fuwari-page-width: 75rem;
+    --fuwari-toc-width: min(calc((100vw - var(--fuwari-page-width)) / 2 - 1rem), 18rem);
 
     /* ===== Frutiger Aero 调色板 ===== */
     /* 主色：经典 Aero 蓝（hexo-theme-aero: #3c7fb1） */

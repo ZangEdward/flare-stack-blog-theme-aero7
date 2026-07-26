@@ -17,21 +17,20 @@ export function PostPage({ post }: PostPageProps) {
   const wordCount = post.readTimeInMinutes * 300;
 
   return (
-    <div className="flex flex-col gap-4 mb-4 w-full">
-      {/* 文章卡片 + 悬浮 TOC 包裹层（与原版 flare-stack-blog 一致：TOC 在 xl 起浮于右侧并随正文吸顶） */}
-      <div className="relative">
-        {/* Table Of Contents (Desktop Floating Right) */}
-        <div
-          className="hidden xl:block absolute top-0 left-full h-full pl-4 ml-12"
-          style={{ width: "var(--fuwari-toc-width)" }}
-        >
-          <div className="sticky top-32">
-            <TableOfContents headers={post.toc} />
-          </div>
-        </div>
+    <div className="relative flex flex-col rounded-(--fuwari-radius-large) py-1 md:py-0 md:bg-transparent gap-4 mb-4 w-full">
+      {/* Table Of Contents (Desktop Floating Right) */}
+      <div
+        className="hidden 2xl:block absolute top-0 h-full pl-4"
+        style={{
+          right: "calc(var(--fuwari-toc-width) * -1)",
+          width: "var(--fuwari-toc-width)",
+        }}
+      >
+        <TableOfContents headers={post.toc} />
+      </div>
 
-        {/* Main Post Container */}
-        <div className="fuwari-card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full fuwari-onload-animation">
+      {/* Main Post Container */}
+      <div className="fuwari-card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full fuwari-onload-animation">
         {/* Word count and reading time */}
         <div className="flex flex-row flex-wrap fuwari-text-30 gap-5 mb-3 transition">
           <div className="flex flex-row items-center">
@@ -91,15 +90,14 @@ export function PostPage({ post }: PostPageProps) {
           <ContentRenderer content={post.contentJson} />
         </div>
 
-      {/* End of Content Notice */}
-      <div className="my-8 flex items-center justify-center w-full">
-        <div className="h-px w-full bg-linear-to-r from-transparent via-(--fuwari-meta-divider) to-transparent opacity-20" />
-        <span className="mx-4 text-sm font-mono tracking-widest text-(--fuwari-meta-divider) opacity-50 whitespace-nowrap">
-          END
-        </span>
-        <div className="h-px w-full bg-linear-to-r from-(--fuwari-meta-divider) via-transparent to-transparent opacity-20" />
-      </div>
-    </div>
+        {/* End of Content Notice */}
+        <div className="my-8 flex items-center justify-center w-full">
+          <div className="h-px w-full bg-linear-to-r from-transparent via-(--fuwari-meta-divider) to-transparent opacity-20" />
+          <span className="mx-4 text-sm font-mono tracking-widest text-(--fuwari-meta-divider) opacity-50 whitespace-nowrap">
+            END
+          </span>
+          <div className="h-px w-full bg-linear-to-r from-(--fuwari-meta-divider) via-transparent to-transparent opacity-20" />
+        </div>
       </div>
 
       {/* Prev/Next buttons (Mock implementation for layout, actual data would come from the server in an ideal setup) */}
