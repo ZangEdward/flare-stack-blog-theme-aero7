@@ -775,17 +775,17 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
  * 侧栏固定 16rem 不变，正文列(1fr)随页面宽度增长。 */
 @media (min-width: 1536px) {
   :root {
-    --fuwari-page-width: min(94vw, 84rem);
+    --fuwari-page-width: min(94vw, 90rem);
   }
 }
 @media (min-width: 1920px) {
   :root {
-    --fuwari-page-width: min(92vw, 96rem);
+    --fuwari-page-width: min(94vw, 108rem);
   }
 }
 @media (min-width: 2560px) {
   :root {
-    --fuwari-page-width: min(90vw, 108rem);
+    --fuwari-page-width: min(92vw, 120rem);
   }
 }
 
