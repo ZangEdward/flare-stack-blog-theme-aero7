@@ -1285,18 +1285,6 @@ html.aero7-theme .aero-tag-pill-count {
 
 /* =========== 桌面区域 =========== */
 
-/* 独立壁纸层：固定全屏、在内容底层（z-index:-1），所有窗口的 backdrop-filter
-   都能直接采样到它。不再用 CSS background 变量 + multi-layer 方式（容易因合成层
-   隔离或变量插值导致 backdrop-filter 失效）。 */
-html.aero7-theme .aero-wallpaper-layer {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
 html.aero7-theme .aero-desktop {
   flex: 1 1 auto;
   min-height: 0;
@@ -1304,6 +1292,26 @@ html.aero7-theme .aero-desktop {
   position: relative;
   background: var(--fuwari-page-bg);
   width: 100%;
+}
+
+/* 壁纸层：在 .aero-desktop 内用 ::before 伪元素 absolute 绝对定位，
+   不脱离滚动容器（与 .aero-desktop 同 stacking context）。
+   - 用 absolute 而非 fixed：fixed 会创建独立合成层，导致 backdrop-filter 无法采样。
+   - z-index: -1 在父容器 stacking context 内最低（父容器是 .aero-desktop，position: relative
+     不创建 stacking context 当 z-index: auto，所以 ::before 在 root 级最低）。
+   - backdrop-filter 在 .window.glass / .fuwari-card-base 上都能稳定采样到本层图片。 */
+html.aero7-theme .aero-desktop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html.aero7-theme .aero-desktop.has-wallpaper::before {
+  background-image: var(--aero-wallpaper);
 }
 
 /* 桌面容器：左列侧栏 + 右列主区

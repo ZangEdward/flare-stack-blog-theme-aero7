@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import { cn } from "@/lib/utils";
 import { useRouteContext } from "@tanstack/react-router";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
@@ -79,7 +79,14 @@ export function PublicLayout({
       />
 
       {/* 桌面区 */}
-      <div className="aero-desktop">
+      <div
+        className={cn("aero-desktop", bgUrl && "has-wallpaper")}
+        style={
+          bgUrl
+            ? ({ "--aero-wallpaper": `url("${bgUrl}")` } as React.CSSProperties)
+            : undefined
+        }
+      >
         <div className="aero-desktop-content">
           <aside className="aero-desktop-sidebar">
             <Sidebar />
@@ -89,19 +96,6 @@ export function PublicLayout({
       </div>
 
       <BackToTop />
-
-      {/* 独立壁纸层：用 createPortal 渲染到 document.body 直接子级，
-         避免被父容器的 stacking context 或 overflow 遮挡。
-         z-index: -1 在 body 内最低，但仍 > body 自己的背景。 */}
-      {bgUrl &&
-        typeof document !== "undefined" &&
-        createPortal(
-          <div
-            className="aero-wallpaper-layer"
-            style={{ backgroundImage: `url("${bgUrl}")` }}
-          />,
-          document.body,
-        )}
     </div>
   );
 }
