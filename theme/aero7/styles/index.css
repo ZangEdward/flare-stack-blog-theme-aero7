@@ -60,8 +60,8 @@
       #d4e6f4 100%
     );
 
-    /* 玻璃面板表面（半透明，叠在壁纸上；参考 hexo-theme-aero 用更实的白玻璃） */
-    --fuwari-card-bg: rgba(242, 246, 248, 0.78);
+    /* 玻璃面板表面（半透明，叠在壁纸上；玻璃感更强，alpha 更低让背后更清晰透出） */
+    --fuwari-card-bg: rgba(242, 246, 248, 0.4);
     --fuwari-card-bg-solid: rgba(242, 246, 248, 0.95);
     --fuwari-btn-content: #143a5e;
     --fuwari-btn-regular-bg: rgba(255, 255, 255, 0.55);
@@ -115,7 +115,7 @@
       #143a5e 65%,
       #1f5278 100%
     );
-    --fuwari-card-bg: rgba(20, 40, 60, 0.38);
+    --fuwari-card-bg: rgba(20, 40, 60, 0.32);
     --fuwari-card-bg-solid: rgba(20, 40, 60, 0.92);
     --fuwari-btn-content: #dff0ff;
     --fuwari-btn-regular-bg: rgba(255, 255, 255, 0.18);
@@ -147,14 +147,15 @@
 @layer components {
   /* ===== 玻璃面板（替代原来的不透明灰窗）=====
    * 半透明磨砂 + 白内描边 + 黑/深蓝外描边 + 内发光 + 投影，
-   * 浮在壁纸之上，呈 Frutiger Aero 玻璃质感。 */
+   * 浮在壁纸之上，呈 Frutiger Aero 玻璃质感。blur 强度大让背后内容
+   * 真正"被模糊看不清"，符合 hexo-theme-aero 的毛玻璃风格。 */
   .fuwari-card-base {
     position: relative;
     border-radius: var(--fuwari-radius-large);
     overflow: hidden;
     background-color: var(--fuwari-card-bg);
-    backdrop-filter: blur(8px) saturate(140%);
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid rgba(255, 255, 255, 0.7);
     box-shadow:
       inset 0 0 22px rgba(60, 127, 177, 0.35),
@@ -179,7 +180,7 @@
       0 4px 16px rgba(10, 30, 55, 0.25);
   }
 
-  /* Aero 模块标题条：仿 hexo-theme-aero 的蓝色窗口标题栏，半透明 + 毛玻璃 */
+  /* Aero 模块标题条：仿 hexo-theme-aero 的蓝色窗口标题栏，半透明 + 强毛玻璃 */
   .fuwari-card-base[data-title]::before {
     content: attr(data-title);
     display: flex;
@@ -192,13 +193,13 @@
     box-sizing: border-box;
     background: linear-gradient(
       to bottom,
-      rgba(109, 174, 221, 0.72) 0%,
-      rgba(74, 147, 199, 0.7) 45%,
-      rgba(53, 122, 176, 0.7) 46%,
-      rgba(60, 127, 177, 0.72) 100%
+      rgba(109, 174, 221, 0.5) 0%,
+      rgba(74, 147, 199, 0.48) 45%,
+      rgba(53, 122, 176, 0.48) 46%,
+      rgba(60, 127, 177, 0.5) 100%
     );
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
-    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
     color: #ffffff;
     font:
       bold 13px/1 "Segoe UI",
@@ -213,10 +214,10 @@
   .dark .fuwari-card-base[data-title]::before {
     background: linear-gradient(
       to bottom,
-      rgba(79, 139, 191, 0.7) 0%,
-      rgba(53, 108, 156, 0.7) 45%,
-      rgba(40, 90, 133, 0.7) 46%,
-      rgba(47, 100, 147, 0.72) 100%
+      rgba(79, 139, 191, 0.48) 0%,
+      rgba(53, 108, 156, 0.48) 45%,
+      rgba(40, 90, 133, 0.48) 46%,
+      rgba(47, 100, 147, 0.5) 100%
     );
     border-bottom-color: rgba(10, 30, 55, 0.55);
   }
@@ -1435,15 +1436,16 @@ html.aero7-theme .title-bar-controls button {
 }
 
 /* =========== Win7 玻璃：全部 .window.glass 整窗磨砂 ===========
-   透明度更低，背后壁纸透出更多，整窗"漂浮"感更强。 */
+   透明度更低 + 模糊强度更大，整窗"漂浮"感更强，
+   背后内容真正被模糊到看不清原图细节。 */
 html.aero7-theme .window.glass {
-  background: rgba(228, 240, 250, 0.22);
-  -webkit-backdrop-filter: blur(14px) saturate(155%);
-  backdrop-filter: blur(14px) saturate(155%);
+  background: rgba(228, 240, 250, 0.18);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
   border-radius: 7px;
 }
 .dark html.aero7-theme .window.glass {
-  background: rgba(18, 38, 60, 0.28);
+  background: rgba(18, 38, 60, 0.22);
 }
 html.aero7-theme .window.glass .window-body {
   background: transparent;
