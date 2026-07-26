@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useRouteContext } from "@tanstack/react-router";
-import { cn } from "@/lib/utils";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
 import { Sidebar } from "../components/sidebar";
@@ -78,16 +77,17 @@ export function PublicLayout({
         isLoading={isSessionLoading}
       />
 
-      {/* 桌面区：壁纸作为 .aero-desktop 自身背景绘制（与渐变同机制），
-          这样窗口的 backdrop-filter 才能正确模糊到壁纸，而不是透明层。 */}
-      <div
-        className={cn("aero-desktop", bgUrl && "has-wallpaper")}
-        style={
-          bgUrl
-            ? ({ "--aero-wallpaper": `url("${bgUrl}")` } as React.CSSProperties)
-            : undefined
-        }
-      >
+      {/* 独立壁纸层：fixed 全屏、z-index:-1，所有 backdrop-filter 都能采样到，
+         不再依赖 CSS background 变量传递。 */}
+      {bgUrl && (
+        <div
+          className="aero-wallpaper-layer"
+          style={{ backgroundImage: `url("${bgUrl}")` }}
+        />
+      )}
+
+      {/* 桌面区 */}
+      <div className="aero-desktop">
         <div className="aero-desktop-content">
           <aside className="aero-desktop-sidebar">
             <Sidebar />

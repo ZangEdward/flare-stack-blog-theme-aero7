@@ -1285,6 +1285,18 @@ html.aero7-theme .aero-tag-pill-count {
 
 /* =========== 桌面区域 =========== */
 
+/* 独立壁纸层：固定全屏、在内容底层（z-index:-1），所有窗口的 backdrop-filter
+   都能直接采样到它。不再用 CSS background 变量 + multi-layer 方式（容易因合成层
+   隔离或变量插值导致 backdrop-filter 失效）。 */
+html.aero7-theme .aero-wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 html.aero7-theme .aero-desktop {
   flex: 1 1 auto;
   min-height: 0;
@@ -1292,17 +1304,6 @@ html.aero7-theme .aero-desktop {
   position: relative;
   background: var(--fuwari-page-bg);
   width: 100%;
-}
-
-/* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
-   窗口的 backdrop-filter 才能稳定模糊到壁纸，而不是透明层后面的白色。
-   ⚠️ 千万不能加 background-attachment:fixed，否则 Chrome 会把壁纸渲染到
-   不同的合成层，子元素的 backdrop-filter 无法采样到，毛玻璃彻底失效。
-   底部叠加渐变让壁纸自然融入背景，避免壁纸图本身的白边露出来。 */
-html.aero7-theme .aero-desktop.has-wallpaper {
-  background:
-    linear-gradient(to bottom, transparent 55%, var(--fuwari-page-bg) 95%),
-    var(--aero-wallpaper) center / cover no-repeat;
 }
 
 /* 桌面容器：左列侧栏 + 右列主区
