@@ -1765,6 +1765,14 @@ html.aero7-theme .aero-back-button:hover {
   }
 }
 
+/* 窄屏（手机/小屏）：隐藏左上角站点名，仅保留头像，
+   给中间任务按钮腾出横向空间，避免任务栏拥挤溢出。 */
+@media (max-width: 640px) {
+  html.aero7-theme .aero-taskbar-brand {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   html.aero7-theme .aero-taskbar-btn-label {
     display: none;
