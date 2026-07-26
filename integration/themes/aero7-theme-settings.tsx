@@ -22,7 +22,11 @@ function Aero7AccentColorField() {
   });
 
   const value =
-    typeof field.value === "string" && field.value ? field.value : DEFAULT_ACCENT;
+    typeof field.value === "string" &&
+    field.value &&
+    !/^#?(fff{1,2}|ffffff|white)$/i.test(field.value.trim())
+      ? field.value
+      : DEFAULT_ACCENT;
 
   return (
     <Field label={ACCENT_LABEL} hint={ACCENT_HINT}>
