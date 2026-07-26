@@ -8,7 +8,7 @@ import { m } from "@/paraglide/messages";
 
 export function TagsSkeleton() {
   return (
-    <div className="window glass active">
+    <div className="flex flex-col h-full">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -17,7 +17,7 @@ export function TagsSkeleton() {
           <button type="button" aria-label="Close" />
         </div>
       </div>
-      <div className="window-body has-space">
+      <div className="window-body has-space flex-1 overflow-hidden">
         <div className="flex flex-wrap gap-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-8 w-16 rounded-lg" />
@@ -45,7 +45,7 @@ export function Tags() {
   if (tags.length === 0) return null;
 
   return (
-    <div className="window glass active">
+    <div className="flex flex-col h-full">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -54,7 +54,7 @@ export function Tags() {
           <button type="button" aria-label="Close" />
         </div>
       </div>
-      <div className="window-body has-space">
+      <div className="window-body has-space flex-1 overflow-hidden">
         <div
           ref={containerRef}
           className={`flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-300 ease-in-out ${

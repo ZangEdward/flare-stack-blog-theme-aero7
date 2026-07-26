@@ -1,25 +1,20 @@
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
-import { Profile } from "./profile";
+import { m } from "@/paraglide/messages";
+import { DraggableWindow } from "./draggable-window";
 import { Tags, TagsSkeleton } from "./tags";
 
 export function Sidebar({ className }: { className?: string }) {
   return (
-    <aside className={cn("flex flex-col gap-4", className)}>
-      <div
-        className="fuwari-onload-animation"
-        style={{ animationDelay: "100ms" }}
-      >
-        <Profile />
-      </div>
-      <div
-        className="lg:sticky lg:top-4 fuwari-onload-animation"
-        style={{ animationDelay: "150ms" }}
+    <div className={cn("contents", className)}>
+      <DraggableWindow
+        initial={{ x: 32, y: 16, w: 288, h: 240 }}
+        title={m.tags_title()}
       >
         <Suspense fallback={<TagsSkeleton />}>
           <Tags />
         </Suspense>
-      </div>
-    </aside>
+      </DraggableWindow>
+    </div>
   );
 }

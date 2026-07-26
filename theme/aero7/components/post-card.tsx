@@ -31,8 +31,8 @@ export function PostCard({
   const tagNames = (post.tags ?? []).map((t) => t.name);
 
   return (
-    <article
-      className={`window glass active flex flex-col w-full relative ${
+    <div
+      className={`flex flex-col h-full relative ${
         pinned ? "ring-2 ring-(--fuwari-primary)/30" : ""
       }`}
     >
@@ -69,8 +69,8 @@ export function PostCard({
       </div>
 
       {/* 正文区 */}
-      <div className="window-body has-space">
-        <div className="flex flex-col gap-4">
+      <div className="window-body has-space flex-1 overflow-hidden">
+        <div className="flex flex-col gap-4 h-full">
           {/* 摘要 */}
           <div className="fuwari-text-75 text-lg leading-relaxed line-clamp-4 md:line-clamp-3 wrap-break-word">
             {post.summary ?? ""}
@@ -126,6 +126,6 @@ export function PostCard({
           </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import { useViewCounts } from "@/features/pageview/queries";
 import type { PostItem } from "@/features/posts/schema/posts.schema";
 import type { HomePageProps } from "@/features/theme/contract/pages";
 import { m } from "@/paraglide/messages";
+import { DraggableWindow } from "../../components/draggable-window";
 import { PostCard } from "../../components/post-card";
 
 interface MergedPost {
@@ -12,9 +13,18 @@ interface MergedPost {
   popular: boolean;
 }
 
-export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
-  const delayOffset = 50;
+function postWindowPosition(i: number) {
+  const col = i % 3;
+  const row = Math.floor(i / 3);
+  return {
+    x: 352 + col * 320,
+    y: 16 + row * 256,
+    w: 480,
+    h: 260,
+  };
+}
 
+export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
   const mergedPosts = useMemo(() => {
     const seen = new Set<string>();
     const result: MergedPost[] = [];
@@ -52,39 +62,28 @@ export function HomePage({ posts, pinnedPosts, popularPosts }: HomePageProps) {
     useViewCounts(allSlugs);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-6">
-        {mergedPosts.map(({ post, pinned, popular }, i) => (
-          <div
-            key={post.slug}
-            className="fuwari-onload-animation"
-            style={{
-              animationDelay: `calc(var(--fuwari-content-delay) + ${i * delayOffset}ms)`,
-            }}
-          >
-            <PostCard
-              post={post}
-              pinned={pinned}
-              popular={!pinned && popular}
-              views={viewCounts?.[post.slug]}
-              isLoadingViews={isPendingViewCounts}
-            />
-          </div>
-        ))}
-        <div
-          className="fuwari-onload-animation"
-          style={{
-            animationDelay: `calc(var(--fuwari-content-delay) + ${mergedPosts.length * delayOffset}ms)`,
-          }}
+    <div className="contents">
+      {mergedPosts.map(({ post, pinned, popular }, i) => (
+        <DraggableWindow
+          key={post.slug}
+          initial={postWindowPosition(i)}
+          title={post.title}
         >
-          <Link
-            to="/posts"
-            className="fuwari-btn-regular mx-6 md:mx-auto rounded-lg h-10 px-6 flex items-center justify-center"
-          >
-            {m.home_view_all_posts()}
-          </Link>
-        </div>
-      </div>
+          <PostCard
+            post={post}
+            pinned={pinned}
+            popular={!pinned && popular}
+            views={viewCounts?.[post.slug]}
+            isLoadingViews={isPendingViewCounts}
+          />
+        </DraggableWindow>
+      ))}
+      <Link
+        to="/posts"
+        className="fuwari-btn-regular mx-6 md:mx-auto rounded-lg h-10 px-6 flex items-center justify-center"
+      >
+        {m.home_view_all_posts()}
+      </Link>
     </div>
   );
 }
