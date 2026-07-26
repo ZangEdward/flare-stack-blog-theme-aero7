@@ -1152,7 +1152,10 @@ html.aero7-theme .aero-desktop {
 /* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
    窗口的 backdrop-filter 才能稳定模糊到壁纸，而不再是透明层后面的白色。 */
 html.aero7-theme .aero-desktop.has-wallpaper {
-  background: var(--aero-wallpaper) center / cover no-repeat;
+  /* 图片顶部对齐：很多壁纸下半部分是纯色/空白，居中会让白色区域
+     占据桌面下半截，看起来像白色蒙版。改为 top 后裁掉下方，
+     露出 body 的渐变背景，视觉上更干净。 */
+  background: var(--aero-wallpaper) top / cover no-repeat;
 }
 
 /* 桌面容器：左列侧栏 + 右列主区 */
