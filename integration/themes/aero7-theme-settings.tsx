@@ -2,9 +2,17 @@ import { useController, useFormContext } from "react-hook-form";
 import { Field } from "@/features/config/components/site-settings-fields";
 import { DefaultThemeSettings } from "@/features/config/components/themes/default-theme-settings";
 import type { SystemConfig } from "@/features/config/config.schema";
-import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 
 const DEFAULT_ACCENT = "#3c7fb1";
+
+// aero7 专属文案，自包含在主题组件内，不写回共享 messages 文件，避免改动博客原文件。
+const ACCENT_LABEL =
+  getLocale() === "zh" ? "强调色" : "Accent Color";
+const ACCENT_HINT =
+  getLocale() === "zh"
+    ? "控制 Windows 7 Aero 窗口颜色、链接、按钮与高光。使用十六进制颜色如 #2a7fd0。"
+    : "Controls the Windows 7 Aero window color, links, buttons and highlights. Use a hex color like #2a7fd0.";
 
 function Aero7AccentColorField() {
   const { control } = useFormContext<SystemConfig>();
@@ -17,10 +25,7 @@ function Aero7AccentColorField() {
     typeof field.value === "string" && field.value ? field.value : DEFAULT_ACCENT;
 
   return (
-    <Field
-      label={m.settings_site_field_accent_color()}
-      hint={m.settings_site_field_accent_color_hint()}
-    >
+    <Field label={ACCENT_LABEL} hint={ACCENT_HINT}>
       <div className="flex items-center gap-3">
         <input
           type="color"

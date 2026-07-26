@@ -41,7 +41,7 @@ export function PostCard({
         <div className="absolute top-0 right-0 w-32 h-32 bg-(--fuwari-primary) opacity-5 rounded-bl-[100px] -z-10 pointer-events-none" />
       )}
 
-      <div className="pl-6 md:pl-9 pr-6 pt-6 md:pt-7 pb-6 relative w-full md:pr-24">
+      <div className="px-6 md:px-9 pt-4 md:pt-5 pb-5 relative w-full">
         {/* Badge */}
         {(pinned || popular) && (
           <div className="flex items-center gap-1.5 font-medium text-sm mb-3">
@@ -133,40 +133,38 @@ export function PostCard({
           {post.summary ?? ""}
         </div>
 
-        {/* Read time and Views */}
-        <div className="text-sm fuwari-text-50 flex items-center gap-4 [&_svg]:shrink-0">
-          <span className="inline-flex items-center gap-1.5">
-            <Clock size={14} />
-            {m.read_time({ count: post.readTimeInMinutes })}
-          </span>
-          {isLoadingViews ? (
+        {/* Read time, Views and Read More */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="text-sm fuwari-text-50 flex items-center gap-4 [&_svg]:shrink-0">
             <span className="inline-flex items-center gap-1.5">
-              <Eye size={15} />
-              <Skeleton className="h-3.5 w-8 rounded bg-black/10 dark:bg-white/10" />
+              <Clock size={14} />
+              {m.read_time({ count: post.readTimeInMinutes })}
             </span>
-          ) : (
-            views !== undefined && (
+            {isLoadingViews ? (
               <span className="inline-flex items-center gap-1.5">
                 <Eye size={15} />
-                {views.toLocaleString()}
+                <Skeleton className="h-3.5 w-8 rounded bg-black/10 dark:bg-white/10" />
               </span>
-            )
-          )}
+            ) : (
+              views !== undefined && (
+                <span className="inline-flex items-center gap-1.5">
+                  <Eye size={15} />
+                  {views.toLocaleString()}
+                </span>
+              )
+            )}
+          </div>
+
+          <Link
+            to="/post/$slug"
+            params={{ slug: post.slug }}
+            className="fuwari-btn-primary px-4 py-2 text-sm rounded-lg active:scale-95 shrink-0"
+          >
+            {m.post_read_more()}
+            <ChevronRight size={16} className="ml-1" />
+          </Link>
         </div>
       </div>
-
-      {/* Enter button */}
-      <Link
-        to="/post/$slug"
-        params={{ slug: post.slug }}
-        aria-label={post.title}
-        className="hidden md:flex fuwari-btn-regular w-13 absolute right-3 top-3 bottom-3 rounded-xl active:scale-95"
-      >
-        <ChevronRight
-          className="text-(--fuwari-primary) text-4xl mx-auto"
-          strokeWidth={2}
-        />
-      </Link>
     </div>
   );
 }
