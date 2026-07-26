@@ -87,7 +87,6 @@ export function Navbar({
           />
           <div className="aero-taskbar-brand">
             <span className="aero-taskbar-title">{siteConfig.title}</span>
-            <span className="aero-taskbar-tagline">{siteConfig.description}</span>
           </div>
         </Link>
         {/* Win7 风格气泡：7.css 原生 [role=tooltip] + Aero 作用域，
