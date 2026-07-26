@@ -1198,6 +1198,42 @@ html.aero7-theme .aero-field-tags .aero-tag-chip:hover {
   border-color: var(--w7-el-bd-h);
 }
 
+/* Tags 窗口内的 Win7 风格玻璃标签按钮：直角小圆角 + Win7 浅蓝渐变 + 玻璃模糊。
+   用于侧栏 Tags 窗口中带 postCount 计数的小标签，比 .fuwari-btn-regular
+   看起来更"原生 Win7"。 */
+html.aero7-theme .aero-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: var(--w7-el-grad);
+  border: 1px solid var(--w7-el-bd);
+  box-shadow: var(--w7-el-sd);
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
+}
+html.aero7-theme .aero-tag-pill:hover {
+  background: var(--w7-el-grad-h);
+  border-color: var(--w7-el-bd-h);
+}
+html.aero7-theme .aero-tag-pill-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  font-size: 11px;
+  border-radius: 2px;
+  background: rgba(20, 58, 94, 0.12);
+  color: inherit;
+  opacity: 0.85;
+}
+
 /* =========== 桌面区域 =========== */
 
 html.aero7-theme .aero-desktop {
@@ -1210,12 +1246,13 @@ html.aero7-theme .aero-desktop {
 }
 
 /* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
-   窗口的 backdrop-filter 才能稳定模糊到壁纸，而不再是透明层后面的白色。 */
+   窗口的 backdrop-filter 才能稳定模糊到壁纸，而不是透明层后面的白色。
+   叠加 body 渐变作为兜底色：即使壁纸因比例问题在某方向留白（cover 不一定
+   完全填满），也能露出浅蓝色渐变而不是默认白色。 */
 html.aero7-theme .aero-desktop.has-wallpaper {
-  /* 图片顶部对齐：很多壁纸下半部分是纯色/空白，居中会让白色区域
-     占据桌面下半截，看起来像白色蒙版。改为 top 后裁掉下方，
-     露出 body 的渐变背景，视觉上更干净。 */
-  background: var(--aero-wallpaper) top / cover no-repeat;
+  background:
+    var(--aero-wallpaper) top / cover no-repeat,
+    var(--fuwari-page-bg);
 }
 
 /* 桌面容器：左列侧栏 + 右列主区 */
@@ -1397,15 +1434,16 @@ html.aero7-theme .title-bar-controls button {
   height: 19px;
 }
 
-/* =========== Win7 玻璃：全部 .window.glass 整窗磨砂 =========== */
+/* =========== Win7 玻璃：全部 .window.glass 整窗磨砂 ===========
+   透明度更低，背后壁纸透出更多，整窗"漂浮"感更强。 */
 html.aero7-theme .window.glass {
-  background: rgba(228, 240, 250, 0.36);
+  background: rgba(228, 240, 250, 0.22);
   -webkit-backdrop-filter: blur(14px) saturate(155%);
   backdrop-filter: blur(14px) saturate(155%);
   border-radius: 7px;
 }
 .dark html.aero7-theme .window.glass {
-  background: rgba(18, 38, 60, 0.42);
+  background: rgba(18, 38, 60, 0.28);
 }
 html.aero7-theme .window.glass .window-body {
   background: transparent;

@@ -50,12 +50,10 @@ export function Tags() {
               key={tag.id}
               to="/posts"
               search={{ tagName: tag.name }}
-              className="fuwari-btn-regular h-8 text-sm px-3 rounded-lg flex items-center gap-2"
+              className="aero-tag-pill"
             >
               <span>{tag.name}</span>
-              <span className="bg-black/5 dark:bg-white/10 rounded-md px-1.5 py-0.5 text-xs opacity-70">
-                {tag.postCount}
-              </span>
+              <span className="aero-tag-pill-count">{tag.postCount}</span>
             </Link>
           ))}
         </div>
