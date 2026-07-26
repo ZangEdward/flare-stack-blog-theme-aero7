@@ -1346,16 +1346,20 @@ html.aero7-theme .aero-desktop-sidebar {
 }
 
 html.aero7-theme .aero-sidebar-window {
-  width: 100% !important;
-  height: auto !important;
+  width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
 
 /* Sidebar Tags 窗口的 .window-body 应 grow 撑满剩余高度，
    避免下方出现一段灰色留白（之前 .window-body 有 margin: var(--w7-w-space)，
-   与外层 .window 高度不一致形成"灰色条"）。 */
-html.aero7-theme .aero-sidebar-window > .window-body {
+   与外层 .window 高度不一致形成"灰色条"）。
+   注意：选择器用后代（而非 > 直接子代），因为 .window-body 现在位于
+   Tags 组件内的 .window.glass 里，是 .aero-sidebar-window 的孙子节点。
+   关键：width 不能用 !important —— 否则拖动后（position:absolute + 内联
+   width:size.w）仍被这条规则撑成整页宽，"一拖动就变得很长"。 */
+html.aero7-theme .aero-sidebar-window .window-body {
   flex: 1;
   margin-bottom: 0;
 }

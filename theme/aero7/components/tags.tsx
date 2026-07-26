@@ -6,7 +6,7 @@ import { m } from "@/paraglide/messages";
 
 export function TagsSkeleton() {
   return (
-    <div className="flex flex-col">
+    <div className="window glass active flex flex-col h-full w-full relative">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
@@ -36,7 +36,7 @@ export function Tags() {
   if (tags.length === 0) return null;
 
   return (
-    <div className="flex flex-col">
+    <div className="window glass active flex flex-col h-full w-full relative">
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
