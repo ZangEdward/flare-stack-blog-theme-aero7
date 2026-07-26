@@ -72,22 +72,34 @@ export function Navbar({
 
   return (
     <div className="aero-taskbar">
-      {/* 左侧：Win7 Orb 风格站点区 */}
-      <Link
-        to="/"
-        className="aero-taskbar-orb active:scale-95"
-        aria-label={siteConfig.title}
-      >
-        <img
-          src="/images/avatar.png"
-          alt={siteConfig.author}
-          className="aero-taskbar-avatar"
-        />
-        <div className="aero-taskbar-brand">
-          <span className="aero-taskbar-title">{siteConfig.title}</span>
-          <span className="aero-taskbar-tagline">{siteConfig.description}</span>
-        </div>
-      </Link>
+      {/* 左侧：Win7 Orb 风格站点区（hover 显示签名 tooltip） */}
+      <div className="aero-taskbar-orb-wrap group">
+        <Link
+          to="/"
+          className="aero-taskbar-orb active:scale-95"
+          aria-label={siteConfig.title}
+          aria-describedby="aero-site-tooltip"
+        >
+          <img
+            src="/images/avatar.png"
+            alt={siteConfig.author}
+            className="aero-taskbar-avatar"
+          />
+          <div className="aero-taskbar-brand">
+            <span className="aero-taskbar-title">{siteConfig.title}</span>
+            <span className="aero-taskbar-tagline">{siteConfig.description}</span>
+          </div>
+        </Link>
+        {/* Win7 风格气泡：7.css 原生 [role=tooltip] + Aero 作用域，
+            hover 头像 Orb 时显示，左上角三角指针指着头像 */}
+        <span
+          role="tooltip"
+          id="aero-site-tooltip"
+          className="aero-tooltip aero-tooltip-bottom"
+        >
+          {siteConfig.description}
+        </span>
+      </div>
 
       {/* 中间：文章页时显示返回按钮，否则显示任务栏按钮 */}
       {isPostPage ? (

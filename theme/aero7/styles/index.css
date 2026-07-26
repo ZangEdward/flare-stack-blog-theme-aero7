@@ -1395,3 +1395,111 @@ html.aero7-theme .aero-back-button:hover {
     justify-content: flex-start;
   }
 }
+
+/* =========== Win7 风格气泡 Tooltip（hover avatar/品牌区显示签名）============
+ * 基于 7.css 原生 [role=tooltip]：白色渐变 + 黑色边框 + 三角指针 SVG。
+ * 这里在 aero7 作用域内调整颜色为 Aero 蓝文字 + 圆角风格一致；
+ * 触发：用 `:hover` 与 `:focus-visible` 在 .aero-taskbar-orb-wrap 父容器，
+ * 让指针位置基于父容器计算。
+ */
+html.aero7-theme [role="tooltip"].aero-tooltip,
+html.aero7-theme .aero-tooltip {
+  background: linear-gradient(to bottom, #ffffff, var(--w7-el-bg-s-1, #ebebeb));
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  box-shadow:
+    5px 5px 3px -3px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: #143a5e;
+  padding: 8px 14px 8px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  width: max-content;
+  max-width: 320px;
+  white-space: normal;
+  z-index: 9999;
+}
+
+/* 在 aero7 主题内：pointer-events 不影响 7.css tooltip 默认 absolute 行为 */
+
+html.aero7-theme .aero-taskbar-orb-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* bottom tooltip：上方三角指针，指针在左上角（贴近头像） */
+html.aero7-theme .aero-taskbar-orb-wrap:hover > [role="tooltip"].aero-tooltip,
+html.aero7-theme .aero-taskbar-orb-wrap:focus-within > [role="tooltip"].aero-tooltip,
+html.aero7-theme .aero-taskbar-orb-wrap:hover > .aero-tooltip,
+html.aero7-theme .aero-taskbar-orb-wrap:focus-within > .aero-tooltip {
+  display: block;
+  top: calc(100% + 6px);
+  left: 8px;
+}
+
+/* 三角指针（继承 7.css [role=tooltip]:before 的 svg 形状，
+   这里改成 inline SVG data URL 让指针在 tooltip 顶部) */
+html.aero7-theme .aero-taskbar-orb-wrap > [role="tooltip"].aero-tooltip:before,
+html.aero7-theme .aero-taskbar-orb-wrap > .aero-tooltip:before {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.5 1.5v18h18l-18-18Z' fill='%23fff' stroke='%23fff'/%3E%3Cpath d='M1 19.5H.5v-18l18 18H18' stroke='%23939393'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  content: "";
+  display: block;
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* Tooltip 暗色模式 */
+.dark html.aero7-theme [role="tooltip"].aero-tooltip,
+.dark html.aero7-theme .aero-tooltip {
+  background: linear-gradient(to bottom, #2a3a4e, #1a2635);
+  color: #eaf6ff;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    5px 5px 3px -3px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* =========== 语言切换：7.css 原生 menu 风格（input[type=radio] + label）============
+ * 与 https://khang-nd.github.io/7.css/#menu 一致：直角、Aero 蓝文字、
+ * 选中态显示左侧蓝色圆点（input[type=radio] + label 由 7.css 自动渲染）。
+ * 触发：点击 7.css 中的 trigger 按钮（taskbar 图标按钮）显示，
+ *       再次点击 / 点击外部关闭。
+ *
+ * 当前实现：菜单常驻（只读主题），鼠标 hover/focus 在 .aero-language-wrap
+ * 上即显示（hover-to-show 与点 languages icon 与 click outside 行为兼容）。
+ */
+html.aero7-theme .aero-language-wrap {
+  position: relative;
+}
+html.aero7-theme .aero-language-wrap .aero-language-trigger {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* 7.css 原生 menu 已通过 [role=menu] 自动渲染直角 + Aero 蓝文字；
+   我们仅控制显示时机与位置。 */
+html.aero7-theme [role="menu"].aero-language-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 9999;
+  cursor: default;
+}
+
+html.aero7-theme .aero-language-wrap:hover > [role="menu"].aero-language-menu,
+html.aero7-theme .aero-language-wrap:focus-within > [role="menu"].aero-language-menu,
+html.aero7-theme .aero-language-wrap.is-open > [role="menu"].aero-language-menu {
+  display: block;
+}
