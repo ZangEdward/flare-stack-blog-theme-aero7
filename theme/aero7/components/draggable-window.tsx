@@ -276,7 +276,9 @@ export function DraggableWindow({
         left: pos.x,
         top: pos.y,
         width: size?.w ?? pos.w,
-        height: size?.h ?? pos.h,
+        // 高度由内容自然撑开（不固定 height），避免 grid 拉伸导致
+        // 窗口变得很长。resize 时由 onResizeDown 设 height。
+        height: isResizing ? (size?.h ?? pos.h) : "auto",
         touchAction: "none",
         zIndex: stackZ ?? (isActive ? 60 : 20),
         userSelect: "none",
