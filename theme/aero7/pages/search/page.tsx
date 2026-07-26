@@ -21,45 +21,59 @@ export function SearchPage({
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 pb-12">
-      {/* Header Area — Win7 地址栏风格搜索框 */}
+      {/* Header Area — 7.css 原生 .window.glass 窗口 + 标题栏 */}
       <div
-        className="fuwari-card-base p-3 md:p-4 fuwari-onload-animation"
+        className="window glass fuwari-onload-animation"
         style={{ animationDelay: "100ms" }}
       >
-        <div className="aero-search-bar">
-          <div className="relative flex-1">
-            <input
-              ref={inputRef}
-              type="text"
-              value={query}
-              onChange={(e) => onQueryChange(e.target.value)}
-              placeholder={m.search_placeholder()}
-              className="aero-search-input"
-            />
-            {isSearching && (
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <Loader2 className="w-4 h-4 animate-spin text-white/90" />
-              </div>
-            )}
-          </div>
-
-          <div className="aero-search-controls">
+        <div className="title-bar">
+          <div className="title-bar-text">{m.search_placeholder()}</div>
+          <div className="title-bar-controls">
+            <button type="button" aria-label="Minimize" />
+            <button type="button" aria-label="Maximize" />
             <button
               type="button"
+              aria-label="Close"
               onClick={onBack}
-              className="aero-search-control"
-              title={m.search_back()}
-            >
-              <ArrowLeft size={18} />
-            </button>
-            <div className="w-px h-5 bg-white/40 dark:bg-white/20" />
-            <button
-              type="button"
-              className="aero-search-control"
-              aria-label={m.search_placeholder()}
-            >
-              <Search size={18} />
-            </button>
+            />
+          </div>
+        </div>
+        <div className="window-body has-space">
+          <div className="aero-search-bar">
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => onQueryChange(e.target.value)}
+                placeholder={m.search_placeholder()}
+                className="aero-search-input"
+              />
+              {isSearching && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <Loader2 className="w-4 h-4 animate-spin text-white/90" />
+                </div>
+              )}
+            </div>
+
+            <div className="aero-search-controls">
+              <button
+                type="button"
+                onClick={onBack}
+                className="aero-search-control"
+                title={m.search_back()}
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <div className="w-px h-5 bg-white/40 dark:bg-white/20" />
+              <button
+                type="button"
+                className="aero-search-control"
+                aria-label={m.search_placeholder()}
+              >
+                <Search size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

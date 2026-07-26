@@ -8,12 +8,21 @@ import { m } from "@/paraglide/messages";
 
 export function TagsSkeleton() {
   return (
-    <div className="fuwari-card-base p-4">
-      <Skeleton className="h-5 w-20 mb-3" />
-      <div className="flex flex-wrap gap-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} className="h-8 w-16 rounded-lg" />
-        ))}
+    <div className="window glass">
+      <div className="title-bar">
+        <div className="title-bar-text">{m.tags_title()}</div>
+        <div className="title-bar-controls">
+          <button type="button" aria-label="Minimize" />
+          <button type="button" aria-label="Maximize" />
+          <button type="button" aria-label="Close" />
+        </div>
+      </div>
+      <div className="window-body has-space">
+        <div className="flex flex-wrap gap-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-8 w-16 rounded-lg" />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -36,49 +45,56 @@ export function Tags() {
   if (tags.length === 0) return null;
 
   return (
-    <div
-      className="fuwari-card-base pb-4 transition-all duration-300"
-      data-title={m.tags_title()}
-    >
-      <div
-        ref={containerRef}
-        className={`px-4 flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-          isExpanded || !showToggle ? "max-h-250" : "max-h-40"
-        }`}
-      >
-        {tags.map((tag) => (
-          <Link
-            key={tag.id}
-            to="/posts"
-            search={{ tagName: tag.name }}
-            className="fuwari-btn-regular h-8 text-sm px-3 rounded-lg flex items-center gap-2"
-          >
-            <span>{tag.name}</span>
-            <span className="bg-black/5 dark:bg-white/10 rounded-md px-1.5 py-0.5 text-xs opacity-70">
-              {tag.postCount}
-            </span>
-          </Link>
-        ))}
-      </div>
-
-      {showToggle && (
-        <div className="px-4 pt-2 flex justify-center">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full py-2 flex items-center justify-center gap-1 text-sm fuwari-text-50 hover:text-(--fuwari-primary) transition-colors"
-          >
-            {isExpanded ? (
-              <>
-                {m.tags_collapse()} <ChevronUp size={16} />
-              </>
-            ) : (
-              <>
-                {m.tags_expand()} <ChevronDown size={16} />
-              </>
-            )}
-          </button>
+    <div className="window glass transition-all duration-300" data-title={m.tags_title()}>
+      <div className="title-bar">
+        <div className="title-bar-text">{m.tags_title()}</div>
+        <div className="title-bar-controls">
+          <button type="button" aria-label="Minimize" />
+          <button type="button" aria-label="Maximize" />
+          <button type="button" aria-label="Close" />
         </div>
-      )}
+      </div>
+      <div className="window-body has-space">
+        <div
+          ref={containerRef}
+          className={`flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+            isExpanded || !showToggle ? "max-h-250" : "max-h-40"
+          }`}
+        >
+          {tags.map((tag) => (
+            <Link
+              key={tag.id}
+              to="/posts"
+              search={{ tagName: tag.name }}
+              className="fuwari-btn-regular h-8 text-sm px-3 rounded-lg flex items-center gap-2"
+            >
+              <span>{tag.name}</span>
+              <span className="bg-black/5 dark:bg-white/10 rounded-md px-1.5 py-0.5 text-xs opacity-70">
+                {tag.postCount}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {showToggle && (
+          <div className="pt-3 flex justify-center">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="w-full py-2 flex items-center justify-center gap-1 text-sm fuwari-text-50 hover:text-(--fuwari-primary) transition-colors"
+            >
+              {isExpanded ? (
+                <>
+                  {m.tags_collapse()} <ChevronUp size={16} />
+                </>
+              ) : (
+                <>
+                  {m.tags_expand()} <ChevronDown size={16} />
+                </>
+              )}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

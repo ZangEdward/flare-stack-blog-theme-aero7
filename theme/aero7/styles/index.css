@@ -561,13 +561,14 @@
 }
 
 /* Seven onload / entrance animations (保留 fuwari 的入场动画) */
+/* 注意：入场动画只能做 opacity，不能做 transform。
+   因为 transform 会让祖先成为 backdrop-filter 的“背景根”，
+   导致 .window.glass 的毛玻璃模糊失效（只模糊自身透明背景）。 */
 @keyframes fuwari-fade-in-up {
   0% {
-    transform: translateY(2rem);
     opacity: 0;
   }
   100% {
-    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -774,17 +775,17 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
  * 侧栏固定 16rem 不变，正文列(1fr)随页面宽度增长。 */
 @media (min-width: 1536px) {
   :root {
-    --fuwari-page-width: min(92vw, 96rem);
+    --fuwari-page-width: min(90vw, 80rem);
   }
 }
 @media (min-width: 1920px) {
   :root {
-    --fuwari-page-width: min(90vw, 116rem);
+    --fuwari-page-width: min(88vw, 84rem);
   }
 }
 @media (min-width: 2560px) {
   :root {
-    --fuwari-page-width: min(86vw, 144rem);
+    --fuwari-page-width: min(86vw, 88rem);
   }
 }
 
@@ -794,4 +795,95 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
   :root {
     --fuwari-page-width: 100%;
   }
+}
+
+/* ===== 用 7.css 原生 .window / .title-bar / .glass 实现 Win7 窗口 + 毛玻璃 =====
+ * 仅作用于 aero7 公共页（html.aero7-theme 作用域），不污染后台/设置界面。
+ * 窗口控制按钮（最小化/最大化/关闭）由 7.css 通过 aria-label 自动渲染图标，
+ *   无需自定义；装饰用途时不绑定事件即可。 */
+/* 还原被全局 button{min-width:auto} 覆盖掉的标题栏控制按钮尺寸 */
+html.aero7-theme .title-bar-controls button {
+  min-width: 29px;
+  min-height: 19px;
+}
+
+/* 圆角裁切，标题栏随窗口一起圆角 */
+html.aero7-theme .window {
+  overflow: hidden;
+}
+
+/* 毛玻璃：半透明 Aero 玻璃底 + 强模糊，叠在壁纸上呈磨砂质感。
+   7.css 的 .window.glass 已提供 :before(蓝色 Aero 层, opacity .6) 与
+   :after(backdrop-filter:blur(4px))，这里在元素自身再叠加一层更强的模糊与
+   白色玻璃底，使整窗（含标题栏与内容区）都呈毛玻璃。 */
+html.aero7-theme .window.glass {
+  background: rgba(228, 240, 250, 0.34);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+/* 内容区也透明，露出下方被模糊的壁纸（真正的毛玻璃内容区，而非灰底） */
+html.aero7-theme .window.glass .window-body {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+/* 标题栏：用 Aero 蓝渐变（与导航栏一致），文字左、控制按钮右，长标题省略 */
+html.aero7-theme .window > .title-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-attachment: scroll;
+  background: linear-gradient(
+    to bottom,
+    #6daedd 0%,
+    #4a93c7 45%,
+    #357ab0 46%,
+    #3c7fb1 100%
+  );
+  border-bottom: 1px solid rgba(20, 58, 94, 0.45);
+}
+html.aero7-theme .dark .window > .title-bar {
+  background: linear-gradient(
+    to bottom,
+    #4f8bbf 0%,
+    #356c9c 45%,
+    #285a85 46%,
+    #2f6493 100%
+  );
+  border-bottom-color: rgba(10, 30, 55, 0.55);
+}
+html.aero7-theme .window > .title-bar .title-bar-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  padding-top: 0;
+}
+html.aero7-theme .dark .window > .title-bar .title-bar-text {
+  color: #eaf6ff;
+}
+html.aero7-theme .window > .title-bar .title-bar-controls {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 1px 0 #fff8,
+    1px 0 0 #fff8,
+    -1px 0 0 #fff8;
+}
+/* 标题栏中的装饰徽标（置顶/热门）：白色发光，热门用橙金 */
+html.aero7-theme .window > .title-bar .aero-tb-badge {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+html.aero7-theme .window > .title-bar .aero-tb-badge-hot {
+  color: #ffd27f;
+}
+/* 内容区统一内边距（覆盖 7.css 6px 默认，更透气） */
+html.aero7-theme .window.glass .window-body.has-space {
+  padding: 1.1rem 1.35rem;
 }

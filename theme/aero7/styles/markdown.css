@@ -148,6 +148,13 @@
     }
   }
 
+  /* 防止超宽屏下文章图片被拉得过大/过高 */
+  img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80vh;
+  }
+
   /* KaTeX / Mathematics */
   .tiptap-mathematics-render,
   .katex {
