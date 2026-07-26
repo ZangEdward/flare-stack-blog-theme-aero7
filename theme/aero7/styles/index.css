@@ -1,0 +1,582 @@
+/* Theme: aero7 — Frutiger Aero 风格（参考 hexo-theme-aero / Windows Vista·7 玻璃质感）
+ *
+ * 视觉目标：壁纸背景 + 半透明磨砂玻璃浮层 + 高光渐变（Aero 玻璃按钮/面板）
+ *   + Aero 蓝主色（#3c7fb1）。保留 7.css 对原生表单控件的 Win7 外观。
+ *
+ * 关键配方（取自 hexo-theme-aero）：
+ *   --aero-grad : 上亮 → 中间一道暗线 → 下亮 的玻璃高光渐变
+ *   .card       : rgba(主色/0.3) + backdrop-filter:blur + 白内描边 + 黑外描边 + 投影
+ */
+@import "tailwindcss";
+@import "@/styles/shared.css";
+@import "./7.css";
+@import "./markdown.css";
+@plugin "@tailwindcss/typography";
+
+/* 7.css 会给所有原生 <button> 强加 min-width:75px，把导航小图标按钮撑宽。
+ * 这里只取消最小宽度下限，保留其 Windows 7 按钮外观。 */
+button {
+  min-width: auto;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* 全局字体：Segoe UI（Vista/7 默认） */
+  body {
+    font-family: "Segoe UI", "SegoeUI", Tahoma, "Microsoft YaHei", sans-serif;
+  }
+
+  :root {
+    --fuwari-radius-large: 10px;
+    --fuwari-content-delay: 150ms;
+    --fuwari-hue: 215;
+    --fuwari-page-width: 62rem;
+    --fuwari-toc-width: calc((100vw - var(--fuwari-page-width)) / 2 - 1rem);
+
+    /* ===== Frutiger Aero 调色板 ===== */
+    /* 主色：经典 Aero 蓝（hexo-theme-aero: #3c7fb1） */
+    --aero-primary: #3c7fb1;
+    --aero-primary-hover: #4f93c4;
+    --aero-primary-active: #2f6493;
+    /* 高光：Aero 青蓝（#aaddfa） */
+    --aero-highlight: #aaddfa;
+    /* 玻璃基色（浅蓝灰） */
+    --aero-glass: #d8e1e7;
+
+    --fuwari-primary: var(--aero-primary);
+    --fuwari-primary-hover: var(--aero-primary-hover);
+    --fuwari-primary-active: var(--aero-primary-active);
+
+    /* 页面背景兜底（无后台背景图时显示）；真实背景由后台 BackgroundLayer 提供 */
+    --fuwari-page-bg: linear-gradient(
+      160deg,
+      #cfe3f3 0%,
+      #eaf3fa 45%,
+      #d4e6f4 100%
+    );
+
+    /* 玻璃面板表面（半透明，叠在壁纸上） */
+    --fuwari-card-bg: rgba(216, 225, 231, 0.32);
+    --fuwari-card-bg-solid: rgba(242, 246, 248, 0.92);
+    --fuwari-btn-content: #143a5e;
+    --fuwari-btn-regular-bg: rgba(255, 255, 255, 0.55);
+    --fuwari-btn-regular-bg-hover: rgba(255, 255, 255, 0.75);
+    --fuwari-btn-regular-bg-active: rgba(170, 221, 250, 0.75);
+    --fuwari-btn-plain-bg-hover: rgba(255, 255, 255, 0.6);
+    --fuwari-btn-plain-bg-active: rgba(170, 221, 250, 0.7);
+    --fuwari-enter-btn-bg: var(--fuwari-btn-regular-bg);
+    --fuwari-enter-btn-bg-hover: var(--fuwari-btn-regular-bg-hover);
+    --fuwari-enter-btn-bg-active: var(--fuwari-btn-regular-bg-active);
+    --fuwari-meta-divider: rgba(20, 58, 94, 0.25);
+    --fuwari-selection-bg: #a7d9f5;
+    --fuwari-inline-code-bg: rgba(255, 255, 255, 0.7);
+    --fuwari-inline-code-color: #0a4f8a;
+    --fuwari-input-bg: rgba(255, 255, 255, 0.85);
+    --fuwari-input-border: rgba(20, 58, 94, 0.35);
+    --fuwari-toc-btn-hover: rgba(255, 255, 255, 0.6);
+    --fuwari-toc-btn-active: rgba(170, 221, 250, 0.7);
+
+    /* 7.css 窗口主蓝（可被 getDocumentStyle 的 accentColor 覆盖） */
+    --w7-w-bg: var(--aero-primary);
+
+    /* 玻璃高光渐变：上亮 → 中间暗线 → 下亮（Aero 玻璃招牌） */
+    --aero-grad: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--aero-glass), white 60%) 0%,
+      var(--aero-glass) 50%,
+      color-mix(in srgb, var(--aero-glass), black 10%) 51%,
+      var(--aero-glass) 100%
+    );
+
+    /* 文字在壁纸/玻璃上的发光，保证可读（取自参考主题） */
+    --aero-text-glow: 0 0 10px #ffffff, 0 0 10px #ffffff, 0 0 6px #ffffff;
+  }
+
+  .dark {
+    /* 深色拉风夜空变体（仍保留 Aero 玻璃） */
+    --aero-primary: #4a9fe0;
+    --aero-primary-hover: #5fb0ec;
+    --aero-primary-active: #79c2f5;
+    --aero-highlight: #bfe6ff;
+    --aero-glass: #1d2e3e;
+
+    --fuwari-primary: var(--aero-primary);
+    --fuwari-primary-hover: var(--aero-primary-hover);
+    --fuwari-primary-active: var(--aero-primary-active);
+    --fuwari-page-bg: linear-gradient(
+      155deg,
+      #060e1c 0%,
+      #0d2540 35%,
+      #143a5e 65%,
+      #1f5278 100%
+    );
+    --fuwari-card-bg: rgba(20, 40, 60, 0.38);
+    --fuwari-card-bg-solid: rgba(20, 40, 60, 0.92);
+    --fuwari-btn-content: #dff0ff;
+    --fuwari-btn-regular-bg: rgba(255, 255, 255, 0.18);
+    --fuwari-btn-regular-bg-hover: rgba(255, 255, 255, 0.3);
+    --fuwari-btn-regular-bg-active: rgba(74, 159, 224, 0.45);
+    --fuwari-btn-plain-bg-hover: rgba(255, 255, 255, 0.22);
+    --fuwari-btn-plain-bg-active: rgba(74, 159, 224, 0.4);
+    --fuwari-meta-divider: rgba(223, 240, 255, 0.25);
+    --fuwari-selection-bg: #7fb8e0;
+    --fuwari-inline-code-bg: rgba(255, 255, 255, 0.12);
+    --fuwari-inline-code-color: #bfe6ff;
+    --fuwari-input-bg: rgba(255, 255, 255, 0.14);
+    --fuwari-input-border: rgba(223, 240, 255, 0.35);
+    --fuwari-toc-btn-hover: rgba(255, 255, 255, 0.22);
+    --fuwari-toc-btn-active: rgba(74, 159, 224, 0.4);
+    --aero-text-glow: 0 0 10px #0d2540, 0 0 8px #0d2540;
+  }
+
+  /* 全局页面背景：壁纸固定附着 + 覆盖一层极淡玻璃，让内容面板更突出 */
+  body {
+    background-image: var(--fuwari-page-bg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  /* ===== 玻璃面板（替代原来的不透明灰窗）=====
+   * 半透明磨砂 + 白内描边 + 黑/深蓝外描边 + 内发光 + 投影，
+   * 浮在壁纸之上，呈 Frutiger Aero 玻璃质感。 */
+  .fuwari-card-base {
+    position: relative;
+    border-radius: var(--fuwari-radius-large);
+    overflow: hidden;
+    background-color: var(--fuwari-card-bg);
+    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow:
+      inset 0 0 22px rgba(60, 127, 177, 0.35),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+      0 0 0 1px rgba(20, 58, 94, 0.35),
+      0 6px 22px rgba(10, 30, 55, 0.35);
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  /* 需要高可读性的内容块（正文/摘录/侧栏小组件）用近不透明白底 + 双描边，
+   * 与参考主题 .post-content / .about 一致。 */
+  .fuwari-card-solid {
+    background-color: var(--fuwari-card-bg-solid);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(20, 58, 94, 0.35);
+    box-shadow:
+      0 0 0 0.5px rgba(20, 58, 94, 0.6),
+      0 0 0 1.5px rgba(255, 255, 255, 0.9),
+      0 4px 16px rgba(10, 30, 55, 0.25);
+  }
+
+  /* 极简 Aero 渐变小标题条（替代原来的 Win7 蓝色窗口标题栏 + 假按钮） */
+  .fuwari-card-base[data-title]::before {
+    content: attr(data-title);
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    background: var(--aero-grad);
+    color: #143a5e;
+    font:
+      bold 13px/1 "Segoe UI",
+      Tahoma,
+      sans-serif;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(20, 58, 94, 0.35);
+  }
+  .dark .fuwari-card-base[data-title]::before {
+    color: #eaf6ff;
+    text-shadow: 0 1px 0 rgba(10, 30, 55, 0.6);
+  }
+
+  /* Aero 玻璃按钮（常规） */
+  .fuwari-btn-regular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fuwari-btn-regular-bg);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--fuwari-btn-content);
+    border: 1px solid rgba(20, 58, 94, 0.35);
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+      0 2px 6px rgba(10, 30, 55, 0.2);
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .fuwari-btn-regular:hover {
+    background-color: var(--fuwari-btn-regular-bg-hover);
+    border-color: var(--aero-primary);
+  }
+  .fuwari-btn-regular:active {
+    background-color: var(--fuwari-btn-regular-bg-active);
+  }
+  .dark .fuwari-btn-regular {
+    color: #dff0ff;
+  }
+
+  /* Aero 玻璃主按钮（用 --aero-grad 高光渐变） */
+  .fuwari-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--aero-grad);
+    color: #143a5e;
+    border: 1px solid rgba(20, 58, 94, 0.45);
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+      0 2px 8px rgba(10, 30, 55, 0.3);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      opacity 0.2s;
+  }
+  .fuwari-btn-primary:hover {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--aero-highlight), white 55%) 0%,
+      var(--aero-highlight) 50%,
+      color-mix(in srgb, var(--aero-highlight), black 10%) 51%,
+      var(--aero-highlight) 100%
+    );
+  }
+  .fuwari-btn-primary:active {
+    box-shadow:
+      inset 0 5px 6px rgba(0, 0, 0, 0.35),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  }
+  .fuwari-btn-primary:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .dark .fuwari-btn-primary {
+    color: #06243f;
+  }
+
+  .fuwari-text-90 {
+    color: rgb(20 40 60 / 0.92);
+    text-shadow: var(--aero-text-glow);
+  }
+  .dark .fuwari-text-90 {
+    color: rgb(223 240 255 / 0.95);
+    text-shadow: var(--aero-text-glow);
+  }
+  .fuwari-text-75 {
+    color: rgb(20 40 60 / 0.8);
+    text-shadow: var(--aero-text-glow);
+  }
+  .dark .fuwari-text-75 {
+    color: rgb(223 240 255 / 0.85);
+    text-shadow: var(--aero-text-glow);
+  }
+  .fuwari-text-50 {
+    color: rgb(20 40 60 / 0.6);
+    text-shadow: var(--aero-text-glow);
+  }
+  .dark .fuwari-text-50 {
+    color: rgb(223 240 255 / 0.65);
+    text-shadow: var(--aero-text-glow);
+  }
+  .fuwari-text-30 {
+    color: rgb(20 40 60 / 0.4);
+  }
+  .dark .fuwari-text-30 {
+    color: rgb(223 240 255 / 0.45);
+  }
+
+  .fuwari-meta-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fuwari-btn-regular-bg);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--fuwari-btn-content);
+    margin-right: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .fuwari-expand-animation {
+    position: relative;
+    z-index: 0;
+  }
+  .fuwari-expand-animation::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    scale: 0.85;
+    z-index: -1;
+    transition:
+      scale 0.2s ease-out,
+      background-color 0.2s;
+  }
+  .fuwari-expand-animation:hover::before {
+    scale: 1;
+    background-color: var(--fuwari-btn-plain-bg-hover);
+  }
+  .fuwari-expand-animation:active::before {
+    background-color: var(--fuwari-btn-plain-bg-active);
+  }
+
+  /* 链接：Aero 蓝 */
+  .fuwari-card-base a,
+  .prose a {
+    color: #0a6fc4;
+    text-decoration: none;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  }
+  .fuwari-card-base a:hover,
+  .prose a:hover {
+    color: #39aaff;
+    text-decoration: underline;
+  }
+
+  .fuwari-timeline-dash {
+    position: relative;
+  }
+  .fuwari-timeline-dash::before {
+    content: "";
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    left: calc(50% - 1px);
+    border-left: 2px dashed rgba(20, 58, 94, 0.2);
+    pointer-events: none;
+    transition: all 0.3s;
+    transform: translateY(-50%);
+  }
+  .dark .fuwari-timeline-dash::before {
+    border-left: 2px dashed rgba(223, 240, 255, 0.2);
+  }
+
+  .fuwari-code-folding-wrapper {
+    @apply relative transition-[max-height] duration-500 ease-in-out overflow-x-auto overflow-y-hidden;
+  }
+  .fuwari-code-mask {
+    @apply absolute bottom-0 left-0 right-0 h-24 pointer-events-none;
+    background: linear-gradient(to bottom, transparent, var(--fuwari-card-bg-solid));
+    z-index: 10;
+  }
+
+  .fuwari-toc-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(20, 58, 94, 0.25) transparent;
+  }
+  .fuwari-toc-scrollbar:hover {
+    scrollbar-color: rgba(20, 58, 94, 0.4) transparent;
+  }
+  .fuwari-toc-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .fuwari-toc-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .fuwari-toc-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(20, 58, 94, 0.3);
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .fuwari-toc-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(20, 58, 94, 0.45);
+  }
+}
+
+/* ===== 顶部导航栏：仿 Windows 7 窗口标题栏（玻璃高光 + 模糊）===== */
+#fuwari-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 14px;
+  background: var(--aero-grad);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  border-top: none !important;
+  border-radius: 0 0 12px 12px !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 3px 12px rgba(10, 30, 55, 0.3);
+  color: #143a5e;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.dark #fuwari-navbar {
+  color: #eaf6ff;
+  text-shadow: 0 1px 0 rgba(10, 30, 55, 0.6);
+}
+
+/* 站点标题（窗口标题文字，带白光） */
+.aero-brand {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-top: 0;
+}
+.aero-brand-icon {
+  color: #143a5e;
+}
+.aero-brand-text {
+  color: #143a5e;
+}
+.dark .aero-brand-icon,
+.dark .aero-brand-text {
+  color: #eaf6ff;
+}
+.dark .title-bar-text {
+  color: #eaf6ff;
+  text-shadow: 0 0 8px #0d2540;
+}
+
+/* 导航标签（Aero 标签页风格） */
+.aero-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+  overflow-x: auto;
+}
+.aero-tab {
+  padding: 5px 16px;
+  border-radius: 6px 6px 0 0;
+  color: #143a5e;
+  font-weight: 600;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-bottom: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  white-space: nowrap;
+}
+.aero-tab:hover {
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--aero-primary);
+}
+.aero-tab-active {
+  background: linear-gradient(to bottom, #ffffffd9, #d6ebfb);
+  color: var(--aero-primary-active);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 3px rgba(10, 30, 55, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.dark .aero-tab {
+  color: #eaf6ff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+  text-shadow: 0 1px 0 rgba(10, 30, 55, 0.6);
+}
+.dark .aero-tab:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #bfe6ff;
+}
+.dark .aero-tab-active {
+  background: linear-gradient(to bottom, #2c4a68, #16304a);
+  color: #bfe6ff;
+}
+
+/* 右侧操作区 */
+.aero-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.aero-nav-actions .title-bar-controls {
+  margin-left: 6px;
+}
+.aero-icon-faint {
+  color: #143a5e;
+}
+.dark .aero-icon-faint {
+  color: #eaf6ff;
+}
+
+/* 让 7.css 的窗口/标题栏在需要时也能正确显示（若页面直接使用 .window） */
+.window.seven-window {
+  margin: 0 auto;
+}
+
+/* 文章正文 / 代码块在玻璃面板上的可读性 */
+.prose {
+  --tw-prose-body: #1c2a36;
+  --tw-prose-headings: #143a5e;
+  --tw-prose-links: #0a6fc4;
+  --tw-prose-code: #0a4f8a;
+  --tw-prose-pre-bg: #143a5e;
+}
+.dark .prose {
+  --tw-prose-body: #dff0ff;
+  --tw-prose-headings: #eaf6ff;
+  --tw-prose-links: #7fc8ff;
+  --tw-prose-code: #bfe6ff;
+  --tw-prose-pre-bg: #0d2540;
+}
+
+/* Seven onload / entrance animations (保留 fuwari 的入场动画) */
+@keyframes fuwari-fade-in-up {
+  0% {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.fuwari-onload-animation {
+  opacity: 0;
+  animation: 300ms fuwari-fade-in-up ease-out forwards;
+}
+
+::selection {
+  background-color: var(--fuwari-selection-bg);
+  color: inherit;
+}
+
+/* 自定义滚动条（Aero 蓝滑块） */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(216, 225, 231, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(60, 127, 177, 0.55);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(47, 100, 147, 0.75);
+}
