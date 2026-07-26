@@ -13,7 +13,7 @@ export function Sidebar({ className }: { className?: string }) {
         <Profile />
       </div>
       <div
-        className="sticky top-4 fuwari-onload-animation"
+        className="lg:sticky lg:top-4 fuwari-onload-animation"
         style={{ animationDelay: "150ms" }}
       >
         <Suspense fallback={<TagsSkeleton />}>

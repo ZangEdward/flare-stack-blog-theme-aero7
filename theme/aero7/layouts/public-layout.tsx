@@ -79,7 +79,7 @@ export function PublicLayout({
 
       {/* Top row: Navbar - sticky（始终可见，仿窗口标题栏） */}
       <div className="sticky top-0 z-50 pointer-events-none">
-        <div className="pointer-events-auto max-w-(--fuwari-page-width) mx-auto px-0 md:px-4">
+        <div className="pointer-events-auto max-w-(--fuwari-page-width) mx-auto px-3 md:px-4">
           <Navbar
             navOptions={navOptions}
             onMenuClick={() => setIsMenuOpen(true)}
@@ -91,7 +91,7 @@ export function PublicLayout({
 
       {/* Main content（z-30 浮在背景层之上） */}
       <div
-        className="relative z-30 mx-auto px-0 md:px-4 pb-8 grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-6"
+        className="relative z-30 mx-auto px-3 md:px-4 pb-8 grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-6"
         style={{ maxWidth: "var(--fuwari-page-width)" }}
       >
         {/* Sidebar Column */}

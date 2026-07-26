@@ -602,3 +602,32 @@ html.aero7-theme::-webkit-scrollbar-button:horizontal:start:increment,
 html.aero7-theme::-webkit-scrollbar-button:horizontal:end:decrement {
   display: none;
 }
+
+/* ===== 响应式页面宽度：宽屏自动加宽，长屏(竖屏)用满宽 =====
+ * 基础值 75rem 见上方 :root（位于 @layer base）。
+ * 以下媒体查询放在 layer 之外（非 layered），优先级高于 layered 的 :root，
+ * 因此在更宽的视口上覆盖 --fuwari-page-width，导航栏与正文容器随之变宽。
+ * 侧栏固定 16rem 不变，正文列(1fr)随页面宽度增长。 */
+@media (min-width: 1536px) {
+  :root {
+    --fuwari-page-width: min(92vw, 96rem);
+  }
+}
+@media (min-width: 1920px) {
+  :root {
+    --fuwari-page-width: min(90vw, 116rem);
+  }
+}
+@media (min-width: 2560px) {
+  :root {
+    --fuwari-page-width: min(86vw, 144rem);
+  }
+}
+
+/* 竖屏 / 长屏（窄高视口）：低于 lg(1024px) 已由 grid-cols-1 折叠为单列，
+   此处让页面宽度用满（100%），配合容器 px 内边距避免内容贴边。 */
+@media (orientation: portrait) and (max-width: 1023px) {
+  :root {
+    --fuwari-page-width: 100%;
+  }
+}
