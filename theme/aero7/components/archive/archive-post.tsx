@@ -18,7 +18,7 @@ export function ArchivePost({ post }: ArchivePostProps) {
     >
       <div className="flex flex-row justify-start items-center h-full">
         {/* Date */}
-        <div className="w-[15%] md:w-[10%] transition text-sm text-right fuwari-text-50">
+        <div className="w-[15%] md:w-[10%] transition text-sm text-right fuwari-text-50 group-hover:fuwari-text-90">
           <ClientOnly fallback="-">
             {date ? m.format_month_day({ date }) : "-"}
           </ClientOnly>
@@ -39,14 +39,14 @@ export function ArchivePost({ post }: ArchivePostProps) {
         {/* Post Title */}
         <div
           className="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
-            group-hover:translate-x-1 transition-all group-hover:text-(--fuwari-primary)
+            group-hover:translate-x-1 transition-all group-hover:fuwari-text-90
             fuwari-text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
         >
           {post.title}
         </div>
 
         {/* Tag List */}
-        <div className="hidden md:block md:w-[15%] text-left text-sm transition whitespace-nowrap overflow-ellipsis overflow-hidden fuwari-text-30">
+        <div className="hidden md:block md:w-[15%] text-left text-sm transition whitespace-nowrap overflow-ellipsis overflow-hidden fuwari-text-30 group-hover:fuwari-text-75">
           {post.tags?.map((t) => `#${t.name}`).join(" ")}
         </div>
       </div>
