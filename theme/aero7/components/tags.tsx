@@ -10,8 +10,6 @@ export function TagsSkeleton() {
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
-          <button type="button" aria-label="Minimize" />
-          <button type="button" aria-label="Maximize" />
           <button type="button" aria-label="Close" />
         </div>
       </div>
@@ -42,8 +40,6 @@ export function Tags() {
       <div className="title-bar">
         <div className="title-bar-text">{m.tags_title()}</div>
         <div className="title-bar-controls">
-          <button type="button" aria-label="Minimize" />
-          <button type="button" aria-label="Maximize" />
           <button type="button" aria-label="Close" />
         </div>
       </div>

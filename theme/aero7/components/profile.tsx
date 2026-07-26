@@ -13,8 +13,6 @@ export function Profile() {
       <div className="title-bar">
         <div className="title-bar-text">{siteConfig.author}</div>
         <div className="title-bar-controls">
-          <button type="button" aria-label="Minimize" />
-          <button type="button" aria-label="Maximize" />
           <button type="button" aria-label="Close" />
         </div>
       </div>

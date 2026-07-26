@@ -1,6 +1,10 @@
 @reference "tailwindcss";
 
 .fuwari-custom-md {
+  /* 防止长 URL / 代码单词撑破容器，确保在窄屏下自动换行 */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
   --tw-prose-body: rgb(0 0 0 / 0.9);
   --tw-prose-headings: rgb(0 0 0 / 0.9);
   --tw-prose-lead: rgb(0 0 0 / 0.75);

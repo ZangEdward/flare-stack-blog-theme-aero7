@@ -26,7 +26,7 @@ export function PostPage({ post }: PostPageProps) {
   const wordCount = post.readTimeInMinutes * 300;
 
   return (
-    <div className="relative flex flex-col gap-4 mb-4 w-full">
+    <div className="relative flex flex-col gap-4 mb-4 w-full min-w-0">
       {/* Table Of Contents (Desktop Floating Right) */}
       <div
         className="hidden 2xl:block absolute top-0 h-full pl-4"
@@ -48,13 +48,11 @@ export function PostPage({ post }: PostPageProps) {
             {post.title}
           </span>
           <div className="title-bar-controls">
-            <button type="button" aria-label="Minimize" tabIndex={-1} />
-            <button type="button" aria-label="Maximize" tabIndex={-1} />
             <button type="button" aria-label="Close" onClick={goBack} />
           </div>
         </div>
 
-        <div className="window-body has-space px-6 md:px-9 pt-6 pb-4">
+        <div className="window-body has-space px-6 md:px-9 pt-6 pb-4 min-w-0 overflow-hidden">
           {/* Word count and reading time */}
           <div className="flex flex-row flex-wrap fuwari-text-30 gap-5 mb-3 transition">
             <div className="flex flex-row items-center">
@@ -92,7 +90,7 @@ export function PostPage({ post }: PostPageProps) {
             <h1
               className="transition w-full block font-bold mb-3
                 text-3xl md:text-[2.25rem]/[2.75rem]
-                fuwari-text-90
+                fuwari-text-90 break-words
                 md:before:w-1 before:h-5 before:rounded-md before:bg-(--fuwari-primary)
                 before:absolute before:top-3 before:-left-4.5"
               style={{ viewTransitionName: `post-title-${post.slug}` }}
@@ -110,7 +108,7 @@ export function PostPage({ post }: PostPageProps) {
           <PostSummary summary={post.summary} />
 
           {/* Markdown Content */}
-          <div className="mb-6 prose dark:prose-invert prose-base max-w-none! fuwari-custom-md">
+          <div className="mb-6 prose dark:prose-invert prose-base max-w-none! fuwari-custom-md break-words">
             <ContentRenderer content={post.contentJson} />
           </div>
 

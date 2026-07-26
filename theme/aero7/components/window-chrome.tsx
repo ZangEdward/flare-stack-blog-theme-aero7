@@ -37,8 +37,6 @@ export function WindowChrome({
         {rightSlot}
         {showControls && (
           <div className="title-bar-controls">
-            <button type="button" aria-label="Minimize" tabIndex={-1} />
-            <button type="button" aria-label="Maximize" tabIndex={-1} />
             <button type="button" aria-label="Close" tabIndex={-1} />
           </div>
         )}

@@ -37,8 +37,6 @@ export function SearchPage({
         <div className="title-bar">
           <div className="title-bar-text">{m.search_placeholder()}</div>
           <div className="title-bar-controls">
-            <button type="button" aria-label="Minimize" />
-            <button type="button" aria-label="Maximize" />
             <button type="button" aria-label="Close" onClick={onBack} />
           </div>
         </div>
