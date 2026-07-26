@@ -2,6 +2,7 @@
 
 import {
   useCallback,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -12,6 +13,27 @@ import { cn } from "@/lib/utils";
 
 /** 全局置顶 z-index：每次点击窗口时递增，确保当前窗口盖在所有已浮动窗口之上。 */
 let globalTopZ = 100;
+
+/**
+ * 浮动事件总线：当任意一个窗口开始拖动时（脱离 grid 流变成 absolute），
+ * 通知所有其他窗口**同步**脱离 grid 流。这是为了避免：
+ * grid 中某个 item 变成 absolute 后，剩下的 grid items 被 grid auto-flow
+ * 重新排版（"补齐"空位），导致其他窗口位置突变。
+ *
+ * 通过模块级 Set 实现轻量级发布订阅（不需要 Context，跨多个
+ * DraggableWindow 实例直接通信）。 */
+const floatingSubscribers = new Set<() => void>();
+
+function notifyAnyWindowFloating() {
+  floatingSubscribers.forEach((cb) => cb());
+}
+
+function subscribeAnyWindowFloating(cb: () => void): () => void {
+  floatingSubscribers.add(cb);
+  return () => {
+    floatingSubscribers.delete(cb);
+  };
+}
 
 interface Position {
   x: number;
@@ -80,6 +102,35 @@ export function DraggableWindow({
   } | null>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * 监听"任意窗口浮动"事件：当其他窗口开始拖动时，把自己同步脱离 grid 流。
+   * 记录当前位置作为 absolute 起点，size 也固化（避免被 grid 拉伸）。
+   * 用 useLayoutEffect 确保在浏览器绘制前同步执行，避免视觉跳变。
+   */
+  useLayoutEffect(() => {
+    const unsubscribe = subscribeAnyWindowFloating(() => {
+      // 自己已经在 absolute 浮动，不需要再处理
+      setPos((current) => {
+        if (current) return current;
+        const el = nodeRef.current;
+        const parent = el?.offsetParent as HTMLElement | null;
+        if (!el || !parent) return current;
+        const elRect = el.getBoundingClientRect();
+        const parentRect = parent.getBoundingClientRect();
+        const newPos: Position = {
+          x: elRect.left - parentRect.left + parent.scrollLeft,
+          y: elRect.top - parentRect.top + parent.scrollTop,
+          w: elRect.width,
+          h: elRect.height,
+        };
+        // 同步固化 size
+        setSize({ w: elRect.width, h: elRect.height });
+        return newPos;
+      });
+    });
+    return unsubscribe;
+  }, []);
+
   const onPointerDown = useCallback(
     (e: PointerEvent<HTMLDivElement>) => {
       if (e.button !== 0) return;
@@ -125,6 +176,8 @@ export function DraggableWindow({
 
       setPos(curPos);
       setSize(curSize);
+      // 通知其他窗口同步脱离 grid 流（避免 grid auto-flow 重新排版）
+      notifyAnyWindowFloating();
       setIsDragging(true);
       try {
         (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
