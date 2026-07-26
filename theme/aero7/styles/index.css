@@ -1149,20 +1149,10 @@ html.aero7-theme .aero-desktop {
   width: 100%;
 }
 
-/* 有壁纸时让桌面背景透明，避免盖住壁纸 */
+/* 有壁纸时：把壁纸直接画在 .aero-desktop 自身背景层上（与渐变同机制），
+   窗口的 backdrop-filter 才能稳定模糊到壁纸，而不再是透明层后面的白色。 */
 html.aero7-theme .aero-desktop.has-wallpaper {
-  background: transparent;
-}
-
-/* 桌面壁纸：放在 .aero-desktop 内部第一层，作为内容背景 */
-html.aero7-theme .aero-desktop-wallpaper {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  z-index: 0;
+  background: var(--aero-wallpaper) center / cover no-repeat;
 }
 
 /* 桌面容器：左列侧栏 + 右列主区 */

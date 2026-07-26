@@ -78,15 +78,16 @@ export function PublicLayout({
         isLoading={isSessionLoading}
       />
 
-      {/* 桌面区：壁纸放在桌面内部第一层，确保在内容下方 */}
-      <div className={cn("aero-desktop", bgUrl && "has-wallpaper")}>
-        {bgUrl && (
-          <div
-            aria-hidden="true"
-            className="aero-desktop-wallpaper"
-            style={{ backgroundImage: `url("${bgUrl}")` }}
-          />
-        )}
+      {/* 桌面区：壁纸作为 .aero-desktop 自身背景绘制（与渐变同机制），
+          这样窗口的 backdrop-filter 才能正确模糊到壁纸，而不是透明层。 */}
+      <div
+        className={cn("aero-desktop", bgUrl && "has-wallpaper")}
+        style={
+          bgUrl
+            ? ({ "--aero-wallpaper": `url("${bgUrl}")` } as React.CSSProperties)
+            : undefined
+        }
+      >
         <div className="aero-desktop-content">
           <aside className="aero-desktop-sidebar">
             <Sidebar />
