@@ -44,7 +44,7 @@ export function Tags() {
         </div>
       </div>
       <div className="window-body has-space">
-        <div className="flex flex-wrap gap-2">
+        <div className="aero-field aero-field-tags">
           {tags.map((tag) => (
             <Link
               key={tag.id}
