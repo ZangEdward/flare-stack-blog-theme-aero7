@@ -1139,6 +1139,60 @@ html.aero7-theme .searchbox [type="search"] {
   box-sizing: border-box;
 }
 
+/* ===== 首页文章卡片：简介 / 标签框 复用 7.css 搜索框（[type=search]）字段外观 =====
+   与搜索页搜索框视觉一致：白底 + Win7 内嵌边框（inset 阴影）+ 圆角。 */
+html.aero7-theme .aero-field {
+  display: block;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow:
+    inset 1px 1px 0 var(--w7-el-bd),
+    inset -1px -1px 0 #ccc;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  color: #222;
+}
+
+/* 简介字段：保留多行截断 */
+html.aero7-theme .aero-field-summary {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+/* 标签框：横向排列的 Win7 小按钮式标签 */
+html.aero7-theme .aero-field-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+}
+
+html.aero7-theme .aero-field-tags .aero-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: var(--w7-el-grad);
+  border: 1px solid var(--w7-el-bd);
+  box-shadow: var(--w7-el-sd);
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
+}
+
+html.aero7-theme .aero-field-tags .aero-tag-chip:hover {
+  background: var(--w7-el-grad-h);
+  border-color: var(--w7-el-bd-h);
+}
+
 /* =========== 桌面区域 =========== */
 
 html.aero7-theme .aero-desktop {

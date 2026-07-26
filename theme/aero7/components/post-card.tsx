@@ -74,11 +74,28 @@ export function PostCard({
 
       {/* 正文区 */}
       <div className="window-body has-space flex-1 overflow-hidden">
-        <div className="flex flex-col gap-4 h-full">
-          {/* 摘要 */}
-          <div className="fuwari-text-75 text-lg leading-relaxed line-clamp-4 md:line-clamp-3 wrap-break-word">
+        <div className="flex flex-col gap-3 h-full">
+          {/* 简介：复用 7.css 搜索框（[type=search]）内嵌字段外观 */}
+          <div className="aero-field aero-field-summary fuwari-text-75 line-clamp-4 md:line-clamp-3 wrap-break-word">
             {post.summary ?? ""}
           </div>
+
+          {/* 标签框：同样使用搜索框风格容器，标签以 Win7 小按钮式 chip 呈现 */}
+          {tagNames.length > 0 && (
+            <div className="aero-field aero-field-tags">
+              {tagNames.map((name) => (
+                <Link
+                  key={name}
+                  to="/posts"
+                  search={{ tagName: name }}
+                  className="aero-tag-chip"
+                >
+                  <Tag size={11} strokeWidth={1.5} />
+                  {name}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* 底部：元信息 + 阅读详情 */}
           <div className="flex items-end justify-between gap-4 mt-auto">
@@ -91,13 +108,6 @@ export function PostCard({
                   </ClientOnly>
                 </time>
               </span>
-
-              {tagNames.length > 0 && (
-                <span className="inline-flex items-center gap-1">
-                  <Tag size={12} strokeWidth={1.5} />
-                  {tagNames.join(" / ")}
-                </span>
-              )}
 
               <span className="inline-flex items-center gap-1">
                 <Clock size={12} />
