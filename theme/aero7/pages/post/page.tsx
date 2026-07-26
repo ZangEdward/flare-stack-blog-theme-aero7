@@ -39,7 +39,7 @@ export function PostPage({ post }: PostPageProps) {
       </div>
 
       {/* 文章主体：7.css 玻璃窗（标题栏 + 关闭返回） */}
-      <div className="window glass active flex flex-col w-full fuwari-onload-animation">
+      <div className="window glass active flex flex-col w-full min-w-0 fuwari-onload-animation">
         <div className="title-bar">
           <span
             className="title-bar-text flex-1 min-w-0 truncate"

@@ -1146,6 +1146,7 @@ html.aero7-theme .aero-desktop {
   overflow: auto;
   position: relative;
   background: var(--fuwari-page-bg);
+  width: 100%;
 }
 
 /* 桌面壁纸（叠加在 --fuwari-page-bg 之上，由 public-layout 直接以 style 注入 url） */
@@ -1169,6 +1170,7 @@ html.aero7-theme .aero-desktop-content {
   box-sizing: border-box;
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
 /* 侧栏（左列） */
@@ -1200,10 +1202,12 @@ html.aero7-theme .aero-sidebar-window > .window-body {
   margin-bottom: 0;
 }
 
-/* 主区（右列）：自适应的网格列 */
+/* 主区（右列）：自适应的网格列。
+   使用 auto-fit（不是 auto-fill）：当子元素不足时，空轨道会被折叠，
+   单个窗口（如文章页）能占满整个主区；多元素时仍按 320px 列自动换行。 */
 html.aero7-theme .aero-desktop-main {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1rem;
   align-items: start;
   min-width: 0;
