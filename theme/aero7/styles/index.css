@@ -835,3 +835,28 @@ html.aero7-theme .title-bar .aero-tb-badge-hot {
 .dark html.aero7-theme .title-bar .aero-tb-badge {
   color: #eaf6ff;
 }
+
+/* ===== aero7 增强：让整扇 .window.glass 都是磨砂玻璃（含正文区）=====
+ * 7.css 原生 .window-body 背景为不透明的 --w7-surface(#f0f0f0)，
+ * 所以正文区看不到毛玻璃，只有标题栏(半透明 --w7-w-glass)发毛——用户反馈“模糊没生效”。
+ * 这里在 aero7 作用域内给 .window.glass 自身加半透明底色 + backdrop-filter，
+ * 并把 .window-body 设为透明，使整窗透出被模糊的壁纸（经典 Aero 磨砂感）。
+ * 标题栏 / 蓝色边框 / 控件按钮仍全部由 7.css 原生机制渲染，未重画外观。
+ * 注意：包裹 .window 的 .fuwari-onload-animation 已改为纯 opacity（无 transform），
+ * 不会成为 backdrop-filter 的“背景根”，毛玻璃可正常生效。 */
+html.aero7-theme .window.glass {
+  background: rgba(228, 240, 250, 0.34);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+}
+.dark html.aero7-theme .window.glass {
+  background: rgba(18, 38, 60, 0.42);
+}
+/* 正文区透明，露出 .window.glass 的磨砂壁纸 */
+html.aero7-theme .window.glass .window-body {
+  background: transparent;
+}
+/* 蓝色 Aero 框适当透一点，配合磨砂更像玻璃而非实色块 */
+html.aero7-theme .window.glass::before {
+  opacity: 0.45;
+}
