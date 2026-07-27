@@ -1499,6 +1499,15 @@ html.aero7-theme .aero-desktop.has-wallpaper::before {
   background-image: var(--aero-wallpaper);
 }
 
+/* 深色模式：在自定义壁纸上叠一层中性灰半透明罩，压暗背景、提升磨砂玻璃对比度。
+   灰色渐变作为 background-image 的「顶层」，位于壁纸图层之上，玻璃窗 backdrop-filter
+   采样到的也是这层灰化后的壁纸（与整站深色浅灰玻璃一致）。 */
+html.aero7-theme.dark .aero-desktop.has-wallpaper::before {
+  background-image:
+    linear-gradient(rgba(50, 54, 62, 0.5), rgba(50, 54, 62, 0.5)),
+    var(--aero-wallpaper);
+}
+
 /* 桌面容器：左列侧栏 + 右列主区
    ⚠️ 不要给本容器加 position+z-index 创建新的 stacking context，否则
    post-card 的 backdrop-filter 会被这里的 stacking context 隔断，
