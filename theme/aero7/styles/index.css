@@ -1027,6 +1027,8 @@ html.aero7-theme .aero-taskbar {
   display: flex;
   align-items: center;
   gap: 0;
+  position: sticky;
+  top: 0;
   height: var(--aero-taskbar-height);
   padding: 0 0.5rem;
   flex-shrink: 0;
@@ -1446,12 +1448,11 @@ html.aero7-theme .aero-tag-pill-count {
 /* =========== 桌面区域 =========== */
 
 html.aero7-theme .aero-desktop {
-  flex: 1 1 auto;
+  /* 不再 flex:1，由内容决定高度。
+     内容短时桌面区=内容高度，下方隙由 body 背景（--fuwari-page-bg 渐变）填充，
+     不再露出壁纸空区。 */
   min-height: 0;
-  /* ⚠️ 滚动交给内层 .aero-desktop-scroll。
-     若 .aero-desktop 自己 overflow:auto，其原生滚动条绘制在「元素背景层」，
-     会被 z-index:-1 的壁纸 ::before 盖住 → 右侧滚动条不可见。 */
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1468,32 +1469,26 @@ html.aero7-theme .aero-desktop {
    ⚠️ 不要加 position/z-index/transform 等创建 stacking context 的属性，
    否则 .window.glass 的 backdrop-filter 会被隔断、采样不到壁纸。 */
 html.aero7-theme .aero-desktop-scroll {
-  flex: 1 1 auto;
-  min-height: 0;
-  /* 纵向滚动保留；横向禁止出现滚动条——文章网格已用 minmax(0,1fr) 收敛，
-     这里再兜底，确保任何残余 min-content 都不会让文章框横向超出屏幕。 */
+  /* 不再需要 flex:1 和 overflow-y:auto——父级 .aero-desktop 不再用 flex:1
+     撑满视口，由 body 层处理页面滚动。这里保留 overflow-x:hidden
+     防止文章网格在极窄屏时横向溢出。 */
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: visible;
   width: 100%;
-  /* footer 放在滚动容器内：其原有的底部 margin 在某些浏览器/分辨率下
-     不被计入滚动高度，导致底部 "Powered by" 行被截断，或在短页面时
-     在版权文字下方留下一段「来历不明的空白格」。
-     改用滚动容器的 padding-bottom 提供可靠的底部安全间距
-     （padding 一定计入滚动高度，且不再产生外部空白），确保版权完整可见。 */
-  padding-bottom: 2.5rem;
+  /* 极小的底部间距，避免内容紧贴视口底边 */
+  padding-bottom: 0.5rem;
 }
 
 /* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。
-   - 用 position: fixed; inset: 0 —— 壁纸「钉」在视口，永远铺满整页，
-     不随页面滚动而移动，也不会因内容高于视口而在底部「漏出」渐变背景。
-   - 注意：不要用 background-attachment: fixed（那才会创建独立合成层、
-     破坏 .window.glass 的 backdrop-filter 采样）。position:fixed 的伪元素
-     本身是普通绘制层，仍留在 .aero-desktop 的 stacking context 内（isolation:isolate），
-     玻璃窗口能正常采样到它。
+   - 用 position: absolute; inset: 0 —— 壁纸覆盖桌面区（内容区），
+     不展开到内容下方的 body 区域；内容短时下方露出 body 渐变背景，
+     不再有「整片壁纸空区」。
+   - 不要用 background-attachment: fixed（那会创建独立合成层、
+     破坏 .window.glass 的 backdrop-filter 采样）。
    - z-index: -1 让壁纸位于桌面内容之下、.aero-desktop 自身背景之上。 */
 html.aero7-theme .aero-desktop::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -1;
   background-size: cover;
@@ -1531,12 +1526,10 @@ html.aero7-theme .aero-desktop-content {
   grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
   gap: 1rem;
   padding: 1rem;
-  min-height: 100%;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
 }
-
 /* 侧栏（左列）
    ⚠️ 同 aero-desktop-content，不要加 position+z-index 创建 stacking context。 */
 html.aero7-theme .aero-desktop-sidebar {
