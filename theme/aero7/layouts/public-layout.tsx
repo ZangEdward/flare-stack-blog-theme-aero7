@@ -4,6 +4,7 @@ import { useRouteContext } from "@tanstack/react-router";
 import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
 import { Sidebar } from "../components/sidebar";
+import { Footer } from "./footer";
 import { MobileMenu } from "./mobile-menu";
 import { Navbar } from "./navbar";
 
@@ -98,6 +99,7 @@ export function PublicLayout({
             </aside>
             <main className="aero-desktop-main">{children}</main>
           </div>
+          <Footer navOptions={navOptions} />
         </div>
       </div>
 
