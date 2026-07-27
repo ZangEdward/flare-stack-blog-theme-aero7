@@ -811,6 +811,98 @@ html.aero7-theme .window-body::-webkit-scrollbar-button:horizontal:end {
     no-repeat center / 9px 10px;
 }
 
+/* 7.css 滚动条按钮 hover 状态：与 thumb hover 一致的浅蓝渐变 */
+html.aero7-theme::-webkit-scrollbar-button:hover,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:hover,
+html.aero7-theme .window-body::-webkit-scrollbar-button:hover {
+  background-color: var(--w7-el-bg, #f2f2f2);
+  border-color: var(--w7-el-bd, #8e8f8f);
+  border-radius: var(--w7-el-bdr, 6px);
+  box-shadow: var(--w7-el-sd, inset 0 0 0 1px #fffc);
+}
+html.aero7-theme::-webkit-scrollbar-button:hover:vertical:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:hover:vertical:start,
+html.aero7-theme .window-body::-webkit-scrollbar-button:hover:vertical:start {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 7L5 0L10 7Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 10px 9px,
+    linear-gradient(to right, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+html.aero7-theme::-webkit-scrollbar-button:hover:vertical:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:hover:vertical:end,
+html.aero7-theme .window-body::-webkit-scrollbar-button:hover:vertical:end {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L10 0L5 9Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 10px 9px,
+    linear-gradient(to right, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+html.aero7-theme::-webkit-scrollbar-button:hover:horizontal:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:hover:horizontal:start,
+html.aero7-theme .window-body::-webkit-scrollbar-button:hover:horizontal:start {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 0L0 5L7 10Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 9px 10px,
+    linear-gradient(to bottom, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+html.aero7-theme::-webkit-scrollbar-button:hover:horizontal:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:hover:horizontal:end,
+html.aero7-theme .window-body::-webkit-scrollbar-button:hover:horizontal:end {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L7 5L0 10Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 9px 10px,
+    linear-gradient(to bottom, var(--w7-sb-grad-h-1, #eaf6fd) 45%, var(--w7-sb-grad-h-2, #bee6fd) 45%);
+  border-color: var(--w7-el-bd-h, #3c7fb1);
+}
+
+/* 7.css 滚动条按钮 active（按下）状态：稍深的天蓝渐变 */
+html.aero7-theme::-webkit-scrollbar-button:active,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:active,
+html.aero7-theme .window-body::-webkit-scrollbar-button:active {
+  background-color: var(--w7-el-bg, #f2f2f2);
+  border-color: var(--w7-el-bd, #8e8f8f);
+  border-radius: var(--w7-el-bdr, 6px);
+  box-shadow: var(--w7-el-sd, inset 0 0 0 1px #fffc);
+}
+html.aero7-theme::-webkit-scrollbar-button:active:vertical:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:active:vertical:start,
+html.aero7-theme .window-body::-webkit-scrollbar-button:active:vertical:start {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 7L5 0L10 7Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 10px 9px,
+    linear-gradient(to right, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
+}
+html.aero7-theme::-webkit-scrollbar-button:active:vertical:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:active:vertical:end,
+html.aero7-theme .window-body::-webkit-scrollbar-button:active:vertical:end {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L10 0L5 9Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 10px 9px,
+    linear-gradient(to right, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
+}
+html.aero7-theme::-webkit-scrollbar-button:active:horizontal:start,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:active:horizontal:start,
+html.aero7-theme .window-body::-webkit-scrollbar-button:active:horizontal:start {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 0L0 5L7 10Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 9px 10px,
+    linear-gradient(to bottom, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
+}
+html.aero7-theme::-webkit-scrollbar-button:active:horizontal:end,
+html.aero7-theme .aero-desktop-scroll::-webkit-scrollbar-button:active:horizontal:end,
+html.aero7-theme .window-body::-webkit-scrollbar-button:active:horizontal:end {
+  background:
+    url("data:image/svg+xml;charset=utf-8,%3Csvg width='10' height='9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L7 5L0 10Z' fill='%23333'/%3E%3C/svg%3E")
+      no-repeat center / 9px 10px,
+    linear-gradient(to bottom, var(--w7-sb-grad-a-1, #c4e5f6) 45%, var(--w7-sb-grad-a-2, #98d1ef) 45%);
+  border-color: var(--w7-el-bd-a, #6d91ab);
+}
+
 /* ===== 搜索页搜索框：完全交给 7.css 原生 .searchbox =====
  * 7.css 提供 input + button 的容器样式（白底 input + 蓝色 Aero 玻璃搜索按钮
  * + 白色放大镜图标），无需 aero7 自造容器或样式。
