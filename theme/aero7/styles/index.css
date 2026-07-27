@@ -1475,10 +1475,12 @@ html.aero7-theme .aero-desktop-scroll {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
-  /* footer 放在滚动容器内，其最后一个子元素使用 margin-bottom 时
-     在某些浏览器/分辨率下不会被计入滚动高度，导致底部 "Powered by" 行被截断。
-     底部加一层 padding 作为安全间距，确保版权信息完整可见。 */
-  padding-bottom: 1rem;
+  /* footer 放在滚动容器内：其原有的底部 margin 在某些浏览器/分辨率下
+     不被计入滚动高度，导致底部 "Powered by" 行被截断，或在短页面时
+     在版权文字下方留下一段「来历不明的空白格」。
+     改用滚动容器的 padding-bottom 提供可靠的底部安全间距
+     （padding 一定计入滚动高度，且不再产生外部空白），确保版权完整可见。 */
+  padding-bottom: 2.5rem;
 }
 
 /* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。

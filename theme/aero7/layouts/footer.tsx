@@ -13,7 +13,7 @@ export function Footer(_: FooterProps) {
   return (
     <>
       <div className="border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-4 md:mx-32" />
-      <div className="border-dashed border-black/10 dark:border-white/15 rounded-2xl pb-12 flex flex-col items-center justify-center px-6 py-8">
+      <div className="border-dashed border-black/10 dark:border-white/15 rounded-2xl flex flex-col items-center justify-center px-6 py-8">
         <div className="fuwari-text-50 text-sm text-center">
           <ClientOnly fallback="-">
             {m.footer_copyright({
