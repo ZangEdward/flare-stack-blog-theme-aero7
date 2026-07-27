@@ -30,7 +30,7 @@ export function PostsPage({
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="flex flex-col gap-4 w-full aero-full-column" style={{ animationDelay: "150ms" }}>
+    <div className="flex flex-col gap-4 w-full" style={{ animationDelay: "150ms" }}>
       {posts.length > 0 && <ArchivePanel posts={posts} />}
 
       {/* Infinite Scroll trigger and loading indicator */}

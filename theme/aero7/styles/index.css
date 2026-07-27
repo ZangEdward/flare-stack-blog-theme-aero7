@@ -1576,30 +1576,26 @@ html.aero7-theme .aero-desktop-main {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 1rem;
   align-items: start;
-  /* 卡片较少（首页/列表只有几张）时，让网格在整列高度内垂直居中，
-     上下留白均衡，避免「内容全堆在顶部、底部一大片露壁纸」的空白观感
-     （即用户反馈的「照着网页表格分栏布局」带来的底部空格）。 */
-  align-content: center;
   min-width: 0;
 }
 
-/* 单子页面（文章详情、归档、搜索、友链、个人页等）：自动占满整列，
-   避免内容被卡在 320px 网格轨道里、不随浏览器宽度自适应；
-   同时让主列容器本身在垂直方向伸展填满整列高度，
-   内容较短时（搜索/个人页等）在容器内垂直居中，
-   使上下留白均衡、消除「内容堆顶部、底部一大片露壁纸」的空白观感
-   （即用户反馈的「照着网页表格分栏布局」带来的底部空格）。
+/* 单子页面（文章详情、归档、搜索等）：自动占满整列，
+   避免文章被卡在 320px 网格轨道里、不随浏览器宽度自适应。
    - :has(:only-child) 覆盖所有「只有一个直接子元素」的页面（现代浏览器）；
    - .aero-full-column 作为显式兜底，兼容不支持 :has 的环境。 */
 html.aero7-theme .aero-desktop-main:has(> :only-child),
 html.aero7-theme .aero-desktop-main > .aero-full-column {
-  grid-column: 1 / -1;
   grid-template-columns: 1fr;
+}
+html.aero7-theme .aero-desktop-main > .aero-full-column {
+  grid-column: 1 / -1;
+  /* 单子页面（文章/归档/搜索等）内容较短时，
+     让主列容器本身占满整列高度，并把主内容卡片（文章窗 / 归档卡片）
+     在垂直方向伸展填满剩余空间，避免下方露出大片壁纸形成「空白段」。 */
   align-self: stretch;
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 html.aero7-theme .aero-desktop-main > .aero-full-column > .window.glass.active,
 html.aero7-theme .aero-desktop-main > .aero-full-column > .fuwari-card-base {
