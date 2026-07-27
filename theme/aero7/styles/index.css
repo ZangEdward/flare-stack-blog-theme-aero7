@@ -1111,6 +1111,10 @@ html.aero7-theme body {
 }
 html.aero7-theme {
   height: 100%;
+  /* 7.css 设了 body { scrollbar-width:thin }，导致浏览器滚动条缩窄。
+     还原为 auto，让 WebKit scrollbar 以 16px 全宽显示 7.css 样式。 */
+  scrollbar-width: auto;
+  scrollbar-color: auto;
 }
 html.aero7-theme body {
   min-height: 100%;
