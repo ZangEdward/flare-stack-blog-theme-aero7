@@ -1475,6 +1475,10 @@ html.aero7-theme .aero-desktop-scroll {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+  /* footer 放在滚动容器内，其最后一个子元素使用 margin-bottom 时
+     在某些浏览器/分辨率下不会被计入滚动高度，导致底部 "Powered by" 行被截断。
+     底部加一层 padding 作为安全间距，确保版权信息完整可见。 */
+  padding-bottom: 1rem;
 }
 
 /* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。
