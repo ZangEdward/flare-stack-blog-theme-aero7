@@ -1589,6 +1589,17 @@ html.aero7-theme .aero-desktop-main > .aero-full-column {
 }
 html.aero7-theme .aero-desktop-main > .aero-full-column {
   grid-column: 1 / -1;
+  /* 单子页面（文章/归档/搜索等）内容较短时，
+     让主列容器本身占满整列高度，并把主内容卡片（文章窗 / 归档卡片）
+     在垂直方向伸展填满剩余空间，避免下方露出大片壁纸形成「空白段」。 */
+  align-self: stretch;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+html.aero7-theme .aero-desktop-main > .aero-full-column > .window.glass.active,
+html.aero7-theme .aero-desktop-main > .aero-full-column > .fuwari-card-base {
+  flex: 1 1 auto;
 }
 
 /* 网格子项（grid 流式布局下的窗口） */
