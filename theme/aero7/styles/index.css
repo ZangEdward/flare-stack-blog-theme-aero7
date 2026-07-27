@@ -1012,13 +1012,16 @@ html.aero7-theme.dark .title-bar .aero-tb-badge {
   --aero-taskbar-height: 44px;
 }
 
-/* 让 aero7 主题内：<html> 与 <body> 都不出现滚动条，
- * 由桌面区自行管理滚动条（Win7 桌面体验）。 */
+/* aero7 主题基础：移除滚动限制——页面滚动交给 body 层管理。 */
 html.aero7-theme,
 html.aero7-theme body {
-  height: 100%;
   margin: 0;
-  overflow: hidden;
+}
+html.aero7-theme {
+  height: 100%;
+}
+html.aero7-theme body {
+  min-height: 100%;
 }
 
 /* =========== 顶部 Win7 任务栏 =========== */
