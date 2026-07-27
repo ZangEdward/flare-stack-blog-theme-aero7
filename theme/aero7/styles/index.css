@@ -1469,26 +1469,24 @@ html.aero7-theme .aero-desktop {
    ⚠️ 不要加 position/z-index/transform 等创建 stacking context 的属性，
    否则 .window.glass 的 backdrop-filter 会被隔断、采样不到壁纸。 */
 html.aero7-theme .aero-desktop-scroll {
-  /* 不再需要 flex:1 和 overflow-y:auto——父级 .aero-desktop 不再用 flex:1
-     撑满视口，由 body 层处理页面滚动。这里保留 overflow-x:hidden
-     防止文章网格在极窄屏时横向溢出。 */
-  overflow-x: hidden;
+  /* overflow-x:hidden 与 overflow-y:visible 不能混用（浏览器把 visible 算成 auto），
+     会导致内部构建滚动容器、锁死 body 层页面滚动。设为 clip 解决。 */
+  overflow-x: clip;
   overflow-y: visible;
   width: 100%;
-  /* 极小的底部间距，避免内容紧贴视口底边 */
+  /* 底部极小间距，避免内容紧贴底边 */
   padding-bottom: 0.5rem;
 }
 
 /* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。
-   - 用 position: absolute; inset: 0 —— 壁纸覆盖桌面区（内容区），
-     不展开到内容下方的 body 区域；内容短时下方露出 body 渐变背景，
-     不再有「整片壁纸空区」。
+   - position: fixed; inset: 0 —— 壁纸钉在视口、铺满全屏（桌面感）；
+   - background-size: cover —— 图片按比例覆盖，可裁切边缘；
    - 不要用 background-attachment: fixed（那会创建独立合成层、
      破坏 .window.glass 的 backdrop-filter 采样）。
    - z-index: -1 让壁纸位于桌面内容之下、.aero-desktop 自身背景之上。 */
 html.aero7-theme .aero-desktop::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -1;
   background-size: cover;
