@@ -1475,12 +1475,12 @@ html.aero7-theme .aero-desktop-scroll {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
-  /* Sticky footer：让 .aero-desktop-content 伸展并把 Footer 推到底部，
-     避免短页面时版权悬浮在内容正下方、露出大片壁纸空区。
-     保留少量 padding-bottom 给 footer 与视口底边留一点呼吸间距。 */
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1rem;
+  /* footer 放在滚动容器内：其原有的底部 margin 在某些浏览器/分辨率下
+     不被计入滚动高度，导致底部 "Powered by" 行被截断，或在短页面时
+     在版权文字下方留下一段「来历不明的空白格」。
+     改用滚动容器的 padding-bottom 提供可靠的底部安全间距
+     （padding 一定计入滚动高度，且不再产生外部空白），确保版权完整可见。 */
+  padding-bottom: 2.5rem;
 }
 
 /* 壁纸层：在 .aero-desktop 内用 ::before 伪元素渲染。
@@ -1535,9 +1535,6 @@ html.aero7-theme .aero-desktop-content {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  /* Sticky footer：在 .aero-desktop-scroll 的 flex column 里伸展，
-     把 Footer 推到底部；内容长时自动撑高并触发滚动。 */
-  flex: 1 1 auto;
 }
 
 /* 侧栏（左列）
@@ -1580,13 +1577,6 @@ html.aero7-theme .aero-desktop-main {
   gap: 1rem;
   align-items: start;
   min-width: 0;
-  /* 给主内容区垫一层与卡片同系的半透明背景板：
-     - 内容短时，卡片下方不再直接露出壁纸，形成「空区」；
-     - 不拉伸卡片、不居中内容，保持桌面窗口自然置顶；
-     - 窗口/卡片仍在背景板之上，7.css 玻璃高光与边框保持可见。 */
-  background: var(--fuwari-card-bg);
-  border-radius: 8px;
-  align-content: start;
 }
 
 /* 单子页面（文章详情、归档、搜索等）：自动占满整列，
