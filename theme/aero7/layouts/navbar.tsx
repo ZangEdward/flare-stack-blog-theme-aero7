@@ -3,7 +3,6 @@ import {
   FileText,
   Home,
   Link2,
-  Menu,
   Newspaper,
   Search,
   User,
@@ -16,7 +15,6 @@ import { LanguageSwitcher } from "./language-switcher";
 
 interface NavbarProps {
   navOptions: Array<NavOption>;
-  onMenuClick: () => void;
   isLoading?: boolean;
   user?: UserInfo;
 }
@@ -59,7 +57,6 @@ function navIcon(option: NavOption) {
 }
 
 export function Navbar({
-  onMenuClick,
   user,
   navOptions,
   isLoading,
@@ -158,15 +155,6 @@ export function Navbar({
             </Link>
           )}
         </div>
-
-        <button
-          className="aero-taskbar-btn aero-taskbar-btn-icon-only md:hidden"
-          onClick={onMenuClick}
-          aria-label="Open menu"
-          type="button"
-        >
-          <Menu size={16} strokeWidth={1.5} />
-        </button>
       </div>
     </div>
   );

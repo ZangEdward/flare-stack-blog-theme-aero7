@@ -5,7 +5,6 @@ import type { PublicLayoutProps } from "@/features/theme/contract/layouts";
 import { BackToTop } from "../components/control/back-to-top";
 import { Sidebar } from "../components/sidebar";
 import { Footer } from "./footer";
-import { MobileMenu } from "./mobile-menu";
 import { Navbar } from "./navbar";
 
 /**
@@ -23,7 +22,6 @@ export function PublicLayout({
   navOptions,
   user,
   isSessionLoading,
-  logout,
 }: PublicLayoutProps) {
   const ctx = useRouteContext({ from: "__root__" });
   const siteConfig = ctx.siteConfig;
@@ -63,18 +61,9 @@ export function PublicLayout({
 
   return (
     <div className="relative flex h-screen flex-col overflow-hidden">
-      <MobileMenu
-        navOptions={navOptions}
-        isOpen={false}
-        onClose={() => {}}
-        user={user}
-        logout={logout}
-      />
-
       {/* Win7 任务栏 */}
       <Navbar
         navOptions={navOptions}
-        onMenuClick={() => {}}
         user={user}
         isLoading={isSessionLoading}
       />
