@@ -19,8 +19,9 @@
 - **Frutiger Aero 玻璃质感**：半透明磨砂面板（backdrop-filter blur + saturate）、白内描边 + 深蓝外描边 + 投影，浮在壁纸之上。
 - **仿 Windows 7 窗口标题栏导航**：顶部导航栏使用 Aero 玻璃高光渐变 + 标签页式菜单。
 - **7.css 原生控件**：按钮、输入框、复选框等沿用 Windows 7 原生外观。
-- **深色模式**：内置夜空玻璃变体。
-- **后台可配置**：主题强调色（accentColor）与背景壁纸均可在后台"设置"页运行时调整。
+- **深色模式（夜空磨砂）**：内置"夜空磨砂"变体——窗口 / 任务栏 / 卡片一律改用**浅灰半透明玻璃**（`rgba(74,80,90,.22)` + 更高 `backdrop-filter` 模糊），比纯黑更通透、更接近 Win7 Aero 夜空；并在自定义壁纸上叠加一层中性灰透明罩（`rgba(50,54,62,.5)`），压暗背景、提升磨砂玻璃对比。
+- **顶部任务栏**：Windows 任务栏固定在**屏幕顶部**（非 Win7 传统的底部），语言切换等弹出菜单向下展开；左侧站点 Orb + 圆形头像（hover 弹出签名 tooltip），右侧语言切换沿用 7.css 原生 `[role="menu"]`。
+- **后台可配置**：主题强调色（accentColor）、首页独立壁纸（homeBg）与背景壁纸均可在后台"设置"页运行时调整。
 - **暗/亮双主题**：跟随框架的 dark / light variant。
 
 ## 📦 目录结构
@@ -114,8 +115,11 @@ export const themes: Record<ThemeName, ThemeRouterConfig> = {
 
 登录后台 → **设置** → 主题设置（当前主题为 aero7 时显示）：
 
-- **主题强调色 accentColor**：Aero 窗口主色 + 链接/按钮高亮，默认 `#3c7fb1`。
-- **背景壁纸**：复用 default 主题的 `background`（homeImage / globalImage、模糊、透明度）。
+- **主题强调色 accentColor**：Aero 窗口主色 + 链接/按钮高亮，默认 `#3c7fb1`（后台若误存白色 / `#fff` 会自动回落默认蓝，避免主题"看起来没应用"）。
+- **首页壁纸 homeBg**（aero7 专属）：仅首页使用的独立壁纸；留空则回落到下方 default 背景。
+- **背景壁纸**：复用 default 主题的 `background`（`homeImage` / `globalImage`、模糊、透明度），作为 `homeBg` 留空时的兜底，以及非首页的通用壁纸。
+
+> **壁纸读取优先级**：`theme.aero7.homeBg` → `theme.default.background.homeImage`（首页）/ `globalImage`（其它页）→ 内置兜底 `aero-wallpaper.jpg`。
 
 ## 🙏 致谢
 
