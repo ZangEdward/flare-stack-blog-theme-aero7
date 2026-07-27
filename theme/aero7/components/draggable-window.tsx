@@ -48,6 +48,10 @@ interface DraggableWindowProps {
    *  缺省 h 时，容器高度由内容自然撑开（侧栏不会拉伸成空的灰色条）。 */
   defaultSize?: { w?: number; h?: number };
   className?: string;
+  /** 覆盖外壳基础类：默认是 aero-desktop-window（定位壳，非 7.css 窗口）；
+   *  某些场景（如侧栏 Tags 窗）希望外壳本身就是 7.css 的 .window.glass.active，
+   *  可传入如 "window glass active fuwari-onload-animation" 让其成为可见窗口。 */
+  outerClassName?: string;
   title?: string;
   minW?: number;
   minH?: number;
@@ -79,6 +83,7 @@ export function DraggableWindow({
   children,
   defaultSize,
   className,
+  outerClassName,
   title,
   minW = 240,
   minH = 160,
@@ -294,7 +299,7 @@ export function DraggableWindow({
     <div
       ref={nodeRef}
       className={cn(
-        "aero-desktop-window",
+        outerClassName ?? "aero-desktop-window",
         pos && "aero-desktop-window-floating",
         isActive && "aero-desktop-window-active",
         className,
