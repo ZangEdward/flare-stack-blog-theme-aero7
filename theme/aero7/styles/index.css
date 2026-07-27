@@ -1981,11 +1981,12 @@ html.aero7-theme .aero-language-wrap .aero-language-trigger {
 }
 
 /* 7.css 原生 menu 已通过 [role=menu] 自动渲染白底直角 + 左侧蓝色圆点；
-   我们仅控制显示时机与位置（向上弹出）。 */
+   我们仅控制显示时机与位置。任务栏在屏幕顶部（flex-col 第一子元素），
+   故菜单向下弹出（top:100%）贴着按钮下沿，避免向上弹出跑到屏幕外。 */
 html.aero7-theme [role="menu"].aero-language-menu {
   display: none;
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   right: 0;
   z-index: 9999;
   cursor: default;
